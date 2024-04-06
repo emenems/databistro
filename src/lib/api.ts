@@ -5,7 +5,7 @@ export async function getDemographySeries(
   year: string | number = "all",
   region: string = "all"
 ) {
-  const url = `http://localhost:8000/api/demography/series/sum?country=${country}&year=${year}&region=${region}`
+  const url = `${process.env.BACKEND_URL}/api/demography/series/sum?country=${country}&year=${year}&region=${region}`
   try {
     const response = await fetch(url,{
       method: 'GET',
@@ -27,7 +27,7 @@ export async function getCountries(
     year: string | number = "all",
     region: string = "all"
 ) {
-    const url = `http://localhost:8000/api/demography/countries?year=${year}&region=${region}`
+    const url = `${process.env.BACKEND_URL}/api/demography/countries?year=${year}&region=${region}`
     try {
         const response = await fetch(url,{
             method: 'GET',
@@ -51,7 +51,7 @@ export async function getDemographyAgeSeries(
     region: string = "all",
     age: string = "all"
 ) {
-    const url = `http://localhost:8000/api/demography/series/age${age==='median'? '/median' : ''}?country=${country}&year=${year}&region=${region}${age !== 'median'? '&age='+age: ''}`
+    const url = `${process.env.BACKEND_URL}/api/demography/series/age${age==='median'? '/median' : ''}?country=${country}&year=${year}&region=${region}${age !== 'median'? '&age='+age: ''}`
     try {
         const response = await fetch(url,{
             method: 'GET',

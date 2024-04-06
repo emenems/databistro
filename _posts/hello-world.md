@@ -1,25 +1,24 @@
 ---
-title: "Demografia v EU"
-excerpt: "Demografická bilancia pre štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. "
-coverImage: "/assets/blog/images/demography/cover2.jpg"
+title: "Demografie na Slovensku a v EU"
+titleKey: "DemoGRAFia"
+excerpt: "Demografická bilancia pre Slovensko a susedné štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. "
+coverImage: "/assets/blog/images/demography/cover.png"
 date: "2024-04-04T05:35:07.322Z"
 author:
   name: Michal
   picture: "/assets/blog/images/authors/mm.jpeg"
 ogImage:
-  url: "/assets/blog/images/demography/cover2.jpg"
+  url: "/assets/blog/images/demography/cover.png"
+data: 
+  name: Eurostat Data Browser
+  link: https://ec.europa.eu/eurostat/databrowser/view/DEMO_GIND__custom_2733962/bookmark/table?lang=en&bookmarkId=7084ed24-6b91-4cf3-b90d-d47565593505
 ---
 
-Demografická bilancia pre štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. 
 
-## Lorem Ipsum
-
-Tristique senectus et netus et malesuada fames ac turpis. Ridiculous mus mauris vitae ultricies leo integer malesuada nunc vel. In mollis nunc sed id semper. Egestas tellus rutrum tellus pellentesque. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Quis blandit turpis cursus in hac habitasse platea dictumst quisque. Eros donec ac odio tempor orci dapibus ultrices. Aliquam sem et tortor consequat id porta nibh. Adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla. Diam vulputate ut pharetra sit amet. Ut tellus elementum sagittis vitae et leo. Arcu non odio euismod lacinia at quis risus sed vulputate.
-
-## Zdroje
-
-Dáta - [Eurostat Data Browser](https://ec.europa.eu/eurostat/databrowser/view/DEMO_GIND__custom_2733962/bookmark/table?lang=en&bookmarkId=7084ed24-6b91-4cf3-b90d-d47565593505)
-
-Kód - [GitHub](https://github.com/emenems/databistro)
-
-Obrázok - [Unsplash]
+**Zdroje**  
+Dáta celková populácia - [Population change - Demographic balance and crude rates at national level](https://ec.europa.eu/eurostat/databrowser/view/DEMO_GIND__custom_2733962/bookmark/table?lang=en&bookmarkId=7084ed24-6b91-4cf3-b90d-d47565593505)  
+Dáta populácia podľa veku - [Population structure indicators at national level](https://ec.europa.eu/eurostat/databrowser/view/DEMO_PJANIND__custom_964289/bookmark/table?lang=en&bookmarkId=6d16c67e-3cf3-4149-8746-eb3cce994d62)  
+Dáta vekový mediá [Population structure indicators at national level](https://ec.europa.eu/eurostat/databrowser/view/DEMO_PJANIND__custom_4978058/bookmark/table?lang=en&bookmarkId=6def1abd-0aab-43ee-9a54-c7a2c9ca888a)  
+Kód - [GitHub](https://github.com/emenems/databistro)  
+Obrázok - [Unsplash](https://unsplash.com/photos/waving-flag-wIUxLHndcLw)
+Odporúčanie - [Eurostat](https://ec.europa.eu/eurostat/web/interactive-publications/demography-2023)
