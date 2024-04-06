@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "scripts": {
+    "fastapi-dev": "pip3 install -r requirements.txt && python3 -m uvicorn api.index:app --reload",
+    "next-dev": "next dev",
+    "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@headlessui/tailwindcss": "^0.2.0",
+    "@remixicon/react": "^4.2.0",
+    "@tremor/react": "^3.15.0",
+    "autoprefixer": "10.4.14",
+    "classnames": "^2.5.1",
+    "concurrently": "^8.0.1",
+    "date-fns": "^3.3.1",
+    "gray-matter": "^4.0.3",
+    "next": "14.1.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "tailwindcss": "^3.4.3",
+    "use-debounce": "^9.0.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@types/node": "20.12.4",
+    "@types/react": "18.2.74",
+    "typescript": "5.4.3"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  }
+}
