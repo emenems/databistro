@@ -36,12 +36,12 @@ export default async function Post({ params }: Params) {
             author={post.author}
           />
         </article>
-        <div className="container flex flex-row items-center">
+        {/* <div className="container flex flex-row items-center">
             <DemographySummaryCards data={data}/>
         </div>
         <div className="container flex flex-row items-center mt-8">
             <DemographySummaryAgeCards dataAge={dataAge} dataAgeMedian={dataAgeMedian}/>
-        </div>
+        </div> */}
         <div className="mt-32">
           <PostBody content={content} />
         </div>
