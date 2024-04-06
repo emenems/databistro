@@ -8,9 +8,7 @@ import {
     TabPanels,
     TabGroup,
     TabList,
-    Tab,
-    Metric,
-    AreaChart,
+    Tab
 } from '@tremor/react';
 
 import { DemographySeries, DemographySeriesAge } from '@/interfaces/demography';
@@ -30,12 +28,9 @@ function fitAgeCategory(dataAge: DemographySeriesAge[], country: string) {
     return ageValuesRound;
 };
 
-function filterCountry(data: DemographySeriesAge[] | DemographySeries[], country: string, ageRange: string = "median") {
-    let ageData = data;
-    if (ageRange !== 'median') {
-        const [ageFrom, ageTo] = ageRange.split('-').map(Number);
-        ageData = data.filter((d) => d.age_from === ageFrom && d.age_to === ageTo);
-    }
+function filterCountry(data: DemographySeriesAge[], country: string, ageRange: string = "median") {
+    const [ageFrom, ageTo] = ageRange.split('-').map(Number);
+    const ageData = data.filter((d) => d.age_from === ageFrom && d.age_to === ageTo);
     const dataCountry = ageData.filter((d) => d.geo === country);
     const dataCountrymaxYear = dataCountry.reduce((acc, curr) => {
         return acc.year > curr.year ? acc : curr;
@@ -43,22 +38,24 @@ function filterCountry(data: DemographySeriesAge[] | DemographySeries[], country
     return dataCountrymaxYear;
 }
 
-function transformAgeSeries (data: DemographySeriesAge[] | DemographySeries[], ageRange: string) {
-    let seriesFilteredAgeTo = data;
+function filterCountryMedian(data:  DemographySeries[], country: string) {
+    const dataCountry = data.filter((d) => d.geo === country);
+    const dataCountrymaxYear = dataCountry.reduce((acc, curr) => {
+        return acc.year > curr.year ? acc : curr;
+    });
+    return dataCountrymaxYear;
+}
 
-    if (ageRange !== 'median') {
-        const [ageFrom, ageTo] = ageRange.split('-').map(Number);
-        const seriesFilteredAgeFrom = data.filter((d) => d.age_from === ageFrom);
-        seriesFilteredAgeTo = seriesFilteredAgeFrom.filter((d) => d.age_to === ageTo);
-    }
-
-    const seriesTransformed = seriesFilteredAgeTo.map((d) => {
+function transformData(data: DemographySeries[] | DemographySeriesAge[]) {
+    const seriesTransformed = data.map((d) => {
         return {
             year: d.year,
+            geo: d.geo,
+            full_name: d.full_name,
+            value: d.value,
             [d.geo]: d.value
         }
     });
-
     const combinedList = seriesTransformed.reduce((acc, curr) => {
         const existingYear = acc.find(item => item.year === curr.year);
         if (existingYear) {
@@ -67,9 +64,22 @@ function transformAgeSeries (data: DemographySeriesAge[] | DemographySeries[], a
             acc.push(curr);
         }
         return acc;
-    }, []);
+    }, [] as DemographySeries[]);
 
     return combinedList;
+}
+
+function transformAgeSeries (data: DemographySeriesAge[], ageRange: string) {
+    const [ageFrom, ageTo] = ageRange.split('-').map(Number);
+    const seriesFilteredAgeFrom = data.filter((d) => d.age_from === ageFrom);
+    const seriesFilteredAgeTo = seriesFilteredAgeFrom.filter((d) => d.age_to === ageTo);
+    const seriesTransformed = transformData(seriesFilteredAgeTo)
+    return seriesTransformed;
+}
+
+function transformAgeSeriesMedian (data: DemographySeries[]) {
+    const seriesTransformed = transformData(data)
+    return seriesTransformed;
 }
 
 export async function DemographySummaryAgeCards ( { dataAge, dataAgeMedian }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] } ) {
@@ -108,7 +118,7 @@ export async function DemographyAgeSeries ({ dataAge, dataAgeMedian }: { dataAge
                             <LineChart
                                 className="mt-4 h-72"
                                 key={age}
-                                data={age !== 'median' ? transformAgeSeries(dataAge, age) : transformAgeSeries(dataAgeMedian, age)}
+                                data={age !== 'median' ? transformAgeSeries(dataAge, age) : transformAgeSeriesMedian(dataAgeMedian)}
                                 index="year"
                                 categories={countryCategories}
                                 colors={colors}
@@ -126,7 +136,6 @@ export async function DemographyAgeSeries ({ dataAge, dataAgeMedian }: { dataAge
 }
 
 async function DemographyMiniGraph( { dataAge, dataAgeMedian}: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[]}) {
-    const ageRanges = ["0-14", "15-19", "20-39", "40-59", "60-64", "65-79", "80-100"];
     const countryCategories = ["SK", "AT", "CZ", "HU", "PL"];
     console.log(fitAgeCategory(dataAge, "CZ"))
     return (
@@ -142,7 +151,7 @@ async function DemographyMiniGraph( { dataAge, dataAgeMedian}: { dataAge: Demogr
                     <CategoryBar 
                         values={fitAgeCategory(dataAge, countryCode)}
                         colors={["emerald", "green", "lime", "yellow", "amber", "orange", "red"]}
-                        markerValue={filterCountry(dataAgeMedian, countryCode, 'median').value}
+                        markerValue={filterCountryMedian(dataAgeMedian, countryCode).value}
                         showLabels={true}
                     />
                 </div>
