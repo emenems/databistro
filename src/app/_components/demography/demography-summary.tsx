@@ -10,11 +10,14 @@ import {
     DemographySeries
 } from '@/interfaces/demography';
 
+const demographySeriesDemo: DemographySeries[] = [
+    { geo: 'SK', full_name: 'Slovakia', year: 2023, value: 5428792 }
+]
 // Auxilliary functions
-function valueFormatterMil(value: number) {
+function valueFormatterMil(value: number = 0) {
     return `${(value / 1000000).toFixed(1)} mil`;
 }
-function valueFormatterPercent(value: number, isAbsolute: boolean = false) {
+function valueFormatterPercent(value: number = 0, isAbsolute: boolean = false) {
     const sign = value > 0 ? '+' : '';
     if (isAbsolute) {
         return `${sign}${value.toFixed(1)}`;
@@ -22,32 +25,37 @@ function valueFormatterPercent(value: number, isAbsolute: boolean = false) {
         return `${sign}${value.toFixed(1)}%`;
     }
 }
-function separateEU(data: DemographySeries[], year: number) {
+function separateEU(data: DemographySeries[] = demographySeriesDemo, year: number = 2023) {
     const dataEU = data.filter((item) => (item.geo === 'EU' && item.year === year));
     const dataMinusEU = data.filter((item) => (item.geo !== 'EU' && item.year === year));
     return { dataEU, dataMinusEU };
 }
-function separateCountry(data: DemographySeries[], country: string, year: number) {
+function separateCountry(data: DemographySeries[] = demographySeriesDemo, country: string = "SK", year: number = 2023 ) {
     const dataCountry = data.filter((item) => (item.geo === country && item.year === year));
     return dataCountry;
 }
-function findCurrentYearValue(data: DemographySeries[], country: string): number {
+function findCurrentYearValue(data: DemographySeries[] = demographySeriesDemo, country: string = "SK"): number {
     const dataFiltered = data.filter((item) => item.geo === country);
     const maxYear = Math.max(...dataFiltered.map((item) => item.year));
     // return the value for the most recent year. if empty, return 0
     return dataFiltered.find((item) => item.year === maxYear)?.value || 0;
 }
-function getMaxYear(data: DemographySeries[], country: string) {
+function getMaxYear(data: DemographySeries[] = demographySeriesDemo, country: string = "SK") {
     const dataFiltered = data.filter((item) => item.geo === country);
     return Math.max(...dataFiltered.map((item) => item.year));
 }
-function calculateDiff(data: DemographySeries[], country: string, years: number = 1): number {
+function calculateDiff(data: DemographySeries[] = demographySeriesDemo, country: string = "SK", years: number = 1): number {
     const year = getMaxYear(data, country)
     const dataCountry = separateCountry(data, country, year);
     const dataCountryprevious = separateCountry(data, country, year - years);
-    return dataCountry[0].value - dataCountryprevious[0].value;
+    let outout = 0;
+    if (dataCountry && dataCountryprevious) {
+        outout = dataCountry[0]?.value - dataCountryprevious[0]?.value;
+
+    }
+    return outout
 }
-function getColor(value: number): string {
+function getColor(value: number = 0): string {
     value *= 100; // convert to percentage
     if (value > 1) {
         return 'green';
@@ -69,7 +77,7 @@ function getColor(value: number): string {
  *
  * @returns {JSX.Element} A grid of `DemographySummaryCard` and `DemographyMiniGraph` components.
  */
-export async function DemographySummaryCards ( { data }: { data: DemographySeries[] } ) {
+export async function DemographySummaryCards ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
     return (
         <>
             <div className="grid grid-cols-4 gap-4 w-full">
@@ -91,7 +99,7 @@ export async function DemographySummaryCards ( { data }: { data: DemographySerie
  *
  * @returns {JSX.Element} A mini graph of the demographic data for a specific country.
  */
-async function DemographyMiniGraph( { data, country}: { data: DemographySeries[], country: string }) {
+async function DemographyMiniGraph( { data = demographySeriesDemo, country = "SK" }: { data: DemographySeries[], country: string }) {
     const dataCountrymaxYear = getMaxYear(data, country)
     const countryCodes = ["AT", "CZ", "HU","PL"];
     return (
@@ -138,10 +146,14 @@ async function DemographyMiniGraph( { data, country}: { data: DemographySeries[]
  *
  * @returns {JSX.Element} A card with a summary of the demographic data for a specific country.
  */
-async function DemographySummaryCard ( { data, country }: { data: DemographySeries[], country: string } ) {
+async function DemographySummaryCard ( { data = demographySeriesDemo, country = "SK"}: { data: DemographySeries[], country: string } ) {
     const dataCountrymaxYear = getMaxYear(data, country)
     const dataCountry = separateCountry(data, country, dataCountrymaxYear);
-    const valueCountry = dataCountry[0].value
+    let valueCountry = 0;
+    if (dataCountry) {
+        valueCountry = dataCountry[0]?.value
+
+    }
     const dataDiff = calculateDiff(data, country, 1);
     const dataDiff10 = calculateDiff(data, country, 10);
     const dataDiff20 = calculateDiff(data, country, 20);
@@ -202,7 +214,7 @@ async function DemographySummaryCard ( { data, country }: { data: DemographySeri
  *
  * @returns {JSX.Element} A DonutChart component with demographic data.
  */
-export async function DemographyDonoughtChart( { data }: { data: DemographySeries[] } ) {
+export async function DemographyDonoughtChart( { data = demographySeriesDemo}: { data: DemographySeries[] } ) {
     const dataEUmaxYear = getMaxYear(data, 'EU')
     const dataMinusEU = separateEU(data, dataEUmaxYear).dataMinusEU;
     const dataMinusEUsorted = dataMinusEU.sort((a, b) => b.value - a.value);

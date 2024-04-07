@@ -12,7 +12,7 @@
 
 ## Templates used
 
-* Frontend template [blog-starter](https://github.com/vercel/next.js/tree/canary/examples/blog-starter) plus TypeScript.
+* Frontend template [blog-starter](https://github.com/vercel/next.js/tree/canary/examples/blog-starter)
 * Backend tempalte [nextjs-fastapi](https://github.com/digitros/nextjs-fastapi)
 
 ## How to use
