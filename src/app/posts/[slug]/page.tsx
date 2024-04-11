@@ -9,9 +9,7 @@ import Container from "../../_components/container";
 import Header from "../../_components/header";
 import { PostBody } from "../../_components/post-body";
 import { PostHeader } from "../../_components/post-header";
-import { DemographySummaryCards } from "@/app/_components/demography/demography-summary";
-import { DemographySummaryAgeCards } from "@/app/_components/demography/demography-series";
-import { getDemographySeries, getDemographyAgeSeries } from "@/lib/api";
+import PageCharts from "../../_components/demography/page";
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -20,9 +18,6 @@ export default async function Post({ params }: Params) {
   }
 
   const content = await markdownToHtml(post.content || "");
-  const data = await getDemographySeries("all","all","eu");
-  const dataAge = await getDemographyAgeSeries("all","all","ce","all");
-  const dataAgeMedian = await getDemographyAgeSeries("all","all","ce","median");
   return (
     <main>
       <Alert preview={post.preview} />
@@ -36,12 +31,7 @@ export default async function Post({ params }: Params) {
             author={post.author}
           />
         </article>
-        <div className="container flex flex-row items-center">
-            <DemographySummaryCards data={data}/>
-        </div>
-        <div className="container flex flex-row items-center mt-8">
-            <DemographySummaryAgeCards dataAge={dataAge} dataAgeMedian={dataAgeMedian}/>
-        </div>
+        {post.code.name === "PageCharts" && <PageCharts />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>

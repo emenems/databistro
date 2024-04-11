@@ -9,74 +9,18 @@ import {
 import { 
     DemographySeries
 } from '@/interfaces/demography';
+import {
+    demographySeriesDemo,
+    valueFormatterMil,
+    valueFormatterPercent,
+    separateEU,
+    separateCountry,
+    findCurrentYearValue,
+    getMaxYear,
+    calculateDiff,
+    getColor
+} from '@/app/_components/demography/utils';
 
-const demographySeriesDemo: DemographySeries[] = [
-    { geo: 'SK', full_name: 'Slovakia', year: 2023, value: 5428792 }
-]
-// Auxilliary functions
-function valueFormatterMil(value: number = 0) {
-    return `${(value / 1000000).toFixed(1)} mil`;
-}
-function valueFormatterPercent(value: number = 0, isAbsolute: boolean = false) {
-    const sign = value > 0 ? '+' : '';
-    if (isAbsolute) {
-        return `${sign}${value.toFixed(1)}`;
-    } else {
-        return `${sign}${value.toFixed(1)}%`;
-    }
-}
-function separateEU(data: DemographySeries[] = demographySeriesDemo, year: number = 2023) {
-    const dataEU = data.filter((item) => (item.geo === 'EU' && item.year === year));
-    const dataMinusEU = data.filter((item) => (item.geo !== 'EU' && item.year === year));
-    return { dataEU, dataMinusEU };
-}
-function separateCountry(data: DemographySeries[] = demographySeriesDemo, country: string = "SK", year: number = 2023 ) {
-    const dataCountry = data.filter((item) => (item.geo === country && item.year === year));
-    return dataCountry;
-}
-function findCurrentYearValue(data: DemographySeries[] = demographySeriesDemo, country: string = "SK"): number {
-    const dataFiltered = data.filter((item) => item.geo === country);
-    const maxYear = Math.max(...dataFiltered.map((item) => item.year));
-    // return the value for the most recent year. if empty, return 0
-    return dataFiltered.find((item) => item.year === maxYear)?.value || 0;
-}
-function getMaxYear(data: DemographySeries[] = demographySeriesDemo, country: string = "SK") {
-    const dataFiltered = data.filter((item) => item.geo === country);
-    return Math.max(...dataFiltered.map((item) => item.year));
-}
-function calculateDiff(data: DemographySeries[] = demographySeriesDemo, country: string = "SK", years: number = 1): number {
-    const year = getMaxYear(data, country)
-    const dataCountry = separateCountry(data, country, year);
-    const dataCountryprevious = separateCountry(data, country, year - years);
-    let outout = 0;
-    if (dataCountry && dataCountryprevious) {
-        outout = dataCountry[0]?.value - dataCountryprevious[0]?.value;
-
-    }
-    return outout
-}
-function getColor(value: number = 0): string {
-    value *= 100; // convert to percentage
-    if (value > 1) {
-        return 'green';
-    } else if (value >= 0.5 && value <= 1) {
-        return 'lime';
-    } else if (value >= 0 && value < 0.5) {
-        return 'amber';
-    } else {
-        return 'red';
-    }
-}
-
-/**
- * `DemographySummaryCards` is a component that renders a grid of `DemographySummaryCard` and `DemographyMiniGraph` components.
- * Each card represents a different country.
- *
- * @param {Object} props - The properties that define the component's behavior and display.
- * @param {DemographySeries[]} props.data - The demographic data to be displayed in the cards.
- *
- * @returns {JSX.Element} A grid of `DemographySummaryCard` and `DemographyMiniGraph` components.
- */
 export async function DemographySummaryCards ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
     return (
         <>
@@ -90,15 +34,6 @@ export async function DemographySummaryCards ( { data = demographySeriesDemo }: 
     );
 }
 
-/**
- * `DemographyMiniGraph` is a component that renders a mini graph of the demographic data for a specific country.
- *
- * @param {Object} props - The properties that define the component's behavior and display.
- * @param {DemographySeries[]} props.data - The demographic data to be displayed in the mini graph.
- * @param {string} props.country - The country code of the country to be displayed.
- *
- * @returns {JSX.Element} A mini graph of the demographic data for a specific country.
- */
 async function DemographyMiniGraph( { data = demographySeriesDemo, country = "SK" }: { data: DemographySeries[], country: string }) {
     const dataCountrymaxYear = getMaxYear(data, country)
     const countryCodes = ["AT", "CZ", "HU","PL"];
@@ -137,15 +72,6 @@ async function DemographyMiniGraph( { data = demographySeriesDemo, country = "SK
     );
 }
 
-/**
- * `DemographySummaryCard` is a component that renders a card with a summary of the demographic data for a specific country.
- *
- * @param {Object} props - The properties that define the component's behavior and display.
- * @param {DemographySeries[]} props.data - The demographic data to be displayed in the card.
- * @param {string} props.country - The country code of the country to be displayed.
- *
- * @returns {JSX.Element} A card with a summary of the demographic data for a specific country.
- */
 async function DemographySummaryCard ( { data = demographySeriesDemo, country = "SK"}: { data: DemographySeries[], country: string } ) {
     const dataCountrymaxYear = getMaxYear(data, country)
     const dataCountry = separateCountry(data, country, dataCountrymaxYear);
@@ -205,15 +131,6 @@ async function DemographySummaryCard ( { data = demographySeriesDemo, country = 
     );
 }
 
-
-/**
- * `DemographyDonoughtChart` is a component that renders a DonutChart with demographic data.
- *
- * @param {Object} props - The properties that define the component's behavior and display.
- * @param {DemographySeries[]} props.data - The demographic data to be displayed in the chart.
- *
- * @returns {JSX.Element} A DonutChart component with demographic data.
- */
 export async function DemographyDonoughtChart( { data = demographySeriesDemo}: { data: DemographySeries[] } ) {
     const dataEUmaxYear = getMaxYear(data, 'EU')
     const dataMinusEU = separateEU(data, dataEUmaxYear).dataMinusEU;
@@ -226,7 +143,7 @@ export async function DemographyDonoughtChart( { data = demographySeriesDemo}: {
         <Card key={"demography-donought-chart-eu"} className='max-w-sm mx-auto'>
             <div >
                 <h3 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-                    Rozdelenie popolácie v EU
+                    Rozdelenie popolácie v EU podľa krajín
                 </h3>
                 <div >
                     <DonutChart

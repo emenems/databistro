@@ -1,6 +1,9 @@
 ---
 title: "Demografie na Slovensku a v EU"
 titleKey: "DemoGRAFia"
+code:
+  source: ../../_components/demography/page
+  name: PageCharts
 excerpt: "Demografická bilancia pre Slovensko a susedné štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. "
 coverImage: "/assets/blog/images/demography/cover.png"
 date: "2024-04-04T05:35:07.322Z"
@@ -9,9 +12,6 @@ author:
   picture: "/assets/blog/images/authors/mm.jpeg"
 ogImage:
   url: "/assets/blog/images/demography/cover.png"
-data: 
-  name: Eurostat Data Browser
-  link: https://ec.europa.eu/eurostat/databrowser/view/DEMO_GIND__custom_2733962/bookmark/table?lang=en&bookmarkId=7084ed24-6b91-4cf3-b90d-d47565593505
 ---
 
 
