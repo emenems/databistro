@@ -3,10 +3,10 @@ title: "Demografie na Slovensku a v EU"
 titleKey: "DemoGRAFia"
 code:
   source: ../../_components/demography/page
-  name: PageCharts
+  name: DemographyCharts
 excerpt: "Demografická bilancia pre Slovensko a susedné štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. "
 coverImage: "/assets/blog/images/demography/cover.png"
-date: "2024-04-04T05:35:07.322Z"
+date: "2024-04-16T05:35:07.322Z"
 author:
   name: Michal
   picture: "/assets/blog/images/authors/mm.jpeg"
@@ -22,3 +22,5 @@ Dáta vekový mediá [Population structure indicators at national level](https:/
 Kód - [GitHub](https://github.com/emenems/databistro)  
 Obrázok - [Unsplash](https://unsplash.com/photos/waving-flag-wIUxLHndcLw)
 Odporúčanie - [Eurostat](https://ec.europa.eu/eurostat/web/interactive-publications/demography-2023)
+
+_(dáta stiahnuté 05.04.2024)_

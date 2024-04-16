@@ -9,7 +9,8 @@ import Container from "../../_components/container";
 import Header from "../../_components/header";
 import { PostBody } from "../../_components/post-body";
 import { PostHeader } from "../../_components/post-header";
-import PageCharts from "../../_components/demography/page";
+import DemographyCharts from "../../_components/demography/page";
+import TelcoSKCharts from "../../_components/telcosk/page";
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -31,7 +32,8 @@ export default async function Post({ params }: Params) {
             author={post.author}
           />
         </article>
-        {post.code.name === "PageCharts" && <PageCharts />}
+        {post.code.name === "DemographyCharts" && <DemographyCharts />}
+        {post.code.name === "TelcoSKCharts" && <TelcoSKCharts />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>
