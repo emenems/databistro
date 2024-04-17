@@ -77,7 +77,7 @@ const dataFormatter = (number: number) =>
   
 export function TelcoAreaChart() {
     return (
-        <Card key={"demography-barchart-eu"} className='grid grid-cols-2 gap-4 w-full'>
+        <Card key={"demography-barchart-eu"} className='grid grid-cols-1 sm:grid-cols-2 gap-4 w-full'>
             <div >
                 <h3 className="text-center text-tremor-default text-tremor-content dark:text-dark-tremor-content">
                     Obrat
