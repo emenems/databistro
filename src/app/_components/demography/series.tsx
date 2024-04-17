@@ -64,7 +64,7 @@ function transformAgeSeriesMedian (data: DemographySeries[] = demographySeriesDe
 export async function DemographyAgeSeries ( { dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] } ) {
     return (
         <>
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 <DemographyLineSeries dataAge={dataAge} dataAgeMedian={dataAgeMedian}/>
                 <DemographyMiniGraph dataAge={dataAge} dataAgeMedian={dataAgeMedian}/>
             </div>

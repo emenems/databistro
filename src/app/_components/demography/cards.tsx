@@ -24,7 +24,7 @@ import {
 export async function DemographySummaryCards ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
     return (
         <>
-            <div className="grid grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 w-full">
                 <DemographySummaryCard data={data} country='EU' />
                 <DemographySummaryCard data={data} country='SK'/>
                 <DemographyMiniGraph data={data} country="SK"/>
@@ -84,7 +84,7 @@ async function DemographySummaryCard ( { data = demographySeriesDemo, country = 
     const dataDiff10 = calculateDiff(data, country, 10);
     const dataDiff20 = calculateDiff(data, country, 20);
     return (
-        <Card key={"demography-summary-card"+country} className='max-w-sm mx-auto'>
+        <Card key={"demography-summary-card"+country} className='max-w-full sm:max-w-sm mx-auto'>
 
             <h3 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
                 Celková populácia v {country}  za rok {dataCountrymaxYear}
@@ -140,7 +140,7 @@ export async function DemographyDonoughtChart( { data = demographySeriesDemo}: {
         value: item.value,
     }));
     return (
-        <Card key={"demography-donought-chart-eu"} className='max-w-sm mx-auto'>
+        <Card key={"demography-donought-chart-eu"} className='max-w-full sm:max-w-sm mx-auto'>
             <div >
                 <h3 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
                     Rozdelenie popolácie v EU podľa krajín
