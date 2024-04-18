@@ -2,6 +2,7 @@ import Footer from "@/app/_components/footer";
 import { PAGE_NAME, PAGE_SLOGAN, HOME_OG_IMAGE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from '@vercel/analytics/react';
 
 import "./globals.css";
 
@@ -57,6 +58,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <div className="min-h-screen">{children}</div>
+        <Analytics />
         <Footer />
       </body>
     </html>
