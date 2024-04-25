@@ -6,7 +6,7 @@ code:
   name: DemographyCharts
 excerpt: "Demografická bilancia pre Slovensko a susedné štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. "
 coverImage: "/assets/blog/images/demography/cover.png"
-date: "2024-04-16T05:35:07.322Z"
+date: "2024-04-17T00:00:00Z"
 author:
   name: Michal
   picture: "/assets/blog/images/authors/mm.jpeg"
