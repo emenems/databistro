@@ -11,6 +11,7 @@ import { PostBody } from "../../_components/post-body";
 import { PostHeader } from "../../_components/post-header";
 import DemographyCharts from "../../_components/demography/page";
 import TelcoSKCharts from "../../_components/telcosk/page";
+import AirQualitySKCharts from "../../_components/airqualitysk/page";
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -34,6 +35,7 @@ export default async function Post({ params }: Params) {
         </article>
         {post.code.name === "DemographyCharts" && <DemographyCharts />}
         {post.code.name === "TelcoSKCharts" && <TelcoSKCharts />}
+        {post.code.name === "AirQualitySKCharts" && <AirQualitySKCharts />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>
