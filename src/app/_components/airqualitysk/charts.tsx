@@ -741,7 +741,7 @@ export function AirQualityDetail() {
 						<span>PM2.5 {filteredData[0]?.PM25 ? filteredData[0]?.PM25 : 'bez meraní'}</span>
 						<span>pod limitom ({dataLimits.PM25})</span>
 					</p>
-					{filteredData[0]?.PM25 ? <DeltaBar value={100*(dataLimits.PM10 - parseFloat(filteredData[0]['PM25']))/dataLimits.PM25} /> : null}
+					{filteredData[0]?.PM25 ? <DeltaBar value={100*(dataLimits.PM25 - parseFloat(filteredData[0]['PM25']))/dataLimits.PM25} /> : null}
 				</div>
 				<div className="p-6">
 					<p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content flex items-center justify-between">
