@@ -9,161 +9,30 @@ import {
     List,
     ListItem,
     Legend,
- } from "@tremor/react";
+    AreaChart,
+    Select,
+    SelectItem
+} from "@tremor/react";
+import { RiMoneyEuroCircleLine, RiDiscountPercentLine, RiEditCircleLine } from '@remixicon/react';
+
 import { useState } from 'react'
+import {
+    calculateCompoundInterest,
+    calculateSimpleInterest,
+    calculateTax,
+    currencyFormatter,
+    currencyFormatterNoDecimals,
+    inflationPriceCalculator,
+    inflationRentCalculator,
+    prepExpenses,
+    prepIncomeExpenses,
+    stockReturnSeriesDemo,
+    mapClassColor
+} from '@/app/_components/rentcalc/utils';
+import {StockReturnSeries} from '@/interfaces/rent';
 
-const currencyFormatter = (number: number) => {
-    return Intl.NumberFormat('sk', {
-            minimumFractionDigits: 2,      
-            maximumFractionDigits: 2
-        }
-    ).format(number).toString() + '€';
-};
-
-function calculateTax(
-    { rent, months, monthsExpenses, stateTaxRate, stateTaxDeductable, electricity, gas, water, administration, internet, otherServices } :
-    { rent: number, monthsExpenses: number, months: number, stateTaxRate: number, stateTaxDeductable: number, electricity: number, gas: number, water: number, administration: number, internet: number, otherServices: number }
-    ) {
-    const totalExpenses = electricity*monthsExpenses + gas*monthsExpenses + water*monthsExpenses + administration*monthsExpenses + internet*monthsExpenses + otherServices*monthsExpenses
-    let totalIncome = rent*months
-    let correctedIncome = rent*months
-    if (totalIncome > 2461.41) {
-        correctedIncome = totalIncome - stateTaxDeductable;
-    } else {
-        if (totalIncome <= stateTaxDeductable) {
-            return 0
-        }
-    }
-    if (totalExpenses >= correctedIncome) {
-        return 0;
-    }
-    const correctionRatio = correctedIncome/totalIncome
-    const correctedExpenses = totalExpenses*correctionRatio
-    const actualTax = (correctedIncome - correctedExpenses)*stateTaxRate/100
-    return actualTax;
-}
-
-function mapClassColor( name: string ) {
-    switch (name) {
-        case 'Štátna daň':
-            return 'cyan';
-        case 'Miestna daň':
-            return 'cyan';
-        case 'Elektrina':
-            return 'blue';
-        case 'Plyn':
-            return 'blue';
-        case 'Voda':
-            return 'blue';
-        case 'Elektrina':
-            return 'blue';
-        case 'Družstvo':
-            return 'blue';
-        case 'Internet a TV':
-            return 'blue';
-        case 'Ostatné služby':
-            return 'blue';
-        default:
-            return 'fuchsia';
-    }
-}
-
-function prepExpenses(
-    { actualTax, localTax, electricity, gas, water, administration, internet, otherServices, insurance, realEstateAgent, otherExpenses, monthsExpenses } :
-    { actualTax: number, localTax: number, electricity: number, gas: number, water: number, administration: number, internet: number, otherServices: number, insurance: number, realEstateAgent: number, otherExpenses: number, monthsExpenses: number} 
-    ) {
-    const totalExpensesMonth = electricity + gas + water + administration + internet + otherServices + localTax/monthsExpenses +
-                                actualTax/monthsExpenses + insurance/monthsExpenses + realEstateAgent/monthsExpenses + otherExpenses/monthsExpenses;
-    const totalExpenses = electricity*monthsExpenses + gas*monthsExpenses + water*monthsExpenses + administration*monthsExpenses + internet*monthsExpenses + otherServices*monthsExpenses + 
-                            localTax + actualTax + insurance + realEstateAgent + otherExpenses;
-    const expenses = [
-        {
-            name: 'Štátna daň',
-            monthly: actualTax/monthsExpenses,
-            yearly: actualTax,
-            share: (100 * (actualTax / monthsExpenses) / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Miestna daň',
-            monthly: localTax/monthsExpenses,
-            yearly: localTax,
-            share: (100 * (localTax / monthsExpenses) / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Elektrina',
-            monthly: electricity,
-            yearly: electricity*monthsExpenses,
-            share: (100 * electricity / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Plyn',
-            monthly: gas,
-            yearly: gas*monthsExpenses,
-            share: (100 * gas / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Voda',
-            monthly: water,
-            yearly: water*monthsExpenses,
-            share: (100 * water / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Družstvo',
-            monthly: administration,
-            yearly: administration*monthsExpenses,
-            share: (100 * administration / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Internet a TV',
-            monthly: internet,
-            yearly: internet*monthsExpenses,
-            share: (100 * internet / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Ostatné služby',
-            monthly: otherServices,
-            yearly: otherServices*monthsExpenses,
-            share: (100 * otherServices / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Poistenie',
-            monthly: (insurance / monthsExpenses),
-            yearly: insurance,
-            share: (100 * (insurance / monthsExpenses) / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Realitný maklér',
-            monthly: (realEstateAgent / monthsExpenses),
-            yearly: realEstateAgent,
-            share: (100 * (realEstateAgent / monthsExpenses) / totalExpensesMonth).toFixed(2)
-        },
-        {
-            name: 'Iné náklady',
-            monthly: (otherExpenses / monthsExpenses),
-            yearly: otherExpenses,
-            share: (100 * (otherExpenses / monthsExpenses) / totalExpensesMonth).toFixed(2)
-        }
-    ]
-    return {totalExpenses, expenses};
-}
-
-function prepIncomeExpenses( {totalIncome, totalExpenses}: {totalIncome: number, totalExpenses:number}) {
-    const incomeExpenses = [
-        {
-            "name": 'Príjem',
-            "value": totalIncome
-        },
-        {
-            "name": 'Výdavky',
-            "value": totalExpenses
-        }
-    ]
-    const difference = totalIncome - totalExpenses
-    return { incomeExpenses, difference }
-}
-
-export default function RentCalc() {
-    const [rent, setRent] = useState<number>(540)
+export default function RentCalc( { stockData = stockReturnSeriesDemo }: { stockData: StockReturnSeries[] } ) {
+    const [rent, setRent] = useState<number>(565)
     const [months, setMonths] = useState<number>(12)
     const [monthsExpenses, setMonthsExpenses] = useState<number>(12)
     const [stateTaxRate, setStateTaxRate] = useState<number>(19);
@@ -178,6 +47,13 @@ export default function RentCalc() {
     const [insurance, setInsurance] = useState<number>(114.15);
     const [realEstateAgent, setRealEstateAgent] = useState<number>(540);
     const [otherExpenses, setOtherExpenses] = useState<number>(0);
+    const [price, setPrice] = useState<number>(130000);
+    const [interestRate, setInterestRate] = useState<number>(4.2);
+    const [interestTax, setInterestTax] = useState<number>(19);
+    const [inflationRent, setInflationRent] = useState<number>(2.0);
+    const [inflationPrice, setInflationPrice] = useState<number>(2.0);
+    const [stockType, setStockType] = useState<string>("mean");
+    const [stockFee, setStockFee] = useState<number>(0.5);
 
     const totalIncome = rent*months
 
@@ -185,11 +61,55 @@ export default function RentCalc() {
     const {totalExpenses, expenses} = prepExpenses({ actualTax, localTax, electricity, gas, water, administration, internet, otherServices, insurance, realEstateAgent, otherExpenses, monthsExpenses });
     const sortedExpenses = [...expenses].sort((a, b) => b.yearly - a.yearly);
 
-    const { incomeExpenses, difference } = prepIncomeExpenses( {totalIncome, totalExpenses})
+    const { incomeExpenses, netIncome } = prepIncomeExpenses( {totalIncome, totalExpenses})
 
     const legendNames = ['Celovo príjem', 'Celkovo Výdavky', 'Dane', 'Odpočítateľné', 'Neodpočítateľné'];
     const legendColors = ['violet', 'red', 'cyan', 'blue', 'fuchsia'];
-  return (
+
+    const alternativeMonths = [12, 24, 36, 48, 60, 72, 84, 96, 108, 120];
+
+    const chartData = alternativeMonths.map(month => {
+        const year = month / 12;
+        const Rent = inflationRentCalculator({ initialRent: netIncome, years: year, inflationRate: inflationRent });
+        const Price = inflationPriceCalculator({price, inflationPrice, months: month, interestTax});
+        const RentPrice = Rent + Price;
+        const Compound = calculateCompoundInterest({ price, interestRate, interestTax, months: month });
+        const Simple = calculateSimpleInterest({ price, interestRate, interestTax, months: month });
+        const stockValue = stockData
+          .filter(item => item.year === year) 
+          .map(item => {
+            let value;
+            switch (stockType) {
+                case 'mean':
+                    value = item.mean * price * (1 - stockFee * year / 100);
+                    break;
+                case 'min':
+                    value = item.min * price * (1 - stockFee * year / 100);
+                    break;
+                case 'max':
+                    value = item.max * price * (1 - stockFee * year / 100);
+                    break;
+                default:
+                    value = 0; 
+            }
+            return value;
+          });
+
+        if (year <= 1 && stockValue.length > 0) {
+          stockValue[0] = stockValue[0] - (stockValue[0] * interestTax / 100);
+        }
+    
+        return {
+          Rok: year.toFixed(0),
+          'Cena + inflácia': Price,
+          'S prenájmom': RentPrice,
+          'Len prenájom': Rent,
+          'Zložené úročenie': Compound - price,
+          'Termínovaný vklad': Simple - price,
+          'Dow Jones': stockValue.length > 0 ? stockValue[0] : null,
+        };
+    });
+    return (
     <>
         <div className="sm:mx-auto sm:max-w-2xl">
             <form action="#" method="post" className="mt-8">
@@ -210,6 +130,7 @@ export default function RentCalc() {
                                 onChange={(e) => setRent(parseFloat(e.target.value))}
                                 className="mt-2"
                                 required
+                                icon={RiMoneyEuroCircleLine}
                                 min={1}
                                 max={9999}
                                 step={50}
@@ -232,6 +153,7 @@ export default function RentCalc() {
                                 onChange={(e) => setMonths(parseFloat(e.target.value))}
                                 className="mt-2"
                                 required
+                                icon={RiMoneyEuroCircleLine}
                                 min={1}
                                 max={12}
                                 step={1}
@@ -254,6 +176,7 @@ export default function RentCalc() {
                                 onChange={(e) => setMonthsExpenses(parseFloat(e.target.value))}
                                 className="mt-2"
                                 required
+                                icon={RiMoneyEuroCircleLine}
                                 min={months}
                                 max={12}
                                 step={1}
@@ -266,7 +189,7 @@ export default function RentCalc() {
                             htmlFor="state-tax"
                             className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                         >
-                            Sadzba dane (v %)
+                            Sadzba dane
                         </label>
                         <NumberInput
                             id="state-tax"
@@ -275,6 +198,7 @@ export default function RentCalc() {
                             defaultValue={stateTaxRate}
                             onChange={(e) => setStateTaxRate(parseFloat(e.target.value))}
                             className="mt-2"
+                            icon={RiDiscountPercentLine}
                             required
                             min={0}
                             max={100}
@@ -297,6 +221,7 @@ export default function RentCalc() {
                             onChange={(e) => setStateTaxDeductable(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={500}
                             step={100}
@@ -320,6 +245,7 @@ export default function RentCalc() {
                             onChange={(e) => setLocalTax(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -342,6 +268,7 @@ export default function RentCalc() {
                             onChange={(e) => setElectricity(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -364,6 +291,7 @@ export default function RentCalc() {
                             onChange={(e) => setGas(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -386,6 +314,7 @@ export default function RentCalc() {
                             onChange={(e) => setWater(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -408,6 +337,7 @@ export default function RentCalc() {
                             onChange={(e) => setAdministration(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -430,6 +360,7 @@ export default function RentCalc() {
                             onChange={(e) => setInternet(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -452,6 +383,7 @@ export default function RentCalc() {
                             onChange={(e) => setOtherServices(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -474,6 +406,7 @@ export default function RentCalc() {
                             onChange={(e) => setInsurance(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -496,6 +429,7 @@ export default function RentCalc() {
                             onChange={(e) => setRealEstateAgent(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
@@ -518,9 +452,172 @@ export default function RentCalc() {
                             onChange={(e) => setOtherExpenses(parseFloat(e.target.value))}
                             className="mt-2"
                             required
+                            icon={RiMoneyEuroCircleLine}
                             min={0}
                             max={9999}
                             step={10}
+                        />
+                    </div>
+                    <Divider className='col-span-full sm:col-span-6 -mt-2'/>
+                    <div className="col-span-full sm:col-span-6 -mt-6">
+                        <label
+                            htmlFor="roi-note"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Výpočet výnostnosti a porovnanie s alternatívnym investovaním
+                            <span className="text-gray-500">*</span>
+                        </label>
+                    </div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="price"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Obstarávacia cena
+                            <span className="text-gray-500">*</span>
+                        </label>
+                        <NumberInput
+                            id="price"
+                            name="price"
+                            placeholder={price.toString()}
+                            defaultValue={price}
+                            onChange={(e) => setPrice(parseFloat(e.target.value))}
+                            className="mt-2"
+                            required
+                            icon={RiMoneyEuroCircleLine}
+                            min={0}
+                            max={2999999}
+                            step={10000}
+                        />
+                    </div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="interest-rate"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Výška alternatívneho úroku
+                            <span className="text-gray-500">*</span>
+                        </label>
+                        <NumberInput
+                            id="interest-rate"
+                            name="interest-rate"
+                            placeholder={interestRate.toString()}
+                            defaultValue={interestRate}
+                            onChange={(e) => setInterestRate(parseFloat(e.target.value))}
+                            className="mt-2"
+                            required
+                            icon={RiMoneyEuroCircleLine}
+                            min={0}
+                            max={99}
+                            step={0.1}
+                        />
+                    </div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="interest-rate-tax"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Dane a odvody
+                            <span className="text-gray-500">*</span>
+                        </label>
+                        <NumberInput
+                            id="interest-rate-tax"
+                            name="interest-rate-tax"
+                            placeholder={interestTax.toString()}
+                            defaultValue={interestTax}
+                            onChange={(e) => setInterestTax(parseFloat(e.target.value))}
+                            className="mt-2"
+                            required
+                            icon={RiDiscountPercentLine}
+                            min={0}
+                            max={99}
+                            step={1}
+                        />
+                    </div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="inflation-price"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Inflácia: nehnuteľnosti (rok)
+                            <span className="text-gray-500">*</span>
+                        </label>
+                        <NumberInput
+                            id="inflation-price"
+                            name="inflation-price"
+                            placeholder={inflationPrice.toString()}
+                            defaultValue={inflationPrice}
+                            onChange={(e) => setInflationPrice(parseFloat(e.target.value))}
+                            className="mt-2"
+                            required
+                            icon={RiDiscountPercentLine}
+                            min={0}
+                            max={99}
+                            step={0.1}
+                        />
+                    </div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="inflation-rent"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Inflácia: nájom-náklady (rok)
+                            <span className="text-gray-500">*</span>
+                        </label>
+                        <NumberInput
+                            id="inflation-rent"
+                            name="inflation-rent"
+                            placeholder={inflationRent.toString()}
+                            defaultValue={inflationRent}
+                            onChange={(e) => setInflationRent(parseFloat(e.target.value))}
+                            className="mt-2"
+                            required
+                            icon={RiDiscountPercentLine}
+                            min={0}
+                            max={99}
+                            step={0.1}
+                        />
+                    </div>
+                    <div></div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="stock-type"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Dow Jones index
+                        </label>
+                        <Select
+                            id="stock-type"
+                            name="stock-type"
+                            defaultValue={stockType.toString()}
+                            onValueChange={(value) => setStockType(value)}
+                            className="mt-2"
+                            icon={RiEditCircleLine}
+                        >
+                            <SelectItem value="mean">Priemerné</SelectItem>
+                            <SelectItem value="min">Najhorší scénar</SelectItem>
+                            <SelectItem value="max">Najlepší scénar</SelectItem>
+                        </Select>
+                    </div>
+                    <div className="col-span-full sm:col-span-2">
+                        <label
+                            htmlFor="stock-fee"
+                            className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+                        >
+                            Správcovský poplatok (rok)
+                        </label>
+                        <NumberInput
+                            id="stock-fee"
+                            name="stock-fee"
+                            placeholder={stockFee.toString()}
+                            defaultValue={stockFee}
+                            onChange={(e) => setStockFee(parseFloat(e.target.value))}
+                            className="mt-2"
+                            required
+                            icon={RiDiscountPercentLine}
+                            min={0}
+                            max={99}
+                            step={0.1}
                         />
                     </div>
                 </div>
@@ -532,12 +629,13 @@ export default function RentCalc() {
                         className="text-tremor-default font-small text-tremor-content-content dark:text-dark-tremor-content"
                     >
                         <span className="text-blue-500">*</span>započítateľné výdavky{' '}{' '}
-                        <span className="text-fuchsia-500">*</span>nezapočítateľné výdavky.{' '}{' '}
+                        <span className="text-fuchsia-500">*</span>nezapočítateľné výdavky{' '}{' '}
+                        <span className="text-gray-500">*</span>nepovinné{' '}{' '}
                     </label>
                 </div>
                 <Card className="col-span-full sm:col-span-6 mt-8">
                     <h2 className='flex justify-center items-center'>
-                        Čístý príjem za {months} {months > 1? 'mesiacov': 'mesiac'}: {currencyFormatter(difference)}
+                        Čístý príjem za {months} {months > 1? 'mesiacov': 'mesiac'}: {currencyFormatter(netIncome)}
                     </h2>
                     <div className="mt-6 grid grid-cols-1 gap-4 sm:max-w-3xl sm:grid-cols-2">
                         <div >
@@ -548,7 +646,7 @@ export default function RentCalc() {
                                 className="mt-8"
                                 data={incomeExpenses}
                                 showTooltip={true}
-                                label={difference > 0 ? '+'+currencyFormatter(difference) : currencyFormatter(difference)}
+                                label={netIncome > 0 ? '+'+currencyFormatter(netIncome) : currencyFormatter(netIncome)}
                                 showAnimation={true}
                                 valueFormatter={currencyFormatter}
                                 colors={['violet', 'red', 'cyan', 'blue', 'fuchsia']}
@@ -577,8 +675,8 @@ export default function RentCalc() {
                         className="max-w-full mt-8"
                     />
                     <p className="mt-8 flex items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content">
-                    <span>Výdavky za mesiac</span>
-                    <span>Hodnota ↓ / Podiel</span>
+                        <span>Výdavky za mesiac</span>
+                        <span>Hodnota ↓ / Podiel</span>
                     </p>
                     <List className="mt-2">
                         {sortedExpenses.map((item) => (
@@ -604,6 +702,69 @@ export default function RentCalc() {
                         ))}
                     </List>
                 </Card>
+                <Card className="col-span-full sm:col-span-6 mt-8">
+                    <h2 className='flex justify-center items-center'>
+                        Porovnanie čistého výnosu s alternatívnym investovaním
+                    </h2>
+                    <div className="text-right">
+                        <AreaChart
+                            className="mt-8 text-right"
+                            data={chartData}
+                            index={'Rok'}
+                            categories={['Cena + inflácia', 'S prenájmom', 'Zložené úročenie', 'Termínovaný vklad', 'Dow Jones']}
+                            showTooltip={true}
+                            showAnimation={true}
+                            valueFormatter={currencyFormatterNoDecimals}
+                            colors={['sky', 'indigo', 'red', 'yellow', 'emerald']}
+                            yAxisWidth={75}
+                        />
+                    </div>
+                    <p className="mt-8 flex items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content text-right">
+                        <span>Rokov</span>
+                        <span>Cena + inflácia</span>
+                        <span>S prenájmom</span>
+                        <span>Zložené úročenie</span>
+                        <span>Termínovaný vklad</span>
+                        <span>Dow Jones</span>
+                    </p>
+
+                    <List className="mt-2 text-right">
+                        {chartData.map((item) => (({ Rok, 'S prenájmom': RentPrice, 'Cena + inflácia': Price, 'Zložené úročenie': compound, 'Termínovaný vklad': simple, 'Dow Jones': dowJones}) => (
+                            <ListItem key={Rok} className="space-x-6 text-right">
+                            <div className="flex items-center space-x-2.5 truncate text-right">
+                                <span className="truncate dark:text-dark-tremor-content-emphasis text-right">
+                                {Rok}
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-right">
+                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                {currencyFormatterNoDecimals(Price)}
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-right">
+                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                {currencyFormatterNoDecimals(RentPrice)}
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-right">
+                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                {currencyFormatterNoDecimals(compound)}
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-right">
+                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                {currencyFormatterNoDecimals(simple)}
+                                </span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-right">
+                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                {currencyFormatterNoDecimals(dowJones? dowJones: 0)}
+                                </span>
+                            </div>
+                            </ListItem>
+                        ))(item))}
+                    </List>
+                    </Card>
             </form>
         </div>
     </>
