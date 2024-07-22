@@ -37,3 +37,5 @@ next-env.d.ts
 
 # python cache
 api/*/__pycache__/
+
+env
