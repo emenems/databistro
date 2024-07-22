@@ -48,10 +48,10 @@ export default function RentCalc( { stockData = stockReturnSeriesDemo }: { stock
     const [realEstateAgent, setRealEstateAgent] = useState<number>(540);
     const [otherExpenses, setOtherExpenses] = useState<number>(0);
     const [price, setPrice] = useState<number>(130000);
-    const [interestRate, setInterestRate] = useState<number>(4.2);
+    const [interestRate, setInterestRate] = useState<number>(4.5);
     const [interestTax, setInterestTax] = useState<number>(19);
     const [inflationRent, setInflationRent] = useState<number>(2.0);
-    const [inflationPrice, setInflationPrice] = useState<number>(2.0);
+    const [inflationPrice, setInflationPrice] = useState<number>(4.5);
     const [stockType, setStockType] = useState<string>("mean");
     const [stockFee, setStockFee] = useState<number>(0.5);
 
