@@ -32,6 +32,7 @@ Bližšie informácie o výpočte zdanenia príjmov z nehnuteľnosti nájdete na
 \* [Finančnej správy](https://podpora.financnasprava.sk/639339-Výdavky-pri-prenájme-nehnuteľnosti-nezaradenej-do-obchodného-majetku-)  
 \* [KROS.sk](https://www.kros.sk/blog/ako-zdanit-prijem-z-prenajmu-nehnutelnosti-za-rok-2023/)  
 \* [najmi.sk](https://www.najmi.sk)  
+\* [reelly.eu](https://reelly.eu)
 
 Informácie o daniach a odvodoch rôznych investičných stratégií možno nájast na stránkach [finax.eu](https://www.finax.eu/sk/blog/kompletny-prehlad-zdanovania-prijmov-z-investicii). Priemerný vývoj cien nehtnuteľností je možné nájsť [na webe NBS](https://nbs.sk/statisticke-udaje/vybrane-makroekonomicke-ukazovatele/ceny-nehnutelnosti-na-byvanie/vyvoj-cien-nehnutelnosti-na-byvanie-v-sr/).
 
