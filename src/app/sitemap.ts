@@ -32,5 +32,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: 'https://www.databistro.eu/posts/olympics',
+      lastModified: new Date('2024-08-08'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }
