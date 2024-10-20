@@ -39,3 +39,6 @@ next-env.d.ts
 api/*/__pycache__/
 
 env
+
+# temp data
+_data/

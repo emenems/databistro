@@ -38,5 +38,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: 'https://www.databistro.eu/posts/trashboard',
+      lastModified: new Date('2024-10-20'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }
