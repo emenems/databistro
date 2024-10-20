@@ -14,6 +14,7 @@ import TelcoSKCharts from "../../_components/telcosk/page";
 import AirQualitySKCharts from "../../_components/airqualitysk/page";
 import RentCalc from "../../_components/rentcalc/page";
 import OlympicSports from "../../_components/olympics/page";
+import Trashboard from "../../_components/trashboard/page";
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -40,6 +41,7 @@ export default async function Post({ params }: Params) {
         {post.code.name === "AirQualitySKCharts" && <AirQualitySKCharts />}
         {post.code.name === "RentCalc" && <RentCalc />}
         {post.code.name === "OlympicSports" && <OlympicSports />}
+        {post.code.name === "Trashboard" && <Trashboard />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>
