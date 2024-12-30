@@ -37,6 +37,12 @@ const profitData = [
         'Orange Slovensko': 71852000.0,
         'Slovak Telekom': 148356000.0,
     },
+    {
+        'year': 2023,
+        // 'O2 Slovakia*': 33212000.0,
+        'Orange Slovensko': 82224000.0,
+        'Slovak Telekom': 156871000.0,
+    }
 ]
 
 const revenueData = [
@@ -70,6 +76,12 @@ const revenueData = [
         'Orange Slovensko': 572571000.0,
         'Slovak Telekom': 750183000.0,
     },
+    {
+        'year': 2023,
+        // 'O2 Slovakia*': 315583000.0,
+        'Orange Slovensko': 590951000.0,
+        'Slovak Telekom': 792523000.0,
+    }
 ]
 
 const dataFormatter = (number: number) =>
