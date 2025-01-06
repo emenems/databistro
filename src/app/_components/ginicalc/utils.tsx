@@ -47,7 +47,7 @@ export const initialPopulationPercentagesUS = [9.0, 8.1, 8.3, 8.0, 7.5, 7.0, 6.5
 
 export type Language = 'en' | 'sk';
 
-export const translations: Record<Language, { title: string; country: string; explain: string; giniCoefficient: string; averageIncome: string; medianIncome: string; note: string; percentagesWarning: string; realValues: string; populationShare: string; xAxisLabel: string; yAxisLabel: string; cumulativeXAxisLabel: string; cumulativeYAxisLabel: string; }> = {
+export const translations: Record<Language, { title: string; income: string; country: string; explain: string; giniCoefficient: string; averageIncome: string; medianIncome: string; note: string; percentagesWarning: string; realValues: string; populationShare: string; xAxisLabel: string; yAxisLabel: string; cumulativeXAxisLabel: string; cumulativeYAxisLabel: string; }> = {
     sk: {
         title: "Výpočet Gini koeficientu podľa vlastných hodnôt",
         giniCoefficient: "Gini koefficient",
@@ -57,6 +57,7 @@ export const translations: Record<Language, { title: string; country: string; ex
         percentagesWarning: "Percentá musia byť spolu 100%. Aktuálny súčet: ",
         realValues: "Reálne hodnoty podľa Eurostatu",
         populationShare: "Podiel obyvateľstva",
+        income: "Príjem (€)",
         xAxisLabel: "Rozdelenie príjmov do skupín",
         yAxisLabel: "Podiel obyvateľstva (%)",
         cumulativeXAxisLabel: "Kumulatívny príjem (rovnomerný graf = príjmová rovnosť)",
@@ -73,6 +74,7 @@ export const translations: Record<Language, { title: string; country: string; ex
         percentagesWarning: "Percentages must add up to 100%. Current total: ",
         realValues: "Real values according to Eurostat",
         populationShare: "Population share",
+        income: "Income (€)",
         xAxisLabel: "Income distribution by bins",
         yAxisLabel: "Population share (%)",
         cumulativeXAxisLabel: "Cumulative income (linear increase = income equality)",

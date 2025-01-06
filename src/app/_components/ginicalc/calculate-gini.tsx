@@ -235,7 +235,7 @@ export default function GiniCalc() {
                         customTooltip={customTooltip}
                         yAxisWidth={48}
                         showLegend={false}
-                        // xAxisLabel={t.xAxisLabel}
+                        xAxisLabel={t.income}
                         yAxisLabel={t.yAxisLabel}
                     />
                 </div>
@@ -250,7 +250,7 @@ export default function GiniCalc() {
                         customTooltip={customTooltipCumulative}
                         yAxisWidth={48}
                         showLegend={false}
-                        // xAxisLabel={t.cumulativeXAxisLabel}
+                        xAxisLabel={t.populationShare}
                         yAxisLabel={t.cumulativeYAxisLabel}
                     />
                 </div>
