@@ -47,7 +47,7 @@ export const initialPopulationPercentagesUS = [9.0, 8.1, 8.3, 8.0, 7.5, 7.0, 6.5
 
 export type Language = 'en' | 'sk';
 
-export const translations: Record<Language, { title: string; country: string; giniCoefficient: string; averageIncome: string; medianIncome: string; note: string; percentagesWarning: string; realValues: string; populationShare: string; xAxisLabel: string; yAxisLabel: string; cumulativeXAxisLabel: string; cumulativeYAxisLabel: string; }> = {
+export const translations: Record<Language, { title: string; country: string; explain: string; giniCoefficient: string; averageIncome: string; medianIncome: string; note: string; percentagesWarning: string; realValues: string; populationShare: string; xAxisLabel: string; yAxisLabel: string; cumulativeXAxisLabel: string; cumulativeYAxisLabel: string; }> = {
     sk: {
         title: "Výpočet Gini koeficientu podľa vlastných hodnôt",
         giniCoefficient: "Gini koefficient",
@@ -62,6 +62,7 @@ export const translations: Record<Language, { title: string; country: string; gi
         cumulativeXAxisLabel: "Kumulatívny príjem (rovnomerný graf = príjmová rovnosť)",
         cumulativeYAxisLabel: "Podiel z celkového príjmu (%)",
         country: "Krajina",
+        explain: "↑ Prvý priadok predstavuje príjem (€) a druhý podiel obyvateľstva s týmto príjmom (%) ↑",
     },
     en: {
         title: "Calculate the Gini coefficient based on own values",
@@ -77,6 +78,7 @@ export const translations: Record<Language, { title: string; country: string; gi
         cumulativeXAxisLabel: "Cumulative income (linear increase = income equality)",
         cumulativeYAxisLabel: "Share of total income (%)",
         country: "Country",
+        explain: "↑ The first row represents income (€) and the second the population share with this income (%) ↑",
     },
 };
 

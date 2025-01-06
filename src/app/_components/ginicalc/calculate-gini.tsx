@@ -218,6 +218,9 @@ export default function GiniCalc() {
                         </TableRow>
                     </TableBody>
                 </Table>
+                <p className="text-center text-sm text-gray-500 mt-2">
+                    {t.explain}
+                </p>
             </div>
             <div className="flex flex-col lg:flex-row justify-between mt-8">
                 <div className="lg:w-1/2 p-3">
