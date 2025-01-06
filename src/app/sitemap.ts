@@ -50,5 +50,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: 'https://www.databistro.eu/posts/ginicalc',
+      lastModified: new Date('2025-01-06'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }
