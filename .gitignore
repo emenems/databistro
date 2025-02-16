@@ -37,8 +37,12 @@ next-env.d.ts
 
 # python cache
 api/*/__pycache__/
+api/__pycache__*
 
 env
 
 # temp data
 _data/
+
+# temp python code
+_python/
