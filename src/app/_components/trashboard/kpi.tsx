@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, BadgeDelta } from "@tremor/react";
-import { absoluteGrowth, relativeGrowth, currentRevenue, monthlyGrowth } from "./data";
+import { absoluteGrowth, relativeGrowth, currentRevenue } from "./data";
 import {AvailabilityPlot, UnavailabilityPlot} from "./tracker";
 
 interface KpiProps {

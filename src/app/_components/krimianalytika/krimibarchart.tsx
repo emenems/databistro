@@ -1,7 +1,7 @@
 'use client';
 
 import { BarChart, Card } from '@tremor/react';
-import { dataRegistered, dataSolved } from './krimidata';
+import { dataRegistered } from './krimidata';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
@@ -35,12 +35,6 @@ export default function KrimiBarChart() {
   return (
     <>
       <Card className="mt-0 w-full ">
-        {/* <h3 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Sales breakdown by regions
-        </h3>
-        <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-          Check sales of top 3 regions over time
-        </p> */}
         <ul
           role="list"
           className="grid gap-3 sm:grid-cols-2 md:grid-cols-3"
@@ -77,7 +71,7 @@ export default function KrimiBarChart() {
           valueFormatter={valueFormatterShort}
           yAxisWidth={50}
           stack={true}
-          className="mt-6 hidden h-56 sm:block"
+          className="mt-6 h-56 sm:block"
         />
       </Card>
     </>

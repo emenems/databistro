@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, FunnelChart, AreaChart} from '@tremor/react';
+import { Card, FunnelChart } from '@tremor/react';
 import { RiArrowDownSFill, RiArrowUpSFill } from '@remixicon/react';
 
 function classNames(...classes: (string | undefined | false)[]): string {
@@ -98,18 +98,6 @@ const FunFactCard: React.FC<FunFactCardProps> = ({ dataPlot, title, unit, second
           {secondDescription}
         </p>
       </dd>
-      {/* <AreaChart
-        className="-mb-2 mt-0 h-24"
-        data={data}
-        index='name'
-        categories={['value']}
-        showYAxis={false}
-        showXAxis={false}
-        // startEndOnly={true}
-        showLegend={false}
-        showGridLines={false}
-        showGradient={true}
-      /> */}
       <FunnelChart
         className="-mb-2 mt-2 h-24"
         data={dataPlot}

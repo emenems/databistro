@@ -74,13 +74,6 @@ export default function LineChartKrimi() {
 
   return (
     <>
-      {/* <h3 className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-        ETF performance comparison
-      </h3>
-      <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt.
-      </p> */}
       <div className="mt-0 w-full grid grid-cols-1 sm:grid-cols-3 gap-6">
         {/* Chart area: spans 2/3 on small screens and above */}
         <Card className="sm:col-span-2 w-full">
