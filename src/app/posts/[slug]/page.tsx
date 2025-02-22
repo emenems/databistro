@@ -18,6 +18,7 @@ import Trashboard from "../../_components/trashboard/page";
 import Parliament from "../../_components/parliament/page";
 import GiniCalc from "../../_components/ginicalc/page";
 import Elektromobilita from "../../_components/elektromobilita/page";
+import Krimianalytika from "../../_components/krimianalytika/page";
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -48,6 +49,7 @@ export default async function Post({ params }: Params) {
         {post.code.name === "Parliament" && <Parliament />}
         {post.code.name === "GiniCalc" && <GiniCalc />}
         {post.code.name === "Elektromobilita" && <Elektromobilita />}
+        {post.code.name === "Krimianalytika" && <Krimianalytika />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>

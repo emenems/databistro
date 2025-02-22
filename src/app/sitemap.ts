@@ -62,5 +62,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: 'https://www.databistro.eu/posts/krimianalytika',
+      lastModified: new Date('2025-02-22'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }
