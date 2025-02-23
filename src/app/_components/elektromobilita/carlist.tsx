@@ -32,8 +32,6 @@ const CarIcon = (name?: string) => {
   return () => <img src={srcUrl} alt={name} className='w-5 h-5 ml-2 mr-2' />;
 };
 
-// const valueFormatter = (number: number) =>
-//   `${Intl.NumberFormat('us').format(number).toString()}`;
 
 export default function CarBarList({ title, countedVariable, data }: CarBarListProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,9 +77,6 @@ export default function CarBarList({ title, countedVariable, data }: CarBarListP
                 <p className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
                   {countedVariable}
                 </p>
-                {/* <p className="text-tremor-label font-medium uppercase text-tremor-content dark:text-dark-tremor-content">
-                  Visitors
-                </p> */}
               </div>
               <TextInput
                 icon={RiSearchLine}
@@ -95,7 +90,6 @@ export default function CarBarList({ title, countedVariable, data }: CarBarListP
               {filteredItems.length > 0 ? (
                 <BarList
                   data={filteredItems}
-                  // valueFormatter={valueFormatter} 
                 />
               ) : (
                 <p className="flex h-full items-center justify-center text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong">
