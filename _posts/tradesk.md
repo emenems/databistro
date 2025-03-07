@@ -1,5 +1,5 @@
 ---
-title: "Slevenské obchodné vojny"
+title: "Slovenské obchodné vojny"
 titleKey: "Zahraničný obchod - SK"
 code:
   source: ../../_components/tradesk/page

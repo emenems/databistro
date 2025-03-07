@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ComposableMap, Geographies, Geography, Graticule } from "react-simple-maps";
 import { scaleLinear } from 'd3-scale';
 import { RadioGroup } from '@headlessui/react';
-import { tradeDataLatest, summaryData as tabs } from './tradedata';
+import { tradeData as tradeDataLatest, summaryData as tabs } from './tradedata';
 import TradeCard from "./tradecard";
 import { classNames, valueFormatter as formatValue } from "./tradeutils";
 

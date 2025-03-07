@@ -1,5 +1,6 @@
 import { Card, CategoryBar } from '@tremor/react';
 import { classNames } from './tradeutils';
+
 const legendColor: Record<string, string> = {
   'Vývoz': 'bg-sky-500',
   'Dovoz': 'bg-rose-500',

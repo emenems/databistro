@@ -4,29 +4,7 @@ import { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 import { BarChart } from '@tremor/react';
 import { classNames, valueFormatter } from './tradeutils';
-
-const tabs = [
-  { name: 'Bilancia', value: 4503401.6 },
-  { name: 'Vývoz', value: 108446857.9 },
-  { name: 'Dovoz', value: 103943456.3 },
-];
-
-const data: {date: number, 'Bilancia': number, 'Vývoz': number, 'Dovoz': number}[] = [
-  { date: 2010, 'Bilancia': 814150.400000006, 'Vývoz': 49251715.2, 'Dovoz': 48437564.8 },
-  { date: 2011, 'Bilancia': 1289805.3000000045, 'Vývoz': 56754877.1, 'Dovoz': 55465071.8 },
-  { date: 2012, 'Bilancia': 4000364.400000006, 'Vývoz': 62201724.7, 'Dovoz': 58201360.3 },
-  { date: 2013, 'Bilancia': 4570869.5, 'Vývoz': 64131459.7, 'Dovoz': 59560590.2 },
-  { date: 2014, 'Bilancia': 4772635.3999999985, 'Vývoz': 64565418.1, 'Dovoz': 59792782.7 },
-  { date: 2015, 'Bilancia': 3159968.8000000045, 'Vývoz': 67606968.4, 'Dovoz': 64446999.6 },
-  { date: 2016, 'Bilancia': 3366992.899999991, 'Vývoz': 69554585.6, 'Dovoz': 66187592.7 },
-  { date: 2017, 'Bilancia': 3073685.600000009, 'Vývoz': 73851898.4, 'Dovoz': 70778212.8 },
-  { date: 2018, 'Bilancia': 2309490.099999994, 'Vývoz': 79144529.0, 'Dovoz': 76835038.9 },
-  { date: 2019, 'Bilancia': 1062641.200000003, 'Vývoz': 80337657.9, 'Dovoz': 79275016.7 },
-  { date: 2020, 'Bilancia': 3316526.900000006, 'Vývoz': 75916244.5, 'Dovoz': 72599717.6 },
-  { date: 2021, 'Bilancia': 1875612.400000006, 'Vývoz': 88551676.9, 'Dovoz': 86676064.5 },
-  { date: 2022, 'Bilancia': -4524118.299999997, 'Vývoz': 102786059.9, 'Dovoz': 107310178.2 },
-  { date: 2023, 'Bilancia': 4503401.600000009, 'Vývoz': 108446857.9, 'Dovoz': 103943456.3 }
-];
+import { data, summaryData as tabs } from './tradedata';
 
 
 

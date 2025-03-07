@@ -1,32 +1,51 @@
 import pandas as pd
 
-file_name = "/Users/A103421516/private/databistro/api/tradesk/v_zo0004rs_00_00_00_sk20250306074521.xlsx"
-df = pd.read_excel(file_name, engine="openpyxl", skiprows=4)
-# remove the second row
-df = df.iloc[1:].rename(columns={"Unnamed: 0": "country", "Unnamed: 1": "trade_type"})
-# drop columns with "index" = they have  " (d).1" string
-df = df[[i for i in df.columns if " (d).1" not in i]]
-# convert columns to years
-df = df.rename(columns={i: int(i.split(" (d)")[0]) for i in df.columns if " (d)" in i}, errors="ignore")
-# now convert to normal number = remove sapce and use ',' as decimal for all year columns
-for i in df.columns:
-    if isinstance(i, int):
-        df[i] = df[i].apply(lambda x: str(x).replace(" ", "").replace(",", ".").replace("-", "0"))
-        df[i] = pd.to_numeric(df[i], errors="coerce")
 
-df = df.dropna(subset=[i for i in df.columns if isinstance(i, int)], how="any")
+def read_and_prepare_data(file_path: str) -> pd.DataFrame:
+    """
+    Reads in the Excel file and processes the raw data.
+    """
+    df = pd.read_excel(file_path, engine="openpyxl", skiprows=4)
+    # Remove the second row and rename columns
+    df = df.iloc[1:].rename(columns={"Unnamed: 0": "country", "Unnamed: 1": "trade_type"})
+    # Drop columns containing " (d).1"
+    df = df[[col for col in df.columns if " (d).1" not in col]]
+    # Convert columns that have " (d)" to integers (years)
+    df = df.rename(columns={col: int(col.split(" (d)")[0]) for col in df.columns if " (d)" in col}, errors="ignore")
+    # Clean up numeric values: remove spaces, replace commas with dots, convert dashes to "0"
+    for col in df.columns:
+        if isinstance(col, int):
+            df[col] = df[col].apply(lambda x: str(x).replace(" ", "").replace(",", ".").replace("-", "0"))
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    df = df.dropna(subset=[col for col in df.columns if isinstance(col, int)], how="any")
 
-# Convert to long format
-df_long = pd.melt(df, id_vars=["country", "trade_type"], var_name="year", value_name="value")
+    # Convert to long format
+    df_long = pd.melt(df, id_vars=["country", "trade_type"], var_name="year", value_name="value")
+    # Pivot the DataFrame to get import and export values
+    df_pivot = df_long.pivot_table(index=["country", "year"], columns="trade_type", values="value").reset_index()
+    df_pivot.columns.name = None  # Remove the pivot column name
+    df_pivot = df_pivot.rename(columns={"Dovoz": "import", "Vývoz": "export"})
+    df_pivot = df_pivot.assign(difference=df_pivot["export"] - df_pivot["import"])
+    return df_pivot
 
-# Pivot the DataFrame to get dovoz_value and vyvoz_value
-df_pivot = df_long.pivot_table(index=["country", "year"], columns="trade_type", values="value").reset_index()
-df_pivot.columns.name = None  # remove the categories name
-df_pivot = df_pivot.rename(columns={"Dovoz": "import", "Vývoz": "export"})
-df_pivot = df_pivot.assign(difference=df_pivot["export"] - df_pivot["import"])
-df_pivot
+
+def finalize_data(df_pivot: pd.DataFrame) -> pd.DataFrame:
+    """
+    Finalizes the pivoted data:
+     - Adds a country_id column using convert_to_iso3.
+     - Selects and sorts the relevant columns.
+     - Filters out rows with an "XXX" country_id except for country "SPOLU".
+     - Rounds numeric values.
+    """
+    df_pivot["country_id"] = convert_to_iso3(df_pivot["country"].tolist())
+    df_pivot = df_pivot[["country_id", "country", "year", "import", "export", "difference"]]
+    df_pivot = df_pivot.sort_values(by=["year", "difference"], ascending=False).reset_index(drop=True)
+    df_pivot = df_pivot[(df_pivot["country_id"] != "XXX") | (df_pivot["country"] == "SPOLU")]
+    df_pivot = df_pivot.round(1)
+    return df_pivot
 
 
+# The convert_to_iso3 function remains unchanged.
 def convert_to_iso3(country_list):
     # Dictionary mapping Slovak country names to ISO 3166-1 alpha-3 codes
     country_mapping = {
@@ -282,7 +301,15 @@ def convert_to_iso3(country_list):
     return [country_mapping.get(i, "XXX") for i in country_list]
 
 
-def print_trade_data(df_pivot, year):
+def print_trade_data(df_pivot, year, file_name: str = None, mode: str = "w"):
+    """Generates the trade data string and either prints it or writes it to a file.
+
+    Parameters:
+      - df_pivot: DataFrame containing the pivoted trade data.
+      - year: Year to filter the data.
+      - file_name: Optional; path to the output file.
+      - mode: "w" to create/overwrite a file or "a" to append.
+    """
     df_pivot = df_pivot[df_pivot["year"] == year]
     trade_data = {}
     for _, row in df_pivot.iterrows():
@@ -292,14 +319,28 @@ def print_trade_data(df_pivot, year):
         trade_data[country_id]["dovoz"] += row["import"]
         trade_data[country_id]["vyvoz"] += row["export"]
 
-    trade_data_str = "const tradeData: Record<string, { dovoz: number; vyvoz: number }> = {\n"
+    trade_data_str = "\nexport const tradeData: Record<string, { dovoz: number; vyvoz: number }> = {\n"
     for country_id, values in trade_data.items():
         trade_data_str += f"  {country_id}: {{ dovoz: {values['dovoz']}, vyvoz: {values['vyvoz']} }},\n"
     trade_data_str = trade_data_str.rstrip(",\n") + "\n};"
-    print(trade_data_str)
+
+    if file_name:
+        with open(file_name, mode, encoding="utf-8") as f:
+            f.write(trade_data_str)
+    else:
+        print(trade_data_str)
 
 
-def print_yearly(df_pivot, country: str = "SPOLU"):
+def print_yearly(df_pivot, country: str = "SPOLU", file_name: str = None, mode: str = "w"):
+    """
+    Generates the yearly data string and either prints it or writes it to a file.
+
+    Parameters:
+      - df_pivot: DataFrame containing the pivoted trade data.
+      - country: Filter for a specific country (default "SPOLU").
+      - file_name: Optional; path to the output file.
+      - mode: "w" to create/overwrite a file or "a" to append.
+    """
     df_pivot = df_pivot[df_pivot["country"] == country].sort_values(by="year", ascending=True)
     yearly_data = []
 
@@ -309,17 +350,103 @@ def print_yearly(df_pivot, country: str = "SPOLU"):
         vyvoz = year_data["export"].sum()
         dovoz = year_data["import"].sum()
         yearly_data.append({"date": year, "Bilancia": bilancia, "Vývoz": vyvoz, "Dovoz": dovoz})
-    yearly_data_str = "const data: {date: number, 'Bilancia': number, 'Vývoz': number, 'Dovoz': number}[] = [\n"
+
+    yearly_data_str = (
+        "\n\nexport const data: {date: number, 'Bilancia': number, 'Vývoz': number, 'Dovoz': number}[] = [\n"
+    )
     for item in yearly_data:
         yearly_data_str += f"  {{ date: {item['date']}, 'Bilancia': {item['Bilancia']}, 'Vývoz': {item['Vývoz']}, 'Dovoz': {item['Dovoz']} }},\n"
     yearly_data_str = yearly_data_str.rstrip(",\n") + "\n];"
-    print(yearly_data_str)
+
+    if file_name:
+        with open(file_name, mode, encoding="utf-8") as f:
+            f.write(yearly_data_str)
+    else:
+        print(yearly_data_str)
 
 
-df_pivot["country_id"] = convert_to_iso3(df_pivot["country"].tolist())
-df_pivot = df_pivot[["country_id", "country", "year", "import", "export", "difference"]]
-df_pivot = df_pivot.sort_values(by=["year", "difference"], ascending=False).reset_index(drop=True)
-df_pivot = df_pivot[(df_pivot["country_id"] != "XXX") | (df_pivot["country"] == "SPOLU")]
+def print_table(df_pivot, file_name: str = None, mode: str = "w"):
+    output = "\n\nexport const dataTable = [\n"
+    for i, row in df_pivot.iterrows():
+        output += f"  {{ id: {i}, country: '{row['country']}', year: {row['year']}, dovoz: {row['import']}, vyvoz: {row['export']}, bilancia: {row['difference']} }},\n"
+    output += "];"
 
-print_trade_data(df_pivot, df_pivot.year.max())
-print_yearly(df_pivot, "SPOLU")
+    if file_name:
+        with open(file_name, mode, encoding="utf-8") as f:
+            f.write(output)
+    else:
+        print(output)
+
+
+# Example usage:
+def read_and_prepare_data(file_path: str) -> pd.DataFrame:
+    """
+    Reads and processes the Excel file and returns the pivoted DataFrame.
+    """
+    df = pd.read_excel(file_path, engine="openpyxl", skiprows=4)
+    # remove the second row
+    df = df.iloc[1:].rename(columns={"Unnamed: 0": "country", "Unnamed: 1": "trade_type"})
+    # drop columns with " (d).1" in name
+    df = df[[col for col in df.columns if " (d).1" not in col]]
+    # convert columns to years
+    df = df.rename(columns={col: int(col.split(" (d)")[0]) for col in df.columns if " (d)" in col}, errors="ignore")
+    # now convert to normal number = remove space and use ',' as decimal for all year columns
+    for col in df.columns:
+        if isinstance(col, int):
+            df[col] = df[col].apply(lambda x: str(x).replace(" ", "").replace(",", ".").replace("-", "0"))
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    df = df.dropna(subset=[col for col in df.columns if isinstance(col, int)], how="any")
+
+    # Convert to long format
+    df_long = pd.melt(df, id_vars=["country", "trade_type"], var_name="year", value_name="value")
+
+    # Pivot the DataFrame to get import and export values
+    df_pivot = df_long.pivot_table(index=["country", "year"], columns="trade_type", values="value").reset_index()
+    df_pivot.columns.name = None
+    df_pivot = df_pivot.rename(columns={"Dovoz": "import", "Vývoz": "export"})
+    df_pivot = df_pivot.assign(difference=df_pivot["export"] - df_pivot["import"])
+    return df_pivot
+
+
+def finalize_data(df_pivot: pd.DataFrame) -> pd.DataFrame:
+    """
+    Finalizes the pivoted data:
+      - Adds a country_id column using convert_to_iso3.
+      - Selects and sorts the relevant columns.
+      - Filters out rows with an "XXX" country_id (except for country "SPOLU").
+      - Rounds numeric values.
+    """
+    df_pivot["country_id"] = convert_to_iso3(df_pivot["country"].tolist())
+    df_pivot = df_pivot[["country_id", "country", "year", "import", "export", "difference"]]
+    df_pivot = df_pivot.sort_values(by=["year", "difference"], ascending=False).reset_index(drop=True)
+    df_pivot = df_pivot[(df_pivot["country_id"] != "XXX") | (df_pivot["country"] == "SPOLU")]
+    df_pivot = df_pivot.round(1)
+    return df_pivot
+
+
+def print_summary(df_pivot, file_name: str = None, mode: str = "w"):
+    temp = df_pivot[(df_pivot["country"] == "SPOLU") & (df_pivot["year"] == df_pivot["year"].max())]
+    output = "\n\nexport const summaryData = [\n"
+    output += "    { name: 'Bilancia', value: " + f"{temp['difference'].values[0]}" + " },\n"
+    output += "    { name: 'Vývoz', value: " + f"{temp['export'].values[0]}" + " },\n"
+    output += "    { name: 'Dovoz', value: " + f"{temp['import'].values[0]}" + " }\n"
+    output += "];"
+
+    if file_name:
+        with open(file_name, mode, encoding="utf-8") as f:
+            f.write(output)
+    else:
+        print(output)
+
+
+# Process and print/export the data
+if __name__ == "__main__":
+    file_path = "./api/tradesk/v_zo0004rs_00_00_00_sk20250306074521.xlsx"
+    df_pivot = read_and_prepare_data(file_path)
+    df_pivot = finalize_data(df_pivot)
+
+    # Write outputs to file "trade_data.ts" (overwrite then append for each)
+    print_trade_data(df_pivot, df_pivot["year"].max(), "tradedata.ts", "w")
+    print_yearly(df_pivot, "SPOLU", "tradedata.ts", "a")
+    print_table(df_pivot, "tradedata.ts", "a")
+    print_summary(df_pivot, "tradedata.ts", "a")
