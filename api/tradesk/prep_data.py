@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 
 
 def read_and_prepare_data(file_path: str) -> pd.DataFrame:
@@ -11,7 +12,15 @@ def read_and_prepare_data(file_path: str) -> pd.DataFrame:
     # Drop columns containing " (d).1"
     df = df[[col for col in df.columns if " (d).1" not in col]]
     # Convert columns that have " (d)" to integers (years)
-    df = df.rename(columns={col: int(col.split(" (d)")[0]) for col in df.columns if " (d)" in col}, errors="ignore")
+    df = df.rename(
+        columns={
+            col: int(re.match(r"^\d{4}", col).group())  # extract the first 4-digit year
+            for col in df.columns
+            if re.match(r"^\d{4}", col)  # only rename if the column starts with a 4-digit year
+        },
+        errors="ignore",
+    )
+    df = df.loc[:, ~df.columns.duplicated()]
     # Clean up numeric values: remove spaces, replace commas with dots, convert dashes to "0"
     for col in df.columns:
         if isinstance(col, int):
@@ -378,36 +387,6 @@ def print_table(df_pivot, file_name: str = None, mode: str = "w"):
         print(output)
 
 
-# Example usage:
-def read_and_prepare_data(file_path: str) -> pd.DataFrame:
-    """
-    Reads and processes the Excel file and returns the pivoted DataFrame.
-    """
-    df = pd.read_excel(file_path, engine="openpyxl", skiprows=4)
-    # remove the second row
-    df = df.iloc[1:].rename(columns={"Unnamed: 0": "country", "Unnamed: 1": "trade_type"})
-    # drop columns with " (d).1" in name
-    df = df[[col for col in df.columns if " (d).1" not in col]]
-    # convert columns to years
-    df = df.rename(columns={col: int(col.split(" (d)")[0]) for col in df.columns if " (d)" in col}, errors="ignore")
-    # now convert to normal number = remove space and use ',' as decimal for all year columns
-    for col in df.columns:
-        if isinstance(col, int):
-            df[col] = df[col].apply(lambda x: str(x).replace(" ", "").replace(",", ".").replace("-", "0"))
-            df[col] = pd.to_numeric(df[col], errors="coerce")
-    df = df.dropna(subset=[col for col in df.columns if isinstance(col, int)], how="any")
-
-    # Convert to long format
-    df_long = pd.melt(df, id_vars=["country", "trade_type"], var_name="year", value_name="value")
-
-    # Pivot the DataFrame to get import and export values
-    df_pivot = df_long.pivot_table(index=["country", "year"], columns="trade_type", values="value").reset_index()
-    df_pivot.columns.name = None
-    df_pivot = df_pivot.rename(columns={"Dovoz": "import", "Vývoz": "export"})
-    df_pivot = df_pivot.assign(difference=df_pivot["export"] - df_pivot["import"])
-    return df_pivot
-
-
 def finalize_data(df_pivot: pd.DataFrame) -> pd.DataFrame:
     """
     Finalizes the pivoted data:
@@ -441,12 +420,13 @@ def print_summary(df_pivot, file_name: str = None, mode: str = "w"):
 
 # Process and print/export the data
 if __name__ == "__main__":
-    file_path = "./api/tradesk/v_zo0004rs_00_00_00_sk20250306074521.xlsx"
+    file_path = "./api/tradesk/v_zo0004rs_00_00_00_sk20250313084227.xlsx"
+    file_output = "tradedata.ts"
     df_pivot = read_and_prepare_data(file_path)
     df_pivot = finalize_data(df_pivot)
 
     # Write outputs to file "trade_data.ts" (overwrite then append for each)
-    print_trade_data(df_pivot, df_pivot["year"].max(), "tradedata.ts", "w")
-    print_yearly(df_pivot, "SPOLU", "tradedata.ts", "a")
-    print_table(df_pivot, "tradedata.ts", "a")
-    print_summary(df_pivot, "tradedata.ts", "a")
+    print_trade_data(df_pivot, df_pivot["year"].max(), file_output, "w")
+    print_yearly(df_pivot, "SPOLU", file_output, "a")
+    print_table(df_pivot, file_output, "a")
+    print_summary(df_pivot, file_output, "a")
