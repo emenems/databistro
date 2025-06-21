@@ -1,16 +1,17 @@
 import {StockReturnSeries} from '@/interfaces/rent';
 
+// data for ^DJI, 2005-06-01 - 2025-06-20
 export const stockReturnSeriesDemo: StockReturnSeries[] =[
-    { year: 1, mean: 0.0799, min: -0.4619, max: 0.7439 },
-    { year: 2, mean: 0.1603, min: -0.466, max: 0.8722 },
-    { year: 3, mean: 0.2447, min: -0.4038, max: 0.9657 },
-    { year: 4, mean: 0.3375, min: -0.4014, max: 1.2067 },
-    { year: 5, mean: 0.4639, min: -0.2024, max: 1.4975 },
-    { year: 6, mean: 0.6018, min: -0.0627, max: 1.7289 },
-    { year: 7, mean: 0.7503, min: 0.0454, max: 1.5958 },
-    { year: 8, mean: 0.912, min: 0.1564, max: 2.1927 },
-    { year: 9, mean: 1.0728, min: 0.2392, max: 2.8458 },
-    { year: 10, mean: 1.2401, min: 0.4386, max: 2.9259 },
+    { year: 1, mean: 0.0852, min: -0.4619, max: 0.7439 },
+    { year: 2, mean: 0.1661, min: -0.466, max: 0.8722 },
+    { year: 3, mean: 0.2425, min: -0.4038, max: 0.9657 },
+    { year: 4, mean: 0.3668, min: -0.2372, max: 1.2067 },
+    { year: 5, mean: 0.5029, min: -0.1139, max: 1.4975 },
+    { year: 6, mean: 0.6383, min: 0.0082, max: 1.7289 },
+    { year: 7, mean: 0.7922, min: 0.1454, max: 1.5958 },
+    { year: 8, mean: 0.9759, min: 0.1564, max: 2.1927 },
+    { year: 9, mean: 1.1497, min: 0.2392, max: 2.8458 },
+    { year: 10, mean: 1.3062, min: 0.4386, max: 2.9259 },
 ];
 
 export const currencyFormatter = (number: number) => {
