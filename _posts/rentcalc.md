@@ -21,7 +21,7 @@ ogImage:
 
 V stĺpcoch pre termínovaný a zložený vklad je daň aplikovaná jednotne podľa hodnoty v 'Dane a odvody'. 
 
-V prípade 'Dow Jones' je strhnutá daň len pre prvý rok. Hodnoty sú vypočítané pomocou kĺzavého primeru pre danú dĺžku (1 - 10 rokov) s použitím Closing hodnôt za obdobie 2004-07-01 až 2024-07-19. Pre iné obdobie možno použiť API Backend, napr. [/api/investing/index/returns?index=%5EDJI&start_date=2004-07-19&end_date=2024-07-20](/api/investing/index/returns?index=%5EDJI&start_date=2004-07-19&end_date=2024-07-20). Správcovský poplatok je aplikovaný na každý rok a vstupnú sumu.
+V prípade 'Dow Jones' je strhnutá daň len pre prvý rok. Hodnoty sú vypočítané pomocou kĺzavého primeru pre danú dĺžku (1 - 10 rokov) s použitím Closing hodnôt za obdobie 2005-06-01 až 2025-06-20. Pre iné obdobie možno použiť API Backend, napr. [/api/investing/index/returns?index=%5EDJI&start_date=2005-06-01&end_date=2025-06-20](/api/investing/index/returns?index=%5EDJI&start_date=2005-06-01&end_date=2025-06-20). Správcovský poplatok je aplikovaný na každý rok a vstupnú sumu.
 
 Hodnoty 'S prenájmom' sú súčtom 'Cena + inflácia' a čistého prenájmu, pričom 'Inflácia: nájom - náklady' je aplikovaná od druhého roku prenájmu (pri zadávní 'Inflácia: nájom - náklady' je odporúčané brať do úvahy nie len zvýšenie prenájmu ale aj nákladov). Defaultné hodnoty týchto premenných **neodrážajú realitu!**
 
@@ -31,10 +31,9 @@ Bližšie informácie o výpočte zdanenia príjmov z nehnuteľnosti nájdete na
 
 \* [Finančnej správy](https://podpora.financnasprava.sk/639339-Výdavky-pri-prenájme-nehnuteľnosti-nezaradenej-do-obchodného-majetku-)  
 \* [KROS.sk](https://www.kros.sk/blog/ako-zdanit-prijem-z-prenajmu-nehnutelnosti-za-rok-2023/)  
-\* [najmi.sk](https://www.najmi.sk)  
-\* [reelly.eu](https://reelly.eu)
+
 
 Informácie o daniach a odvodoch rôznych investičných stratégií možno nájast na stránkach [finax.eu](https://www.finax.eu/sk/blog/kompletny-prehlad-zdanovania-prijmov-z-investicii). Priemerný vývoj cien nehtnuteľností je možné nájsť [na webe NBS](https://nbs.sk/statisticke-udaje/vybrane-makroekonomicke-ukazovatele/ceny-nehnutelnosti-na-byvanie/vyvoj-cien-nehnutelnosti-na-byvanie-v-sr/).
 
 
-_(okdazy vytvorené 21.07.2024)_
+_(okdazy vytvorené 21.07.2024, príspevok aktualizovaný 14.06.2025)_  

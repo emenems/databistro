@@ -111,9 +111,9 @@ export default function RentCalc( { stockData = stockReturnSeriesDemo }: { stock
     });
     return (
     <>
-        <div className="sm:mx-auto sm:max-w-2xl">
+        <div className="mx-auto w-full max-w-full px-2 sm:max-w-2xl">
             <form action="#" method="post" className="mt-8">
-                <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6">
+                <div className="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-6 min-w-0">
                     <div className="col-span-full sm:col-span-2">
                         <label
                             htmlFor="rent"
@@ -128,7 +128,7 @@ export default function RentCalc( { stockData = stockReturnSeriesDemo }: { stock
                                 placeholder={rent.toString()}
                                 defaultValue={rent}
                                 onChange={(e) => setRent(parseFloat(e.target.value))}
-                                className="mt-2"
+                                className="mt-2 w-full"
                                 required
                                 icon={RiMoneyEuroCircleLine}
                                 min={1}
@@ -719,52 +719,56 @@ export default function RentCalc( { stockData = stockReturnSeriesDemo }: { stock
                             yAxisWidth={75}
                         />
                     </div>
-                    <p className="mt-8 flex items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content text-right">
-                        <span>Rokov</span>
-                        <span>Cena + inflácia</span>
-                        <span>S prenájmom</span>
-                        <span>Zložené úročenie</span>
-                        <span>Termínovaný vklad</span>
-                        <span>Dow Jones</span>
-                    </p>
-
-                    <List className="mt-2 text-right">
-                        {chartData.map((item) => (({ Rok, 'S prenájmom': RentPrice, 'Cena + inflácia': Price, 'Zložené úročenie': compound, 'Termínovaný vklad': simple, 'Dow Jones': dowJones}) => (
-                            <ListItem key={Rok} className="space-x-6 text-right">
-                            <div className="flex items-center space-x-2.5 truncate text-right">
-                                <span className="truncate dark:text-dark-tremor-content-emphasis text-right">
-                                {Rok}
-                                </span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-right">
-                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
-                                {currencyFormatterNoDecimals(Price)}
-                                </span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-right">
-                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
-                                {currencyFormatterNoDecimals(RentPrice)}
-                                </span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-right">
-                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
-                                {currencyFormatterNoDecimals(compound)}
-                                </span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-right">
-                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
-                                {currencyFormatterNoDecimals(simple)}
-                                </span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-right">
-                                <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
-                                {currencyFormatterNoDecimals(dowJones? dowJones: 0)}
-                                </span>
-                            </div>
-                            </ListItem>
-                        ))(item))}
-                    </List>
-                    </Card>
+                    {/* Make the table horizontally scrollable on small screens */}
+                    <div className="w-full overflow-x-auto">
+                        <div className="min-w-[600px]">
+                            <p className="mt-8 flex items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content text-right">
+                                <span>Rokov</span>
+                                <span>Cena + inflácia</span>
+                                <span>S prenájmom</span>
+                                <span>Zložené úročenie</span>
+                                <span>Termínovaný vklad</span>
+                                <span>Dow Jones</span>
+                            </p>
+                            <List className="mt-2 text-right">
+                                {chartData.map((item) => (({ Rok, 'S prenájmom': RentPrice, 'Cena + inflácia': Price, 'Zložené úročenie': compound, 'Termínovaný vklad': simple, 'Dow Jones': dowJones}) => (
+                                    <ListItem key={Rok} className="space-x-6 text-right">
+                                        <div className="flex items-center space-x-2.5 truncate text-right">
+                                            <span className="truncate dark:text-dark-tremor-content-emphasis text-right">
+                                                {Rok}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center space-x-2 text-right">
+                                            <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                                {currencyFormatterNoDecimals(Price)}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center space-x-2 text-right">
+                                            <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                                {currencyFormatterNoDecimals(RentPrice)}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center space-x-2 text-right">
+                                            <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                                {currencyFormatterNoDecimals(compound)}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center space-x-2 text-right">
+                                            <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                                {currencyFormatterNoDecimals(simple)}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center space-x-2 text-right">
+                                            <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong text-right">
+                                                {currencyFormatterNoDecimals(dowJones ? dowJones : 0)}
+                                            </span>
+                                        </div>
+                                    </ListItem>
+                                ))(item))}
+                            </List>
+                        </div>
+                    </div>
+                </Card>
             </form>
         </div>
     </>
