@@ -1,3 +1,10 @@
-api/*
-!api/demography/endpoints/**
-!api/elektroauta/endpoints/**
+api/data/*
+api/gini/ginicalc.py
+api/gini/schema.py
+api/elektroauta/utils.py
+api/elektroauta/datastore.py
+api/investing/schema.py
+api/investing/stockreturnscalculator.py
+api/krimianalytika/*
+api/rozpocet/*
+api/tradesk/*
