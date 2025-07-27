@@ -74,5 +74,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: 'https://www.databistro.eu/posts/ustava',
+      lastModified: new Date('2025-07-27'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }
