@@ -1,9 +1,9 @@
 {
     "functions": {
-        "api/demography/endpoints": {
+        "api/demography/endpoints/**": {
             "excludeFiles": "{.next,*.cache,node_modules,public,app,api}/**"
         },
-        "api/elektroauta/endpoints": {
+        "api/elektroauta/endpoints/**": {
             "excludeFiles": "{.next,*.cache,node_modules,public,app,api}/**"
         }
     }
