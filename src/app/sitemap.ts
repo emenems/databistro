@@ -80,5 +80,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: 'https://www.databistro.eu/posts/dochodkovo',
+      lastModified: new Date('2025-09-20'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ];
 }
