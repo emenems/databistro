@@ -114,13 +114,13 @@ export const dataMeasures = {
     "náklady": 358,
     "vysvetlenie": "Každý zamestnanec, SZČO aj samoplatiteľ zaplatí o 1 % viac zo svojej mzdy na zdravotné poistenie. Čistý príjem sa zníži, čo pocíti každá domácnosť.",
   },
-  "Neplatenie rodičovi počas starostlivosti o dieťa sociálne odvody": {
-    "náklady": 48,
-    "vysvetlenie": "Štát prestane za rodičov na materskej alebo rodičovskej dovolenke platiť sociálne odvody. Rodičom sa tým v budúcnosti môže znížiť dôchodok. Krátkodobo to šetrí štátu peniaze, no dlhodobo to znevýhodňuje najmä ženy, ktoré sú doma s deťmi dlhšie.",
-  },
   "Zvýšenie daňovej licencie pre firmy s príjmom nad 5 mil. €": {
     "náklady": 10,
     "vysvetlenie": "Veľké firmy budú platiť vyššiu minimálnu daň (11 520 € namiesto 3 840 €). Malých podnikov sa to netýka, ale veľké podniky môžu zvýšené náklady premietnuť do cien alebo obmedziť investície.",
+  },
+  "Neplatenie rodičovi počas starostlivosti o dieťa sociálne odvody": {
+    "náklady": 48,
+    "vysvetlenie": "Štát prestane za rodičov na materskej alebo rodičovskej dovolenke platiť sociálne odvody. Rodičom sa tým v budúcnosti môže znížiť dôchodok. Krátkodobo to šetrí štátu peniaze, no dlhodobo to znevýhodňuje najmä ženy, ktoré sú doma s deťmi dlhšie.",
   },
   "Zvýšenie DPH z 19% na 23%": {
       "náklady": 756,

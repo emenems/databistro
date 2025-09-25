@@ -23,7 +23,7 @@ const availableMeasures = Object.entries(dataMeasures).map(([name, obj], idx) =>
 
 export default function StackYourPension() {
   const [selectedMeasures, setSelectedMeasures] = useState<string[]>(
-    availableMeasures.slice(0, 7).map(m => m.name)
+    availableMeasures.slice(0, 9).map(m => m.name)
   );
   const [showDropdown, setShowDropdown] = useState(false);
 
