@@ -1,17 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, BarChart, Badge } from '@tremor/react';
+import { Card, BarChart } from '@tremor/react';
 import { RiAddFill, RiCloseLine } from '@remixicon/react';
 import { valueFormatterTotal as valueFormatter } from './utils';
-import { dataMeasures } from './data';
+import { dataMeasures, pensionCost } from './data';
 
 
 const colorPalette = [
   'rose', 'amber', 'emerald', 'blue', 'violet', 'cyan', 'indigo', 'green', 'pink', 'orange', 'teal', 'fuchsia', 'lime', 'stone'
 ];
-
-const pensionCost = 920; // in mil. EUR
 
 // Prepare availableMeasures from dataMeasures
 const availableMeasures = Object.entries(dataMeasures).map(([name, obj], idx) => ({
@@ -98,11 +96,6 @@ export default function StackYourPension() {
                       {name}
                     </span>
                     <span className="flex-1" />
-                    {/* <Tooltip content={m?.vysvetlenie}>
-                      <Badge color={m?.color as any} className="font-normal cursor-help">
-                        {valueFormatter(m?.value ?? 0)}
-                      </Badge>
-                    </Tooltip> */}
                   </div>
                   <button
                     onClick={() => removeMeasure(name)}

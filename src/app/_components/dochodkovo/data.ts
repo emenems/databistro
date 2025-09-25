@@ -143,3 +143,5 @@ export const dataMeasures = {
     "vysvetlenie": "Ťažba nového štrku, piesku a kameňa bude spoplatnená. Cieľ je podpora recyklácie. V praxi to ale môže zdražiť stavebné práce, cesty či bývanie.",
   },
 };
+
+export const pensionCost = 912; // in millions EUR
