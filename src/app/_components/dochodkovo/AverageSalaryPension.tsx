@@ -15,7 +15,7 @@ const data = [
   {
     title: 'Starobný dôchodok',
     description:
-      'Priemerná hodnota nezhŕňa 13. dôchodky ani príspevky z II. piliera. Dôchodkové dávky vyplácané v SR sú navyše od dane z príjmov oslobodené. ',
+      'Priemerná hodnota nezahŕňa 13. dôchodky ani príspevky z II. piliera. Dôchodkové dávky vyplácané v SR sú navyše od dane z príjmov oslobodené. ',
     linkText: 'Stiahnutie dáta',
     href: 'https://www.socpoist.sk/sites/default/files/2025-02/Štatistické%20údaje%20z%20oblasti%20dôchodkového%20poistenia%20rok%202024.xlsx',
   },

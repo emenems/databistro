@@ -3,14 +3,14 @@ import { Card } from '@tremor/react';
 
 const data = [
   {
-    title: 'Rozdiel medzi mužmi a ženami je enormný',
-    description:
-      'Priemerný starobný dôchodok mužov je o 23% vyšší ako dôchodok žien. Muži dostávali v roku 2024 v priemere 754,14 € a ženy 614,2 €. Ženy sa pritom dožívajú v priemere o 7 rokov viac ako muži.',
-  },
-  {
     title: 'Počet dôchodcov +11%, počet obyvateľov +0%',
     description:
       'Počet dôchodcov v SR narástol v období 2014 - 2024 o 11%. V roku 2024 bolo evidovaných 1 134 690 (starobných) dôchodcov. Celkový počet obyvateľov SR však zostal prakticky rovnaký (5 419 451).',
+  },
+  {
+    title: 'Rozdiel medzi mužmi a ženami je enormný',
+    description:
+      'Priemerný starobný dôchodok mužov je o 23% vyšší ako dôchodok žien. Muži dostávali v roku 2024 v priemere 754,14 € a ženy 614,2 €. Ženy sa pritom dožívajú v priemere o 7 rokov viac ako muži.',
   },
   {
     title: '2,7 miliardy € ako dotáciu zo štátneho rozpočtu',
@@ -19,7 +19,7 @@ const data = [
   },
   {
     title: 'Slovenskej Sporiteľni dôveruje najviac dôchodcov.',
-    description: 'V roku 2024 bolo najviac dôchodkov vyplatených účty v Slovenskej Sporiteľni (416 131), nasleduje 365/Poštová banka (237 165) a VÚB (196 776).',
+    description: 'V roku 2024 bolo najviac dôchodkov vyplatených na účty v Slovenskej Sporiteľni (416 131), nasleduje 365/Poštová banka (237 165) a VÚB (196 776).',
   },
   {
     title: 'Do zahraničia len 2% dôchodkov',
@@ -43,7 +43,7 @@ const FunFactCard = () => {
           Zaujímavosti a fakty o dôchodkoch v SR
         </h3>
         <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-          Následovné štatistiky boli získané z <a href="https://www.socpoist.sk/kto-som/sporitel-v-ii-pilieri/dochodok-z-ii-piliera/dalsie-informacie/statisticke-udaje-dochodkov-z?ref=2388" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">Výročnej správy Sociálnej poisťovne za rok 2024</a>, <a href="https://www.socpoist.sk/kto-som/sporitel-v-ii-pilieri/dochodok-z-ii-piliera/dalsie-informacie/statisticke-udaje-dochodkov-z?ref=2388" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">údajov o II. piliery</a>, a z dát
+          Následovné štatistiky boli získané z <a href="https://www.socpoist.sk/kto-som/sporitel-v-ii-pilieri/dochodok-z-ii-piliera/dalsie-informacie/statisticke-udaje-dochodkov-z?ref=2388" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">Výročnej správy Sociálnej poisťovne za rok 2024</a>, <a href="https://www.socpoist.sk/kto-som/sporitel-v-ii-pilieri/dochodok-z-ii-piliera/dalsie-informacie/statisticke-udaje-dochodkov-z?ref=2388" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">údajov o II. pilieri</a>, a z dát
           <a href="https://data.statistics.sk/api/v2/dataset/om3802rr/SK0/all/T,M,F?lang=sk&type=json" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis"> Štatistického úradu SR</a>.
         </p>
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
