@@ -24,6 +24,7 @@ import AlcoTax from "../../_components/alcotax/page";
 import Ustava from "../../_components/ustava/page";
 import Dochodkovo from "../../_components/dochodkovo/page";
 
+
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
   if (!post) {
