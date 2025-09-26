@@ -22,6 +22,8 @@ import Krimianalytika from "../../_components/krimianalytika/page";
 import TradeSK from "../../_components/tradesk/page";
 import AlcoTax from "../../_components/alcotax/page";
 import Ustava from "../../_components/ustava/page";
+import Dochodkovo from "../../_components/dochodkovo/page";
+
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -56,6 +58,7 @@ export default async function Post({ params }: Params) {
         {post.code.name === "TradeSK" && <TradeSK />}
         {post.code.name === "AlcoTax" && <AlcoTax />}
         {post.code.name === "Ustava" && <Ustava />}
+        {post.code.name === "Dochodkovo" && <Dochodkovo />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>
