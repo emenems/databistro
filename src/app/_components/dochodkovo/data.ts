@@ -145,3 +145,29 @@ export const dataMeasures = {
 };
 
 export const pensionCost = 912; // in millions EUR
+
+export const pensionData = [
+  {"year":2002,"pension_average":203.0,"pension_average_fit":196.5,"pension_real":203.0,"pension_real_fit":201.8,"pension_growth":null,"inflation":3.3},
+  {"year":2003,"pension_average":216.0,"pension_average_fit":214.3,"pension_real":199.1,"pension_real_fit":207.0,"pension_growth":6.4,"inflation":8.5},
+  {"year":2004,"pension_average":234.0,"pension_average_fit":232.1,"pension_real":200.6,"pension_real_fit":212.1,"pension_growth":8.33,"inflation":7.5},
+  {"year":2005,"pension_average":256.0,"pension_average_fit":249.8,"pension_real":213.7,"pension_real_fit":217.3,"pension_growth":9.4,"inflation":2.7},
+  {"year":2006,"pension_average":273.0,"pension_average_fit":267.6,"pension_real":218.1,"pension_real_fit":222.5,"pension_growth":6.64,"inflation":4.5},
+  {"year":2007,"pension_average":295.0,"pension_average_fit":285.4,"pension_real":229.2,"pension_real_fit":227.6,"pension_growth":8.06,"inflation":2.8},
+  {"year":2008,"pension_average":313.0,"pension_average_fit":303.1,"pension_real":232.5,"pension_real_fit":232.8,"pension_growth":6.1,"inflation":4.6},
+  {"year":2009,"pension_average":340.0,"pension_average_fit":320.9,"pension_real":248.6,"pension_real_fit":237.9,"pension_growth":8.63,"inflation":1.6},
+  {"year":2010,"pension_average":353.0,"pension_average_fit":338.7,"pension_real":255.6,"pension_real_fit":243.1,"pension_growth":3.82,"inflation":1.0},
+  {"year":2011,"pension_average":362.0,"pension_average_fit":356.5,"pension_real":252.2,"pension_real_fit":248.2,"pension_growth":2.55,"inflation":3.9},
+  {"year":2012,"pension_average":376.0,"pension_average_fit":374.2,"pension_real":252.9,"pension_real_fit":253.4,"pension_growth":3.87,"inflation":3.6},
+  {"year":2013,"pension_average":391.0,"pension_average_fit":392.0,"pension_real":259.4,"pension_real_fit":258.5,"pension_growth":3.99,"inflation":1.4},
+  {"year":2014,"pension_average":400.0,"pension_average_fit":409.8,"pension_real":265.6,"pension_real_fit":263.7,"pension_growth":2.3,"inflation":-0.1},
+  {"year":2015,"pension_average":411.0,"pension_average_fit":427.5,"pension_real":273.7,"pension_real_fit":268.9,"pension_growth":2.75,"inflation":-0.3},
+  {"year":2016,"pension_average":417.0,"pension_average_fit":445.3,"pension_real":279.1,"pension_real_fit":274.0,"pension_growth":1.46,"inflation":-0.5},
+  {"year":2017,"pension_average":428.0,"pension_average_fit":463.1,"pension_real":282.8,"pension_real_fit":279.2,"pension_growth":2.64,"inflation":1.3},
+  {"year":2018,"pension_average":444.0,"pension_average_fit":480.9,"pension_real":286.2,"pension_real_fit":284.3,"pension_growth":3.74,"inflation":2.5},
+  {"year":2019,"pension_average":460.0,"pension_average_fit":498.6,"pension_real":288.7,"pension_real_fit":289.5,"pension_growth":3.6,"inflation":2.7},
+  {"year":2020,"pension_average":487.0,"pension_average_fit":516.4,"pension_real":300.0,"pension_real_fit":294.6,"pension_growth":5.87,"inflation":1.9},
+  {"year":2021,"pension_average":506.0,"pension_average_fit":534.2,"pension_real":302.0,"pension_real_fit":299.8,"pension_growth":3.9,"inflation":3.2},
+  {"year":2022,"pension_average":519.0,"pension_average_fit":552.0,"pension_real":274.6,"pension_real_fit":305.0,"pension_growth":2.57,"inflation":12.8},
+  {"year":2023,"pension_average":649.0,"pension_average_fit":569.7,"pension_real":310.8,"pension_real_fit":310.1,"pension_growth":25.05,"inflation":10.5},
+  {"year":2024,"pension_average":683.1,"pension_average_fit":587.5,"pension_real":318.2,"pension_real_fit":315.3,"pension_growth":5.25,"inflation":2.8}
+];

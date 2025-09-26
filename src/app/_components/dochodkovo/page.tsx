@@ -1,7 +1,7 @@
 'use client';
 import AverageSalaryPension from "./AverageSalaryPension";
 import FunFactCard from "./FunFacts";
-// import PensionInflationChart from "./PensionInflationChart";
+import PensionInflationChart from "./PensionInflationChart";
 import StackYourPension from "./StackYourPension";
 const Page = () => {
   return (
@@ -9,7 +9,7 @@ const Page = () => {
       <AverageSalaryPension />
       <FunFactCard />
       <StackYourPension />
-      {/* <PensionInflationChart /> */}
+      <PensionInflationChart />
     </>
   );
 };

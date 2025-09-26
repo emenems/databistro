@@ -42,9 +42,12 @@ const FunFactCard = () => {
         <h3 className="text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
           Zaujímavosti a fakty o dôchodkoch v SR
         </h3>
-        <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
+        {/* <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
           Následovné štatistiky boli získané z <a href="https://www.socpoist.sk/kto-som/sporitel-v-ii-pilieri/dochodok-z-ii-piliera/dalsie-informacie/statisticke-udaje-dochodkov-z?ref=2388" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">Výročnej správy Sociálnej poisťovne za rok 2024</a>, <a href="https://www.socpoist.sk/kto-som/sporitel-v-ii-pilieri/dochodok-z-ii-piliera/dalsie-informacie/statisticke-udaje-dochodkov-z?ref=2388" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">údajov o II. pilieri</a>, a z dát
           <a href="https://data.statistics.sk/api/v2/dataset/om3802rr/SK0/all/T,M,F?lang=sk&type=json" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis"> Štatistického úradu SR</a>.
+        </p> */}
+        <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
+          Slovensko starne, rodové rozdiely v penziách pretrvávajú a udržateľnosť systému čoraz viac stojí na dodatočnej dotácii štátu, kým II. pilier zatiaľ hrá len vedľajšiu rolu.
         </p>
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {data.map((item) => (

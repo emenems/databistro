@@ -36,7 +36,7 @@ const AverageSalaryPension = () => {
           Priemerný plat a dôchodky v roku 2024
         </h3>
         <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-          Pre porovnanie je uvedené aj <a href="https://www.employment.gov.sk/sk/rodina-socialna-pomoc/hmotna-nudza/zivotne-minimum/" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">životné minimum</a>. Životné minimum je spoločensky uznaná minimálna hranica príjmov fyzickej osoby, pod ktorou nastáva stav jej hmotnej núdze (udávané vždy k 1. júlu bežného kalendárneho roka).
+          Pre porovnanie je uvedené aj <a href="https://www.employment.gov.sk/sk/rodina-socialna-pomoc/hmotna-nudza/zivotne-minimum/" className="text-tremor-default font-medium text-tremor-brand hover:text-tremor-brand-emphasis dark:text-dark-tremor-brand hover:dark:text-dark-tremor-brand-emphasis">životné minimum</a>. Životné minimum je spoločensky uznaná minimálna hranica príjmov fyzickej osoby, pod ktorou nastáva stav jej hmotnej núdze.
         </p>
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {data.map((item, idx) => (
