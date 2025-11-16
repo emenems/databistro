@@ -9,6 +9,7 @@
 * [Vercel](http://vercel.com/templates) deployment
 * [Tremor](https://www.tremor.so/docs/getting-started/installation) dashboard components
 * [Tailwind](https://tailwindcss.com) CSS
+* [Marimo](marimo.io) for optional "lite" posts
 
 ## Templates used
 
@@ -39,4 +40,5 @@ Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&ut
 2. add new blog assests (images) to `public/assets/blog/images/<blogName>`
 3. if a datablog with components, crete them in the `src/app/_components` folder
 4. if a datablog, import & use the `src/app/_components/<blogName>/page.tsx` component in `src/app/posts/[slug]/page.tsx` file 
+   - In case of "lite" posts that use [marimo & fastapi](https://docs.marimo.io/guides/deploying/programmatically/#fastapi-example), add a redirect to desired fastapi endpoint in `src/app/posts/[slug]/page.tsx` + set marimo path in `api/index.py`
 5. update the `src/app/sitemap.ts`

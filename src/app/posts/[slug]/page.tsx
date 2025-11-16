@@ -1,6 +1,6 @@
 
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "../../../lib/posts";
 import { CMS_NAME } from "../../../lib/constants";
 import markdownToHtml from "../../../lib/markdownToHtml";
@@ -30,7 +30,9 @@ export default async function Post({ params }: Params) {
   if (!post) {
     return notFound();
   }
-
+  if (post.code.name === "Hazard") {
+    redirect("/hazard");
+  }
   const content = await markdownToHtml(post.content || "");
   return (
     <main>
