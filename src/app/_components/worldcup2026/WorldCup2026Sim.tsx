@@ -423,7 +423,7 @@ export default function WorldCup2026Sim() {
         {aggregated ? (
           <Card className="p-4">
             <h3 className="font-semibold">
-              Agregované výsledky (priemer po {aggregated.runs} simuláciách)
+              Agregované výsledky - počet tímov pre jednotlivé fázy (priemer po {aggregated.runs} simuláciách)
             </h3>
 
             <div className="mt-3 space-y-3">
@@ -803,12 +803,12 @@ export default function WorldCup2026Sim() {
                   <Tab
                     className="w-full justify-center ui-selected:text-tremor-content-strong ui-selected:dark:text-dark-tremor-content-strong"
                   >
-                    Skupiny
+                    Skupinová fáza
                   </Tab>
                   <Tab
                     className="w-full justify-center ui-selected:text-tremor-content-strong ui-selected:dark:text-dark-tremor-content-strong"
                   >
-                    Vyraďovanie
+                    Vyraďovacia fáza
                   </Tab>
                 </TabList>
               </div>
