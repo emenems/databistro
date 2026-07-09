@@ -2,94 +2,22 @@
 
 import { useState } from "react";
 import { ComposableMap, Geographies, Geography, Graticule } from "react-simple-maps";
+import { scaleLinear } from 'd3-scale';
 import { RadioGroup } from '@headlessui/react';
 import { tradeData as tradeDataLatest, summaryData as tabs } from './tradedata';
 import TradeCard from "./tradecard";
 import { classNames, valueFormatter as formatValue } from "./tradeutils";
 
-function clamp01(t: number) {
-  return Math.min(1, Math.max(0, t));
-}
-
-function hexToRgb(hex: string) {
-  const normalized = hex.replace("#", "");
-  const full =
-    normalized.length === 3
-      ? normalized
-          .split("")
-          .map((c) => c + c)
-          .join("")
-      : normalized;
-  const num = parseInt(full, 16);
-  return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255,
-  };
-}
-
-function rgbToHex(r: number, g: number, b: number) {
-  const toHex = (v: number) => v.toString(16).padStart(2, "0");
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toLowerCase();
-}
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
-
-function interpolateHexColor(from: string, to: string, tRaw: number) {
-  const t = clamp01(tRaw);
-  const a = hexToRgb(from);
-  const b = hexToRgb(to);
-  return rgbToHex(
-    Math.round(lerp(a.r, b.r, t)),
-    Math.round(lerp(a.g, b.g, t)),
-    Math.round(lerp(a.b, b.b, t)),
-  );
-}
-
-// Minimal replacement for `d3-scale` linear color scales.
-// Returns a function that maps a value to a hex color using piecewise linear segments.
-function createPiecewiseLinearScale(domain: number[], range: string[]) {
-  if (domain.length < 2) {
-    throw new Error("createPiecewiseLinearScale: domain must contain at least 2 points");
-  }
-  if (domain.length !== range.length) {
-    throw new Error("createPiecewiseLinearScale: domain and range must have same length");
-  }
-
-  return (value: number) => {
-    if (value <= domain[0]) return range[0];
-    const lastIdx = domain.length - 1;
-    if (value >= domain[lastIdx]) return range[lastIdx];
-
-    // Find the segment [i, i+1] that contains `value`.
-    for (let i = 0; i < lastIdx; i++) {
-      const d0 = domain[i];
-      const d1 = domain[i + 1];
-      if (value >= d0 && value <= d1) {
-        const t = (value - d0) / (d1 - d0 || 1);
-        return interpolateHexColor(range[i], range[i + 1], t);
-      }
-    }
-
-    // Fallback (shouldn't happen due to clamping above).
-    return range[lastIdx];
-  };
-}
-
 function getColorScale(selectedType: string) {
   if (selectedType === 'Bilancia') {
-    return createPiecewiseLinearScale(
-      [-450, 0, 450],
-      ["#f43f5e", "#DDDDDD", "#0ea5e9"],
-    );
+    return scaleLinear<string>()
+      .domain([-450, 0, 450])
+      .range(['#f43f5e', '#DDDDDD', '#0ea5e9']);
   } else {
     // use blue for exports and red for imports
-    return createPiecewiseLinearScale(
-      [0, 4000],
-      ["#DDDDDD", selectedType === 'Vývoz' ? '#0ea5e9' : '#f43f5e'],
-    );
+    return scaleLinear<string>()
+      .domain([0, 4000])
+      .range(['#DDDDDD', selectedType === 'Vývoz' ? '#0ea5e9' : '#f43f5e']);
   }
 }
 
