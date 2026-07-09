@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Card,
   Button,
@@ -70,6 +70,7 @@ import {
   type KnockoutMatch,
   type KnockoutRound,
 } from './worldcup2026Simulator';
+import defaultAggregated from './defaultAggregated.json';
 
 function getTeamFlag(teamName: string) {
   switch (teamName) {
@@ -235,17 +236,13 @@ export default function WorldCup2026Sim() {
   const [isAggregating, setIsAggregating] = useState<boolean>(false);
   const [aggregationProgress, setAggregationProgress] = useState<number>(0);
   const [aggregationTotalRuns, setAggregationTotalRuns] = useState<number>(0);
-  const [simRuns, setSimRuns] = useState<number>(10000);
+  const [simRuns, setSimRuns] = useState<number>(100000);
   const [aggregated, setAggregated] = useState<{
     runs: number;
     tournamentConfedCounts: Record<string, number>;
-    avgCountsByStage: Record<string, Record<string, number>>; // stageKey -> confed -> avg teams
-    pUefaGe6: number;
-    pUefaGe7: number;
-    pUefaGe8: number;
-    pCafLe1: number;
-    pCafLe2: number;
-  } | null>(null);
+    avgCountsByStage: Record<string, Record<string, number>>;
+    confedCountDists: Record<string, Record<string, number[]>>;
+  }>(defaultAggregated);
   const [simulation, setSimulation] = useState<SimulatedWorldCup2026 | null>(null);
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
   const simId = useRef(0);
@@ -274,36 +271,31 @@ export default function WorldCup2026Sim() {
 
     const stageKeys = stageDefs.map((d) => d.key);
 
+    // confedCountFreqs[stageKey][confed][count] = number of simulations with exactly `count` teams
+    const confedCountFreqs: Record<string, Record<string, number[]>> = {};
+    for (const d of stageDefs) confedCountFreqs[d.key] = {};
+
     const runsInt = Math.max(1, Math.floor(runs));
-    let hitsUefaGe6 = 0;
-    let hitsUefaGe7 = 0;
-    let hitsUefaGe8 = 0;
-    let hitsCafLe1 = 0;
-    let hitsCafLe2 = 0;
     const progressEvery = Math.max(1, Math.floor(runsInt / 100));
 
     for (let i = 0; i < runsInt; i++) {
       const sim = simulateWorldCup2026OnceStageParticipants(drawProbPercent / 100);
-
-      const quarterfinalTeams = sim.stageParticipants["Quarterfinal"];
-      const qUefa = quarterfinalTeams.filter((t) => t.confed === "UEFA").length;
-      const qCaf = quarterfinalTeams.filter((t) => t.confed === "CAF").length;
-
-      if (qUefa >= 6) hitsUefaGe6++;
-      if (qUefa >= 7) hitsUefaGe7++;
-      if (qUefa >= 8) hitsUefaGe8++;
-      if (qCaf <= 1) hitsCafLe1++;
-      if (qCaf <= 2) hitsCafLe2++;
 
       for (const stageKey of stageKeys) {
         const teams = sim.stageParticipants[stageKey as KnockoutRound];
         const confedCounts = new Map<string, number>();
         for (const t of teams) confedCounts.set(t.confed, (confedCounts.get(t.confed) ?? 0) + 1);
 
-        // `Map#entries()` is an iterable iterator; materialize to avoid TS requiring
-        // `downlevelIteration` for `for...of` over iterators.
-        for (const [confed, cnt] of Array.from(confedCounts.entries())) {
+        for (const confed of confedOrder()) {
+          const cnt = confedCounts.get(confed) ?? 0;
           sums[stageKey][confed] = (sums[stageKey][confed] ?? 0) + cnt;
+
+          if (!confedCountFreqs[stageKey][confed]) {
+            confedCountFreqs[stageKey][confed] = [];
+          }
+          const arr = confedCountFreqs[stageKey][confed];
+          while (arr.length <= cnt) arr.push(0);
+          arr[cnt]++;
         }
       }
 
@@ -314,11 +306,6 @@ export default function WorldCup2026Sim() {
     }
 
     setAggregationProgress(1);
-    const pUefaGe6 = hitsUefaGe6 / runsInt;
-    const pUefaGe7 = hitsUefaGe7 / runsInt;
-    const pUefaGe8 = hitsUefaGe8 / runsInt;
-    const pCafLe1 = hitsCafLe1 / runsInt;
-    const pCafLe2 = hitsCafLe2 / runsInt;
     const avgCountsByStage: Record<string, Record<string, number>> = {};
     for (const stageKey of stageKeys) {
       avgCountsByStage[stageKey] = {};
@@ -327,24 +314,22 @@ export default function WorldCup2026Sim() {
       }
     }
 
+    const confedCountDists: Record<string, Record<string, number[]>> = {};
+    for (const stageKey of stageKeys) {
+      confedCountDists[stageKey] = {};
+      for (const [confed, freqs] of Object.entries(confedCountFreqs[stageKey])) {
+        confedCountDists[stageKey][confed] = freqs.map((f) => f / runsInt);
+      }
+    }
+
     setAggregated({
       runs: runsInt,
       tournamentConfedCounts,
-      avgCountsByStage: avgCountsByStage,
-      pUefaGe6,
-      pUefaGe7,
-      pUefaGe8,
-      pCafLe1,
-      pCafLe2,
+      avgCountsByStage,
+      confedCountDists,
     });
     setIsAggregating(false);
   };
-
-  useEffect(() => {
-    // Initial pre-computation (fast default) for the initial UI.
-    void runAggregation(drawProbPct, simRuns);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const runSimulation = async () => {
     const id = ++simId.current;
@@ -364,7 +349,7 @@ export default function WorldCup2026Sim() {
     <div className="mx-auto w-full max-w-full px-2 sm:max-w-6xl">
       <Card className="mt-8">
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">FIFA World Cup 2026: UEFA vs Afrika v štvrťfinále</h2>
+          <h2 className="text-2xl font-bold">FIFA World Cup 2026: koľko tímov a s akou pravdepodobnosťou z každej konfederácie sa dostane do vyraďovacích kôl?</h2>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
             <div>
@@ -377,10 +362,10 @@ export default function WorldCup2026Sim() {
                 name="sim-runs"
                 defaultValue={simRuns}
                 min={10000}
-                max={100000}
+                max={200000}
                 step={1000}
                 onChange={(e) =>
-                  setSimRuns(Math.min(100000, Math.max(10000, parseFloat(e.target.value) || 10000)))
+                  setSimRuns(Math.min(200000, Math.max(10000, parseFloat(e.target.value) || 10000)))
                 }
               />
             </div>
@@ -413,9 +398,10 @@ export default function WorldCup2026Sim() {
           </div>
 
           <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content leading-relaxed">
-            Výsledky sú odhad z Monte Carlo simulácií. Každý zápas je 50/50 (okrem remízy podľa nastavenia); v skupinách
+            Výsledky sú odhad z Monte Carlo simulácií. Každý zápas je 50/50 (okrem remízy podľa nastavenia), t.j. každý tím je rovnako silný.<br/>V skupinách podľa skutočného rozloženia pre rok 2026
             rozhodujú body (výhra 3, remíza 1) a pri rovnosti bodov sa poradie určí náhodne. Vo vyraďovaní remíza neexistuje
-            (predĺženie/penalty modelujeme ako spravodlivé 50/50).
+            (predĺženie/penalty modelujeme ako spravodlivé 50/50).<br/>
+            Top 2 z každého z 12 skupín postúpia automaticky, ďalšie 4 postúpia medzi 12 tretími tímami podľa bodov (v prípade rovnosti bodov náhodne). Následne 32 tímov hrá vyraďovací pavúk: prehrávajúci vypadáva (remíza sa „prelomí“ predĺžením/penaltami v tomto modeli ako spravodlivé 50/50).
           </p>
         </div>
       </Card>
@@ -515,55 +501,165 @@ export default function WorldCup2026Sim() {
         ) : null}
 
         {aggregated ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-6">
-            <Card className="p-4">
-              <h3 className="font-semibold">
-                Odhad scenárov pre UEFA (z {aggregated.runs} simulácií)
-              </h3>
-              <div className="mt-3 space-y-2">
-                <div className="flex justify-between">
-                  <span>UEFA &gt;= 6 tímov</span>
-                  <span className="font-semibold">{formatPercent(aggregated.pUefaGe6)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>UEFA &gt;= 7 tímov</span>
-                  <span className="font-semibold">{formatPercent(aggregated.pUefaGe7)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>UEFA &gt;= 8 tímov</span>
-                  <span className="font-semibold">{formatPercent(aggregated.pUefaGe8)}</span>
-                </div>
-              </div>
-            </Card>
+          <Card className="p-4 mt-6">
+            <h3 className="font-semibold">
+              Rozdelenie pravdepodobností podľa konfederácií (z {aggregated.runs} simulácií)
+            </h3>
+            <p className="mt-1 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+              Aká je pravdepodobnosť, že konfederácia bude mať aspoň N tímov v danom kole?
+            </p>
 
-            <Card className="p-4">
-              <h3 className="font-semibold">
-                Odhad scenárov pre Afriku (CAF) (z {aggregated.runs} simulácií)
-              </h3>
-              <div className="mt-3 space-y-2">
-                <div className="flex justify-between">
-                  <span>CAF &lt;= 1 tím</span>
-                  <span className="font-semibold">{formatPercent(aggregated.pCafLe1)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>CAF &lt;= 2 tímy</span>
-                  <span className="font-semibold">{formatPercent(aggregated.pCafLe2)}</span>
-                </div>
+            <TabGroup className="mt-3" defaultIndex={2}>
+              <TabList variant="solid" className="w-full rounded-tremor-small">
+                {[
+                  { key: "Round of 32", label: "16-finále" },
+                  { key: "Round of 16", label: "8-finále" },
+                  { key: "Quarterfinal", label: "Štvrťfinále" },
+                  { key: "Semifinal", label: "Semi-finále" },
+                  { key: "Final", label: "Finále" },
+                ].map((d) => (
+                  <Tab
+                    key={d.key}
+                    className="w-full justify-center ui-selected:text-tremor-content-strong ui-selected:dark:text-dark-tremor-content-strong"
+                  >
+                    {d.label}
+                  </Tab>
+                ))}
+              </TabList>
+
+              <TabPanels>
+                {[
+                  { key: "Round of 32", label: "16-finále" },
+                  { key: "Round of 16", label: "8-finále" },
+                  { key: "Quarterfinal", label: "Štvrťfinále" },
+                  { key: "Semifinal", label: "Semi-finále" },
+                  { key: "Final", label: "Finále" },
+                ].map((stage) => {
+                  const dists = aggregated.confedCountDists[stage.key] ?? {};
+                  const tournamentConfedCounts = aggregated.tournamentConfedCounts;
+                  const confeds = confedOrder()
+                    .slice()
+                    .sort((a, b) => {
+                      const ca = tournamentConfedCounts[a] ?? 0;
+                      const cb = tournamentConfedCounts[b] ?? 0;
+                      if (cb !== ca) return cb - ca;
+                      return confedOrder().indexOf(a) - confedOrder().indexOf(b);
+                    });
+
+                  // Compute cumulative P(>= n) for each confederation
+                  const cumulDists: Record<string, number[]> = {};
+                  let maxCol = 1;
+                  for (const c of confeds) {
+                    const dist = dists[c] ?? [];
+                    const cumul: number[] = [];
+                    let tail = 0;
+                    for (let i = dist.length - 1; i >= 0; i--) {
+                      tail += dist[i] ?? 0;
+                      cumul[i] = tail;
+                    }
+                    cumulDists[c] = cumul;
+                    for (let i = cumul.length - 1; i >= 1; i--) {
+                      if (cumul[i] > 0.0001) { maxCol = Math.max(maxCol, i); break; }
+                    }
+                  }
+                  const countCols = Array.from({ length: maxCol }, (_, i) => i + 1);
+
+                  return (
+                    <TabPanel key={stage.key}>
+                      <div className="overflow-x-auto mt-3">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="text-left">
+                              <th className="font-normal text-tremor-content-strong py-2">Konfederácia</th>
+                              {countCols.map((n) => (
+                                <th
+                                  key={n}
+                                  className="font-normal text-tremor-content-strong text-right py-2 px-2"
+                                >
+                                  {n}+ {n === 1 ? 'tím' : (n >= 2 && n <= 4 ? 'tímy' : 'tímov')}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {confeds.map((c) => {
+                              const cumul = cumulDists[c] ?? [];
+                              return (
+                                <tr
+                                  key={c}
+                                  className="border-t border-tremor-border dark:border-dark-tremor-border"
+                                >
+                                  <td className="py-2">
+                                    <span
+                                      className={`text-xs px-2 py-0.5 rounded inline-flex items-center justify-center whitespace-nowrap min-w-[92px] ${getConfedBadgeClasses(c)}`}
+                                    >
+                                      {c}
+                                    </span>
+                                  </td>
+                                  {countCols.map((n) => {
+                                    const p = cumul[n] ?? 0;
+                                    return (
+                                      <td
+                                        key={n}
+                                        className={`text-right py-2 px-2 tabular-nums ${
+                                          p >= 0.1
+                                            ? 'font-semibold'
+                                            : p < 0.001
+                                              ? 'text-tremor-content-subtle dark:text-dark-tremor-content-subtle'
+                                              : ''
+                                        }`}
+                                      >
+                                        {p < 0.0001 ? '–' : formatPercent(p)}
+                                      </td>
+                                    );
+                                  })}
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </TabPanel>
+                  );
+                })}
+              </TabPanels>
+            </TabGroup>
+
+            <div className="mt-5 border-t border-tremor-border dark:border-dark-tremor-border pt-4">
+              <h4 className="text-sm font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong mb-2">
+                Legenda konfederácií
+              </h4>
+              <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 text-sm text-tremor-content dark:text-dark-tremor-content">
+                {[
+                  { confed: "UEFA", desc: "Európa (Union of European Football Associations)" },
+                  { confed: "CONMEBOL", desc: "Južná Amerika (Confederación Sudamericana de Fútbol)" },
+                  { confed: "CAF", desc: "Afrika (Confederation of African Football)" },
+                  { confed: "AFC", desc: "Ázia + Austrália (Asian Football Confederation)" },
+                  { confed: "CONCACAF", desc: "Severná a Stredná Amerika + Karibik" },
+                  { confed: "OFC", desc: "Oceánia (Oceania Football Confederation)" },
+                ].map((item) => (
+                  <div key={item.confed} className="flex items-center gap-2">
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded inline-flex items-center justify-center whitespace-nowrap min-w-[92px] ${getConfedBadgeClasses(item.confed)}`}
+                    >
+                      {item.confed}
+                    </span>
+                    <span>{item.desc}</span>
+                  </div>
+                ))}
               </div>
-            </Card>
-          </div>
+            </div>
+          </Card>
         ) : null}
       </div>
 
       <Card className="mt-8 p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h3 className="text-xl font-semibold">Ukážkový turnaj</h3>
+            <h3 className="text-xl font-semibold">Náhodný turnaj</h3>
             <p className="mt-1 text-tremor-default leading-relaxed">
               Vygeneruje sa <b>jeden náhodný turnaj</b>:
-              Top 2 z každého z 12 skupín postúpia automaticky, ďalšie 4 postúpia medzi 12 tretími tímami podľa bodov
-              (v prípade rovnosti bodov náhodne). Následne 32 tímov hrá vyraďovací pavúk: prehrávajúci vypadáva (remíza sa
-              „prelomí“ predĺžením/penaltami v tomto modeli ako spravodlivé 50/50).
+              Klikni na "Spustiť simuláciu" pre vygenerovanie výsledkov turnaja vrátane tabuliek skupín a vyraďovacieho pavúka. Kľudne simuláciu spusti viackrát, aby si videl rôzne možné výsledky a aká malá pravdepodobnosť je, že tímy UEFA budú mať toľko zástupcov vo vyradovacích kolách.
             </p>
           </div>
           <div className="w-full sm:w-auto">
@@ -868,9 +964,7 @@ export default function WorldCup2026Sim() {
             </TabGroup>
           </div>
         ) : (
-          <div className="mt-6 text-tremor-default">
-            Klikni na "Spustiť simuláciu" pre vygenerovanie náhodného turnaja a tabuľky skupín.
-          </div>
+          null
         )}
       </Card>
     </div>

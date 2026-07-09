@@ -87,7 +87,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: 'https://www.databistro.eu/posts/fifa-world-cup-2026-quarterfinal-scenarios',
+      url: 'https://www.databistro.eu/posts/fifa-world-cup-2026',
       lastModified: new Date('2026-07-08'),
       changeFrequency: 'monthly',
       priority: 0.8,
