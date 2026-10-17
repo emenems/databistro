@@ -5,7 +5,7 @@ code:
   source: ../../_components/demography/page
   name: DemographyCharts
 excerpt: "Demografická bilancia pre Slovensko a susedné štáty Európskej Únie za posledných dvadsať rokov v jednoduchej vizualizácii. "
-seoTitle: "Demografia Slovenska a EÚ: populácia za 20 rokov"
+seoTitle: "Vývoj populácie Slovenska a EÚ za 20 rokov"
 description: "Demografická bilancia Slovenska a susedných štátov EÚ za posledných dvadsať rokov: vývoj populácie, vekové skupiny a medián veku v jednoduchej vizualizácii."
 coverImage: "/assets/blog/images/demography/cover.png"
 date: "2024-04-17T00:00:00Z"

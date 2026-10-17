@@ -5,7 +5,7 @@ code:
   source: ../../_components/airqualitysk/page
   name: AirQualitySKCharts
 excerpt: "Výročné zhodnotenie kvality ovzdušia na Slovensku"
-seoTitle: "Kde na Slovensku sa dýcha najlepšie? Ovzdušie"
+seoTitle: "Kvalita ovzdušia na Slovensku podľa krajov"
 description: "Výročné zhodnotenie kvality ovzdušia na Slovensku v interaktívnych grafoch: pozrite sa, kde sa dýcha najlepšie a ako sa kvalita vzduchu mení v čase."
 coverImage: "/assets/blog/images/airqualitysk/cover.png"
 date: "2024-04-25T00:00:00Z"

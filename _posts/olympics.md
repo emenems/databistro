@@ -5,7 +5,7 @@ code:
   source: ../../_components/olympics/page
   name: OlympicSports
 excerpt: "Pozeráte olympiádu a rozmýšľate aký šport by vás dostal z gauča s najvyššou pravdepodobnosťou na športovisko ako účastník? Podľa LLM modelov sú to tieto športy."
-seoTitle: "Aký šport vás dostane na olympiádu? Tipuje LLM"
+seoTitle: "Ako sa dostať na olympiádu? Najschodnejšie športy"
 description: "Pozeráte olympiádu a rozmýšľate, ktorý šport by vás z gauča dostal na športovisko s najvyššou pravdepodobnosťou? Podľa LLM modelov sú to tieto športy."
 coverImage: "/assets/blog/images/olympics/cover.png"
 date: "2024-08-08T00:00:00Z"

@@ -5,7 +5,7 @@ code:
   source: ../../_components/rentcalc/page
   name: RentCalc
 excerpt: "Rýchly výpočet a vizualizácia nákladov & príjmov z prenájmu nehnuteľností a ich porovnanie s alternatívnimy investíciami."
-seoTitle: "Rent-kulačka: reálny príjem z prenájmu"
+seoTitle: "Kalkulačka prenájmu nehnuteľnosti: reálny výnos"
 description: "Rýchly výpočet a vizualizácia nákladov a príjmov z prenájmu nehnuteľností a ich porovnanie s alternatívnymi investíciami. Zistite reálny výnos z prenájmu."
 coverImage: "/assets/blog/images/rentcalc/cover.png"
 date: "2024-07-21T00:00:00Z"

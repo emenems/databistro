@@ -5,7 +5,7 @@ code:
   source: ../../_components/trashboard/page
   name: Trashboard
 excerpt: "Identické hodnoty sú v tomto príklade zámerne prezentované raz spôsobom nabudzujúcim pozitívny a raz negativny dojem."
-seoTitle: "Dashboard alebo Trashboard? Vizualizácia dát"
+seoTitle: "Zavádzajúce grafy: ako vizualizácia mení dojem"
 description: "Ako spôsob vizualizácie ovplyvňuje interpretáciu dát? Identické hodnoty sú zámerne prezentované raz pozitívne a raz negatívne, aby bol rozdiel vidieť."
 coverImage: "/assets/blog/images/trashboard/cover.png"
 date: "2024-10-20T00:00:00Z"

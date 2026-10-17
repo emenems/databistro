@@ -5,7 +5,7 @@ code:
   source: ../../_components/ustava/page
   name: Ustava
 excerpt: "Porovnanie Ústavy Slovenskej republiky s ústavami iných krajín s podobným dátumom vzniku: kto má najdlhšiu ústavu, kto ju najčastejšie mení a ako jednoducho či zložito sa ústava dá zmeniť? Zhrnutie: Slovensko je tentoraz na čele!"
-seoTitle: "Ústava SR v číslach: dĺžka, zmeny a ich náročnosť"
+seoTitle: "Ústava SR v číslach: dĺžka a zmeny ústavy"
 description: "Ústava Slovenskej republiky v porovnaní s ústavami krajín s podobným dátumom vzniku: kto má najdlhšiu, kto ju mení najčastejšie a ako ťažko sa mení?"
 coverImage: "/assets/blog/images/ustava/cover.png"
 date: "2025-07-27T00:00:00Z"

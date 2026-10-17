@@ -5,7 +5,7 @@ code:
   source: ../../_components/parliament/page
   name: Parliament
 excerpt: "Národná rada Slovenskej republiky v číslach: koľkokrát sa hlasovalo, ako často hlasovali poslanci na svoje narodeniny, z ktorého kraja je najviac poslancov, o ktorej hodine sa hlasuje najčastejši..."
-seoTitle: "Parlament 2024 v číslach: hlasovania poslancov"
+seoTitle: "Hlasovania poslancov NR SR 2024 v číslach"
 description: "Národná rada SR v číslach: koľkokrát sa hlasovalo, ako hlasovali poslanci na svoje narodeniny, z ktorého kraja je ich najviac a kedy sa hlasuje najčastejšie."
 coverImage: "/assets/blog/images/parliament/cover.png"
 date: "2024-12-30T00:00:00Z"
