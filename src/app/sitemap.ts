@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: 'https://www.databistro.eu/posts/telcosk',
-      lastModified: new Date('2024-04-16'),
+      lastModified: new Date('2026-10-17'),
       changeFrequency: 'monthly',
       priority: 0.8,
     },

@@ -6,6 +6,8 @@ import { AreaChart, Card } from '@tremor/react';
 //    - Telekom: https://finstat.sk/35763469
 //    - Orange: https://finstat.sk/35697270
 //    - O2 https://finstat.sk/35848863 and https://finstat.sk/47259116
+// Figures 2023-2025 taken from the statements of selected data (individual financial
+// statements, "Tržby celkom" and profit after tax) filed in https://www.registeruz.sk
 const profitData = [
     {
         'year': 2018,
@@ -39,9 +41,22 @@ const profitData = [
     },
     {
         'year': 2023,
-        // 'O2 Slovakia*': 33212000.0,
+        'O2 Slovakia*': 26919000.0,
         'Orange Slovensko': 82224000.0,
         'Slovak Telekom': 156871000.0,
+    },
+    {
+        'year': 2024,
+        'O2 Slovakia*': 29065000.0,
+        'Orange Slovensko': 85659000.0,
+        // Slovak Telekom changed its accounting period in 2024: 1-5/2024 (86 729 000) + 6-12/2024 (54 160 000)
+        'Slovak Telekom': 140889000.0,
+    },
+    {
+        'year': 2025,
+        'O2 Slovakia*': 29445000.0,
+        'Orange Slovensko': 90493000.0,
+        'Slovak Telekom': 124303000.0,
     }
 ]
 
@@ -78,9 +93,22 @@ const revenueData = [
     },
     {
         'year': 2023,
-        // 'O2 Slovakia*': 315583000.0,
+        'O2 Slovakia*': 339309000.0,
         'Orange Slovensko': 590951000.0,
         'Slovak Telekom': 792523000.0,
+    },
+    {
+        'year': 2024,
+        'O2 Slovakia*': 349593000.0,
+        'Orange Slovensko': 576441000.0,
+        // Slovak Telekom changed its accounting period in 2024: 1-5/2024 (339 827 000) + 6-12/2024 (507 268 000)
+        'Slovak Telekom': 847095000.0,
+    },
+    {
+        'year': 2025,
+        'O2 Slovakia*': 364576000.0,
+        'Orange Slovensko': 583487000.0,
+        'Slovak Telekom': 864525000.0,
     }
 ]
 
@@ -103,7 +131,7 @@ export function TelcoAreaChart() {
                     valueFormatter={dataFormatter}
                     yAxisWidth={60}
                     minValue={200000000}
-                    maxValue={800000000}
+                    maxValue={1000000000}
                     onValueChange={(v) => console.log(v)}
                 />
             </div>
