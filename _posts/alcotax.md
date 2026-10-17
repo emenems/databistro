@@ -5,6 +5,8 @@ code:
   source: ../../_components/alcotax/page
   name: AlcoTax
 excerpt: "Koľko peňazí získa štát vďaka zlozvykom Slovákov? Najväčší výber daní je z tabakových výrobkov, na úrovni 2,8 miliónov eur za deň. Nasleduje tvrdý alkohol s 792 tisíc eur za deň. Na pivo a víno sú uvalené nižšie dane a štát vyberie približne 134 tisíc, resp. 15 tisíc eur denne."
+seoTitle: "Spotrebné dane z alkoholu a tabaku na Slovensku"
+description: "Koľko peňazí získa štát vďaka alkoholu a tabaku? Mesačný výber spotrebných daní, porovnanie s 13. dôchodkom a dane na krabičku cigariet, rum či pivo."
 coverImage: "/assets/blog/images/alcotax/cover.png"
 date: "2025-06-08T00:00:00Z"
 author:

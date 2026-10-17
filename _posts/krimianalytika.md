@@ -5,6 +5,8 @@ code:
   source: ../../_components/krimianalytika/page
   name: Krimianalytika
 excerpt: "Ako sa mení počet evidovaných kriminálnych činov a ich objasnenosť na Slovensku od roku 2012? Celkovo kriminalita na Slovensku klesá, zatiaľ čo objasnenosť stúpla len nepatrne. Smutným faktom však je, že znásilnenie a obchodovanie s ľuďmi sú jediné dve kategórie, kde je trend od roku 2012 stúpajúci."
+seoTitle: "Vývoj kriminality na Slovensku od roku 2012"
+description: "Ako sa mení počet kriminálnych činov a ich objasnenosť na Slovensku od roku 2012? Kriminalita klesá, no znásilnenie a obchodovanie s ľuďmi rastú."
 coverImage: "/assets/blog/images/krimianalytika/cover.png"
 date: "2025-02-21T00:00:00Z"
 author:

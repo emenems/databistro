@@ -4,7 +4,10 @@ titleKey: "SK Telco"
 code:
   source: ../../_components/telcosk/page
   name: TelcoSKCharts
-excerpt: "Ako da darí najvačším telekomunikačným operátorom na Slovenskom trhu?"
+excerpt: "Ako sa darí najväčším telekomunikačným operátorom na slovenskom trhu?"
+seoTitle: "Slovak Telekom, Orange a O2: obrat a zisk"
+description: "Ako sa darí najväčším telekomunikačným operátorom na Slovensku? Obrat a zisk Slovak Telekomu, Orange a O2 v rokoch 2018 až 2025 podľa účtovných závierok."
+updated: "2026-10-17T00:00:00Z"
 coverImage: "/assets/blog/images/telcosk/cover.png"
 date: "2024-04-16T00:00:00Z"
 author:

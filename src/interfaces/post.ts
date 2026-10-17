@@ -4,7 +4,10 @@ export type Post = {
   slug: string;
   title: string;
   titleKey: string;
+  seoTitle?: string;
+  description?: string;
   date: string;
+  updated?: string;
   coverImage: string;
   author: Author;
   excerpt: string;
