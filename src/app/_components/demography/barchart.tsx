@@ -15,7 +15,7 @@ import {
     separateEU
 } from '@/app/_components/demography/utils';
 
-export async function DemographyBarCharts ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
+export function DemographyBarCharts ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
     return (
         <>
             <div className="grid grid-cols-1 w-full">
@@ -25,7 +25,7 @@ export async function DemographyBarCharts ( { data = demographySeriesDemo }: { d
     );
 }
 
-export async function DemographyBarChart( { data = demographySeriesDemo}: { data: DemographySeries[] } ) {
+export function DemographyBarChart( { data = demographySeriesDemo}: { data: DemographySeries[] } ) {
     const dataEUmaxYear = getMaxYear(data, 'EU')
     const dataMinusEU = separateEU(data, dataEUmaxYear).dataMinusEU;
     const dataMinusEUminus20 = separateEU(data, dataEUmaxYear-20).dataMinusEU;

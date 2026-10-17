@@ -24,7 +24,7 @@ git clone https://github.com/emenems/databistro
 
 cd databistro
 
-npm install
+npm install   # requires Node.js >= 20.9
 
 npm run dev
 ```

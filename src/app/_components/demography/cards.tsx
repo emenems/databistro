@@ -21,7 +21,7 @@ import {
     getColor
 } from '@/app/_components/demography/utils';
 
-export async function DemographySummaryCards ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
+export function DemographySummaryCards ( { data = demographySeriesDemo }: { data: DemographySeries[] } ) {
     return (
         <>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 w-full">
@@ -34,7 +34,7 @@ export async function DemographySummaryCards ( { data = demographySeriesDemo }: 
     );
 }
 
-async function DemographyMiniGraph( { data = demographySeriesDemo, country = "SK" }: { data: DemographySeries[], country: string }) {
+function DemographyMiniGraph( { data = demographySeriesDemo, country = "SK" }: { data: DemographySeries[], country: string }) {
     const dataCountrymaxYear = getMaxYear(data, country)
     const countryCodes = ["AT", "CZ", "HU","PL"];
     return (
@@ -72,7 +72,7 @@ async function DemographyMiniGraph( { data = demographySeriesDemo, country = "SK
     );
 }
 
-async function DemographySummaryCard ( { data = demographySeriesDemo, country = "SK"}: { data: DemographySeries[], country: string } ) {
+function DemographySummaryCard ( { data = demographySeriesDemo, country = "SK"}: { data: DemographySeries[], country: string } ) {
     const dataCountrymaxYear = getMaxYear(data, country)
     const dataCountry = separateCountry(data, country, dataCountrymaxYear);
     let valueCountry = 0;
@@ -131,7 +131,7 @@ async function DemographySummaryCard ( { data = demographySeriesDemo, country = 
     );
 }
 
-export async function DemographyDonoughtChart( { data = demographySeriesDemo}: { data: DemographySeries[] } ) {
+export function DemographyDonoughtChart( { data = demographySeriesDemo}: { data: DemographySeries[] } ) {
     const dataEUmaxYear = getMaxYear(data, 'EU')
     const dataMinusEU = separateEU(data, dataEUmaxYear).dataMinusEU;
     const dataMinusEUsorted = dataMinusEU.sort((a, b) => b.value - a.value);
