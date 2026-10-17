@@ -20,5 +20,7 @@ ogImage:
  - Telekom: https://finstat.sk/35763469
  - Orange: https://finstat.sk/35697270
  - \* O2 prešlo v roku 2022 transformáciou. Do roku 2022 = https://finstat.sk/35848863 a po roku 2022 = https://finstat.sk/47259116
+ - Údaje za roky 2023 až 2025: Register účtovných závierok https://www.registeruz.sk (výkazy vybraných údajov z individuálnych účtovných závierok; obrat = tržby celkom, zisk = výsledok hospodárenia po zdanení)
+ - Slovak Telekom zmenil v roku 2024 účtovné obdobie. Údaj za rok 2024 je súčet období 1. – 5. 2024 a 6. – 12. 2024.
 
-_(dáta stiahnuté 16.04.2024)_
+_(dáta stiahnuté 16.04.2024, aktualizované 17.10.2026)_
