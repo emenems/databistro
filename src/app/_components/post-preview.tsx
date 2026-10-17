@@ -1,8 +1,7 @@
 import { type Author } from "@/interfaces/author";
 import Link from "next/link";
-import Avatar from "./avatar";
-import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";
+import { PostSpecimen } from "./post-specimen";
 
 type Props = {
   title: string;
@@ -11,35 +10,39 @@ type Props = {
   excerpt: string;
   author: Author;
   slug: string;
+  codeName?: string;
 };
 
 export function PostPreview({
   title,
-  coverImage,
   date,
   excerpt,
-  author,
   slug,
+  codeName,
 }: Props) {
   return (
-    <div>
-      <div className="mb-5">
-        <CoverImage slug={slug} title={title} src={coverImage} />
-      </div>
-      <h3 className="text-3xl mb-3 leading-snug">
+    <article className="border-t-2 border-neutral-950 pt-5 group flex flex-col justify-between">
+      <div>
         <Link
-          as={`/posts/${slug}`}
-          href="/posts/[slug]"
-          className="hover:underline"
+          href={`/posts/${slug}`}
+          aria-label={title}
+          className="block mb-4"
         >
-          {title}
+          <PostSpecimen slug={slug} codeName={codeName} />
         </Link>
-      </h3>
-      <div className="text-lg mb-4">
-        <DateFormatter dateString={date} />
+        <div className="mb-2">
+          <DateFormatter dateString={date} />
+        </div>
+        <h3 className="text-xl font-bold tracking-tight leading-snug text-neutral-950 mb-2.5">
+          <Link
+            href={`/posts/${slug}`}
+            className="group-hover:text-[#1D4ED8] transition-colors"
+          >
+            {title}
+          </Link>
+        </h3>
+        <p className="text-sm text-neutral-600 leading-relaxed">{excerpt}</p>
       </div>
-      <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
-      <Avatar name={author.name} picture={author.picture} excerpt=""/>
-    </div>
+    </article>
   );
 }

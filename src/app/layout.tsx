@@ -7,12 +7,16 @@ import {
   SITE_DESCRIPTION,
 } from "@/lib/constants";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,12 +42,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="sk">
+    <html lang="sk" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
         <meta name="theme-color" content="#000" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-white text-neutral-950 antialiased selection:bg-blue-600 selection:text-white`}>
         <div className="min-h-screen">{children}</div>
         <Analytics />
         <Footer />

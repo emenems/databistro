@@ -59,9 +59,13 @@ const config: Config = {
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
       },
       borderRadius: {
-        'tremor-small': '0.375rem',
-        'tremor-default': '0.5rem',
+        'tremor-small': '0.125rem',
+        'tremor-default': '0.125rem',
         'tremor-full': '9999px',
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'sans-serif'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
       fontSize: {
         'tremor-label': ['0.75rem', { lineHeight: '1rem' }],

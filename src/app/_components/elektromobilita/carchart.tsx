@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
   BarChart,
   Card,
@@ -59,10 +60,12 @@ const tabs = [
 ];
 
 export default function Example() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   return (
     <Card className="p-0">
       <div className="border-t border-tremor-border p-6 dark:border-dark-tremor-border">
-        <TabGroup>
+        <TabGroup index={selectedIndex} onIndexChange={setSelectedIndex}>
           <div className="md:flex md:items-center md:justify-between">
             <TabList
               variant="solid"
@@ -79,7 +82,7 @@ export default function Example() {
             </TabList>
           </div>
           <TabPanels>
-            {tabs.map((tab) => (
+            {tabs.map((tab, idx) => (
               <TabPanel key={tab.name}>
                 <ul
                   role="list"
@@ -102,28 +105,19 @@ export default function Example() {
                     </li>
                   ))}
                 </ul>
-                <BarChart
-                  data={tab.data}
-                  index="date"
-                  categories={tab.categories}
-                  colors={tab.colors}
-                  stack={true}
-                  showLegend={false}
-                  yAxisWidth={45}
-                  valueFormatter={valueFormatter}
-                  className="mt-10 hidden h-72 md:block"
-                />
-                <BarChart
-                  data={tab.data}
-                  index="date"
-                  categories={tab.categories}
-                  colors={tab.colors}
-                  stack={true}
-                  showLegend={false}
-                  showYAxis={false}
-                  valueFormatter={valueFormatter}
-                  className="mt-6 h-72 md:hidden"
-                />
+                {selectedIndex === idx && (
+                  <BarChart
+                    data={tab.data}
+                    index="date"
+                    categories={tab.categories}
+                    colors={tab.colors}
+                    stack={true}
+                    showLegend={false}
+                    yAxisWidth={45}
+                    valueFormatter={valueFormatter}
+                    className="mt-8 h-72"
+                  />
+                )}
               </TabPanel>
             ))}
           </TabPanels>
