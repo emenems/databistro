@@ -5,26 +5,26 @@
     "next-dev": "next dev",
     "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.2.0",
     "@headlessui/tailwindcss": "^0.2.0",
-    "@remixicon/react": "^4.2.0",
+    "@remixicon/react": "^4.9.0",
     "@tremor/react": "^3.17.4",
-    "@vercel/analytics": "^1.2.2",
+    "@types/react-dom": "^19.3.0",
+    "@vercel/analytics": "^2.0.1",
     "autoprefixer": "10.4.14",
     "classnames": "^2.5.1",
     "concurrently": "^8.0.1",
     "country-flag-icons": "^1.6.20",
     "date-fns": "^3.3.1",
     "gray-matter": "^4.0.3",
-    "next": "14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-icons": "^5.5.0",
-    "react-simple-maps": "^3.0.0",
+    "react-simple-maps": "^5.0.5",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "tailwindcss": "^3.4.3",
@@ -32,14 +32,21 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
-    "@types/node": "20.12.4",
-    "@types/react": "18.2.74",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
     "@types/react-simple-maps": "^3.0.6",
-    "typescript": "5.4.3"
+    "typescript": "^5.9.3"
   },
   "browser": {
     "fs": false,
     "os": false,
     "path": false
+  },
+  "overrides": {
+    "@tremor/react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-is": "$react"
   }
 }

@@ -166,7 +166,7 @@ export default function TradeMap() {
                 const isoCode = geo.id as keyof typeof tradeDataLatest;
                 const { dovoz, vyvoz } = tradeDataLatest[isoCode] || { dovoz: 0, vyvoz: 0 };
                 const fillColor = getColor(dovoz, vyvoz, selectedType) || "#DDDDDD";
-                const name = geo.properties.name;
+                const name = geo.properties?.name;
                 const tooltipValue = {
                   name,
                   total: formatValue(vyvoz - dovoz),

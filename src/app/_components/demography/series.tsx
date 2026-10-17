@@ -61,7 +61,7 @@ function transformAgeSeriesMedian (data: DemographySeries[] = demographySeriesDe
     return seriesTransformed;
 }
 
-export async function DemographyAgeSeries ( { dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] } ) {
+export function DemographyAgeSeries ( { dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] } ) {
     return (
         <>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
@@ -72,7 +72,7 @@ export async function DemographyAgeSeries ( { dataAge = demographySeriesAgeDemo,
     );
 }
 
-async function DemographyLineSeries ({ dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] }) {
+function DemographyLineSeries ({ dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] }) {
     const ageCategories = ["0-14", "15-19", "20-39", "40-59", "60-64", "65-79", "80-100", "median"];
     const countryCategories = ["SK", "AT", "CZ", "HU", "PL"];
     const colors = ["red", "emerald", "sky", "slate", "stone"]
@@ -114,7 +114,7 @@ async function DemographyLineSeries ({ dataAge = demographySeriesAgeDemo, dataAg
     );
 }
 
-async function DemographyMiniGraph( {  dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[]}) {
+function DemographyMiniGraph( {  dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[]}) {
     const countryCategories = ["SK", "AT", "CZ", "HU", "PL"];
     return (
         <Card>
