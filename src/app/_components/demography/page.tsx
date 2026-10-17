@@ -2,7 +2,7 @@
 import { DemographySummaryCards } from "@/app/_components/demography/cards";
 import { DemographyAgeSeries } from "@/app/_components/demography/series";
 import { DemographyBarChart } from "@/app/_components/demography/barchart";
-import { getDemographySeries, getDemographyAgeSeries } from "@/lib/api";
+import { getDemographySeries, getDemographyAgeSeries } from "@/lib/demography";
 
 export default async function PageCharts({ }) {
     const data = await getDemographySeries("all","all","eu");
