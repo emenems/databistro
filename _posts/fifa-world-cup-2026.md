@@ -7,6 +7,8 @@ author:
   name: Michal
   picture: "/assets/blog/images/authors/mm.jpeg"
 excerpt: "Ak by boli všetky tímy na MS rovnako silné, šanca, že UEFA dostane až 6 tímov do štvrťfinále, je len okolo 1 %. Európa tým ukazuje kvalitu, nie kvantitu."
+seoTitle: "MS 2026: bude štvrťfinále plné tímov z Európy?"
+description: "Ak by boli všetky tímy na MS 2026 rovnako silné, šanca na 6 európskych tímov vo štvrťfinále je len okolo 1 %. Simulácia šancí jednotlivých konfederácií."
 ogImage:
   url: "/assets/blog/images/worldcup2026/cover.jpg"
 code:

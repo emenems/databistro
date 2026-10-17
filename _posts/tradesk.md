@@ -5,6 +5,8 @@ code:
   source: ../../_components/tradesk/page
   name: TradeSK
 excerpt: "Kam sa slovenské výrobky vyvážajú najčastejšie a odkiaľ Slovensko dováža najviac? V roku 2024 malo Slovensko prebytok zahraničného obchodu. Najväčším odberateľom je Nemecko, za ktorým nasleduje Spojené kráľovstvo a Česká republika. Od roku 2010 sa hodnota vyvážaného tovaru viac ako zdvojnásobila. Najväčší obchodný deficit má Slovensko s Južnou Kóreou, Čínou a Vietnamom."
+seoTitle: "Zahraničný obchod Slovenska: vývoz a dovoz"
+description: "Kam sa slovenské výrobky vyvážajú a odkiaľ Slovensko dováža najviac? Najväčším odberateľom je Nemecko, najväčší deficit má Slovensko s Južnou Kóreou a Čínou."
 coverImage: "/assets/blog/images/tradesk/cover.png"
 date: "2025-03-13T00:00:00Z"
 author:

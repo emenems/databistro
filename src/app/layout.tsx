@@ -1,5 +1,11 @@
 import Footer from "@/app/_components/footer";
-import { PAGE_NAME, PAGE_SLOGAN, HOME_OG_IMAGE_URL } from "@/lib/constants";
+import {
+  PAGE_NAME,
+  HOME_OG_IMAGE_URL,
+  SITE_URL,
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+} from "@/lib/constants";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
@@ -9,10 +15,20 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${PAGE_NAME}`,
-  description: `${PAGE_SLOGAN}.`,
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: `%s | ${PAGE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
   openGraph: {
+    type: "website",
+    siteName: PAGE_NAME,
+    locale: "sk_SK",
     images: [HOME_OG_IMAGE_URL],
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
@@ -22,39 +38,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="sk">
       <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link
-          rel="mask-icon"
-          href="/favicon/safari-pinned-tab.svg"
-          color="#000000"
-        />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <meta name="msapplication-TileColor" content="#000000" />
-        <meta
-          name="msapplication-config"
-          content="/favicon/browserconfig.xml"
-        />
         <meta name="theme-color" content="#000" />
-        <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body className={inter.className}>
         <div className="min-h-screen">{children}</div>

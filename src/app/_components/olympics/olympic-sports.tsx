@@ -178,9 +178,9 @@ export default function OlympicSports() {
             </Card>
             <Divider />
             <Card className='w-full'>
-                <h1 className="text-tremor-title font-bold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                <h2 className="text-tremor-title font-bold text-tremor-content-strong dark:text-dark-tremor-content-strong">
                     { isSwitchOn ? 'Results by sport' : 'Výsledky podľa športu' }
-                </h1>
+                </h2>
                 <FunnelChart
                     evolutionGradient
                     gradient={false}
@@ -191,9 +191,9 @@ export default function OlympicSports() {
             </Card>
             <Divider />
             <Card className='w-full'>
-                <h1 className="text-tremor-title font-bold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                <h2 className="text-tremor-title font-bold text-tremor-content-strong dark:text-dark-tremor-content-strong">
                     {isSwitchOn ? 'Results by model' : 'Výsledky podľa modelu'}
-                </h1>
+                </h2>
                 <BarChart
                     className="h-72"
                     data={ isSwitchOn ? barData : barDataSlovak }
