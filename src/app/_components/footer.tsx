@@ -24,6 +24,15 @@ export function Footer() {
             </a>
           </div>
         </div>
+        <div className="py-6 border-t border-neutral-200 text-center text-sm text-neutral-500">
+          Developed by{" "}
+          <a
+            href="https://citeme.eu"
+            className="font-semibold text-neutral-700 hover:underline"
+          >
+            citeme.eu
+          </a>
+        </div>
       </Container>
     </footer>
   );

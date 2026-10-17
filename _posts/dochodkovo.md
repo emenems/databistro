@@ -5,6 +5,8 @@ code:
   source: ../../_components/dochodkovo/page
   name: Dochodkovo
 excerpt: "Všetko, čo ste kedy chceli vedieť o dôchodkoch na Slovensku. Napr. ako sa vyvíja počet poberateľov dôchodkov, ako sa mení ich výška v porovnaní s priemernou a minimálnou mzdou? Ako zaťažuje rozpočet 13. dôchodok + vyskladajte si opatrenia na zaplatenie 13. dôchodkov."
+seoTitle: "Dôchodky na Slovensku: výška a 13. dôchodok"
+description: "Ako sa vyvíja počet poberateľov dôchodkov a ich výška oproti priemernej a minimálnej mzde? Koľko stojí 13. dôchodok a ako ho zaplatiť? Vyskladajte si opatrenia."
 coverImage: "/assets/blog/images/dochodkovo/cover.png"
 date: "2025-09-26T00:00:00Z"
 author:

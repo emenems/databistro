@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "../../../lib/posts";
-import { CMS_NAME } from "../../../lib/constants";
+import { PAGE_NAME, SITE_URL } from "../../../lib/constants";
 import markdownToHtml from "../../../lib/markdownToHtml";
 import Alert from "../../_components/alert";
 import Container from "../../_components/container";
@@ -34,8 +34,27 @@ export default async function Post({ params }: Params) {
   }
 
   const content = await markdownToHtml(post.content || "");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.seoTitle ?? post.title,
+    description: post.description ?? post.excerpt,
+    image: `${SITE_URL}${post.ogImage.url}`,
+    datePublished: post.date,
+    dateModified: post.updated ?? post.date,
+    inLanguage: "sk",
+    mainEntityOfPage: `${SITE_URL}/posts/${post.slug}`,
+    author: { "@type": "Person", name: post.author.name },
+    publisher: { "@type": "Organization", name: PAGE_NAME, url: SITE_URL },
+  };
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <Alert preview={post.preview} />
       <Container>
         <Header />
@@ -84,11 +103,29 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return notFound();
   }
 
-  const title = `${post.title} | databistro blog post ${CMS_NAME}`;
+  const title = post.seoTitle ?? post.title;
+  const description = post.description ?? post.excerpt;
+  const url = `/posts/${post.slug}`;
 
   return {
+    title,
+    description,
+    alternates: { canonical: url },
     openGraph: {
-      title,
+      type: "article",
+      siteName: PAGE_NAME,
+      locale: "sk_SK",
+      title: `${title} | ${PAGE_NAME}`,
+      description,
+      url,
+      publishedTime: post.date,
+      modifiedTime: post.updated ?? post.date,
+      images: [post.ogImage.url],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${PAGE_NAME}`,
+      description,
       images: [post.ogImage.url],
     },
   };

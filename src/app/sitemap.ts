@@ -1,96 +1,26 @@
 import { MetadataRoute } from 'next';
+import { getAllPosts } from '@/lib/posts';
+import { SITE_URL } from '@/lib/constants';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const posts = getAllPosts();
+  const lastUpdate = posts
+    .map((post) => post.updated ?? post.date)
+    .sort()
+    .at(-1);
+
   return [
     {
-      url: 'https://www.databistro.eu',
-      lastModified: new Date(),
-      changeFrequency: 'daily',
+      url: SITE_URL,
+      lastModified: lastUpdate ? new Date(lastUpdate) : new Date(),
+      changeFrequency: 'weekly',
       priority: 1.0,
     },
-    {
-      url: 'https://www.databistro.eu/posts/rentcalc',
-      lastModified: new Date('2024-07-21'),
-      changeFrequency: 'monthly',
+    ...posts.map((post) => ({
+      url: `${SITE_URL}/posts/${post.slug}`,
+      lastModified: new Date(post.updated ?? post.date),
+      changeFrequency: 'monthly' as const,
       priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/airqualitysk',
-      lastModified: new Date('2024-04-18'),
-      changeFrequency: 'yearly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/demography',
-      lastModified: new Date('2024-04-05'),
-      changeFrequency: 'yearly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/telcosk',
-      lastModified: new Date('2024-04-16'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/olympics',
-      lastModified: new Date('2024-08-08'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/trashboard',
-      lastModified: new Date('2024-10-20'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/parliament2024',
-      lastModified: new Date('2024-12-30'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/ginicalc',
-      lastModified: new Date('2025-01-06'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/elektromobilita',
-      lastModified: new Date('2025-02-16'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/krimianalytika',
-      lastModified: new Date('2025-02-22'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/alcotax',
-      lastModified: new Date('2025-06-06'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/ustava',
-      lastModified: new Date('2025-07-27'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/dochodkovo',
-      lastModified: new Date('2025-09-26'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.databistro.eu/posts/fifa-world-cup-2026',
-      lastModified: new Date('2026-07-08'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+    })),
   ];
 }

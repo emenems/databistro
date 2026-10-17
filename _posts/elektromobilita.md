@@ -5,6 +5,8 @@ code:
   source: ../../_components/elektromobilita/page
   name: Elektromobilita
 excerpt: "Aké percento nových registrovaných osobných automobilov na Slovensku má čisto elektrický pohon? 6%, 8% alebo 10%? V roku 2024 to bolo len 5,8%. Pre porovnanie, priemer EÚ za rok 2023 bol 14,6%."
+seoTitle: "Elektromobily na Slovensku: nové registrácie"
+description: "Aké percento nových áut na Slovensku je čisto elektrických? V roku 2024 len 5,8 %, priemer EÚ za rok 2023 bol 14,6 %. Registrácie podľa značiek a modelov."
 coverImage: "/assets/blog/images/elektromobilita/cover.png"
 date: "2025-02-16T00:00:00Z"
 author:
