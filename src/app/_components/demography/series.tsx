@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
     Card,
     CategoryBar,
@@ -73,6 +74,7 @@ export function DemographyAgeSeries ( { dataAge = demographySeriesAgeDemo, dataA
 }
 
 function DemographyLineSeries ({ dataAge = demographySeriesAgeDemo, dataAgeMedian = demographySeriesDemo }: { dataAge: DemographySeriesAge[], dataAgeMedian: DemographySeries[] }) {
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const ageCategories = ["0-14", "15-19", "20-39", "40-59", "60-64", "65-79", "80-100", "median"];
     const countryCategories = ["SK", "AT", "CZ", "HU", "PL"];
     const colors = ["red", "emerald", "sky", "slate", "stone"]
@@ -81,7 +83,7 @@ function DemographyLineSeries ({ dataAge = demographySeriesAgeDemo, dataAgeMedia
             <h3 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
                 Percentuálne zastúpenie vekových kategórií & vekový medián
             </h3>
-            <TabGroup>
+            <TabGroup index={selectedIndex} onIndexChange={setSelectedIndex}>
                 <TabList>
                     {ageCategories.map((age) => {
                         return <Tab key={age}>
@@ -92,20 +94,22 @@ function DemographyLineSeries ({ dataAge = demographySeriesAgeDemo, dataAgeMedia
                     })}
                 </TabList>
                 <TabPanels>
-                    {ageCategories.map((age) => {
+                    {ageCategories.map((age, idx) => {
                         return <TabPanel key={age}>
-                            <LineChart
-                                className="mt-4 h-72"
-                                key={age}
-                                data={age !== 'median' ? transformAgeSeries(dataAge, age) : transformAgeSeriesMedian(dataAgeMedian)}
-                                index="year"
-                                categories={countryCategories}
-                                colors={colors}
-                                minValue={age !== 'median' ? 0 : 30}
-                                maxValue={age !== 'median' ? 32 : 45}
-                                onValueChange={(v) => console.log(v)}
-                                valueFormatter={age !== 'median' ? valueFormatterPercent : valueFormatterAge}
-                            />
+                            {selectedIndex === idx && (
+                                <LineChart
+                                    className="mt-4 h-72"
+                                    key={age}
+                                    data={age !== 'median' ? transformAgeSeries(dataAge, age) : transformAgeSeriesMedian(dataAgeMedian)}
+                                    index="year"
+                                    categories={countryCategories}
+                                    colors={colors}
+                                    minValue={age !== 'median' ? 0 : 30}
+                                    maxValue={age !== 'median' ? 32 : 45}
+                                    onValueChange={(v) => console.log(v)}
+                                    valueFormatter={age !== 'median' ? valueFormatterPercent : valueFormatterAge}
+                                />
+                            )}
                         </TabPanel>
                     })}
                 </TabPanels>

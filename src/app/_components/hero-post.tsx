@@ -1,8 +1,8 @@
-import Avatar from "@/app/_components/avatar";
-import CoverImage from "@/app/_components/cover-image";
 import { type Author } from "@/interfaces/author";
 import Link from "next/link";
 import DateFormatter from "./date-formatter";
+import { HeroSimulatorPreview } from "./hero-simulator-preview";
+import { PostSpecimen } from "./post-specimen";
 
 type Props = {
   title: string;
@@ -11,40 +11,61 @@ type Props = {
   excerpt: string;
   author: Author;
   slug: string;
+  codeName?: string;
 };
 
 export function HeroPost({
   title,
-  coverImage,
   date,
   excerpt,
-  author,
   slug,
+  codeName,
 }: Props) {
+  const isWorldCup =
+    codeName === "WorldCup2026Sim" || slug === "fifa-world-cup-2026";
+
   return (
-    <section>
-      <div className="mb-8 md:mb-16 w-full max-w-3xl mx-auto">
-        <CoverImage title={title} src={coverImage} slug={slug} />
-      </div>
-      <div className="md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8 mb-20 md:mb-28">
+    <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start pb-14 mb-12 border-b border-neutral-200">
+      <div className="lg:col-span-5 flex flex-col justify-between">
         <div>
-          <h3 className="mb-4 text-4xl lg:text-5xl leading-tight">
+          <div className="mb-3">
+            <DateFormatter dateString={date} />
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-[2.65rem] font-extrabold tracking-tight leading-[1.08] text-neutral-950 mb-5">
             <Link
-              as={`/posts/${slug}`}
-              href="/posts/[slug]"
-              className="hover:underline"
+              href={`/posts/${slug}`}
+              className="hover:text-[#1D4ED8] transition-colors"
             >
               {title}
             </Link>
-          </h3>
-          <div className="mb-4 md:mb-0 text-lg">
-            <DateFormatter dateString={date} />
-          </div>
+          </h1>
+          <p className="text-base text-neutral-600 leading-relaxed mb-7">
+            {excerpt}
+          </p>
         </div>
+
         <div>
-          <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
-          <Avatar name={author.name} picture={author.picture} excerpt=""/>
+          <Link
+            href={`/posts/${slug}`}
+            className="inline-flex items-center gap-2 bg-[#1D4ED8] hover:bg-blue-800 text-white font-semibold text-sm px-5 py-3 transition-colors"
+          >
+            <span>Otvoriť simuláciu</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+          <p className="text-xs text-neutral-500 mt-3">
+            Interaktívne: nastavte počet simulácií a pravdepodobnosť remízy
+          </p>
         </div>
+      </div>
+
+      <div className="lg:col-span-7 w-full">
+        {isWorldCup ? (
+          <HeroSimulatorPreview />
+        ) : (
+          <Link href={`/posts/${slug}`} className="block group">
+            <PostSpecimen slug={slug} codeName={codeName} />
+          </Link>
+        )}
       </div>
     </section>
   );

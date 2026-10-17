@@ -1,5 +1,5 @@
 ---
-title: "Dôchodky na Slovenku"
+title: "Dôchodky na Slovensku"
 titleKey: "Dôchodkovo"
 code:
   source: ../../_components/dochodkovo/page

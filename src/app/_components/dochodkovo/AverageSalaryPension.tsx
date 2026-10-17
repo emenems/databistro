@@ -73,7 +73,7 @@ const AverageSalaryPension = () => {
           colors={["blue", "rose"]}
           stack={true}
           showLegend={true}
-          yAxisWidth={100}
+          yAxisWidth={120}
           valueFormatter={valueFormatter}
           className="mt-10 h-72"
         />

@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import {
   Card,
   LineChart,
@@ -21,7 +22,7 @@ const chartTabs = [
     ],
     colors: ['blue', 'rose'],
     valueFormatter: valueFormatter,
-    yAxisWidth: 80,
+    yAxisWidth: 110,
     minValue: 100,
     maxValue: 700,
   },
@@ -33,7 +34,7 @@ const chartTabs = [
     ],
     colors: ['blue', 'rose'],
     valueFormatter: (n: number) => `${n?.toFixed(2)} %`,
-    yAxisWidth: 60,
+    yAxisWidth: 70,
     minValue: -2,
     maxValue: 30,
   },
@@ -50,10 +51,12 @@ const chartData = pensionData.map(d => ({
 }));
 
 const PensionInflationChart = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   return (
     <Card className="max-w-4xl mx-auto my-8">
       <div className="sm:flex sm:items-start sm:space-x-6">
-        <div className="mt-4 sm:mt-0 flex-1">
+        <div className="mt-4 sm:mt-0 flex-1 min-w-0">
           <h3 className="text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             Vývoj priemerného dôchodku a inflácie na Slovensku
           </h3>
@@ -76,7 +79,7 @@ const PensionInflationChart = () => {
               <RiExternalLinkLine className="size-4" aria-hidden={true} />
             </a>
           </div>
-          <TabGroup defaultIndex={0}>
+          <TabGroup index={selectedIndex} onIndexChange={setSelectedIndex}>
             <TabList className="mt-10">
               {chartTabs.map((tab) => (
                 <Tab key={tab.name} className="font-medium">
@@ -85,20 +88,22 @@ const PensionInflationChart = () => {
               ))}
             </TabList>
             <TabPanels>
-              {chartTabs.map((tab) => (
+              {chartTabs.map((tab, idx) => (
                 <TabPanel key={tab.name}>
-                  <LineChart
-                    className="h-80 mt-4"
-                    data={chartData}
-                    index="year"
-                    categories={tab.categories}
-                    colors={tab.colors}
-                    valueFormatter={tab.valueFormatter}
-                    yAxisWidth={tab.yAxisWidth}
-                    showLegend={true}
-                    minValue={tab.minValue}
-                    maxValue={tab.maxValue}
-                  />
+                  {selectedIndex === idx && (
+                    <LineChart
+                      className="h-80 mt-4"
+                      data={chartData}
+                      index="year"
+                      categories={tab.categories}
+                      colors={tab.colors}
+                      valueFormatter={tab.valueFormatter}
+                      yAxisWidth={tab.yAxisWidth}
+                      showLegend={true}
+                      minValue={tab.minValue}
+                      maxValue={tab.maxValue}
+                    />
+                  )}
                 </TabPanel>
               ))}
             </TabPanels>

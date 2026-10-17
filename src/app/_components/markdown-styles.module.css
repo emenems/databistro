@@ -1,18 +1,22 @@
 .markdown {
-  @apply text-lg leading-relaxed;
+  @apply text-sm text-neutral-600 leading-relaxed border-t-2 border-neutral-950 pt-8;
 }
 
 .markdown p,
 .markdown ul,
 .markdown ol,
 .markdown blockquote {
-  @apply my-6;
+  @apply my-4;
 }
 
 .markdown h2 {
-  @apply text-3xl mt-12 mb-4 leading-snug;
+  @apply text-lg font-bold tracking-tight text-neutral-950 mt-8 mb-3 leading-snug uppercase font-mono;
 }
 
 .markdown h3 {
-  @apply text-2xl mt-8 mb-4 leading-snug;
+  @apply text-base font-bold text-neutral-950 mt-6 mb-2 leading-snug;
+}
+
+.markdown a {
+  @apply text-[#1D4ED8] hover:underline font-medium;
 }
