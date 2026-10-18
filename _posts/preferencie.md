@@ -48,11 +48,17 @@ Ako „predpoveď“ bez prieskumov, teda výsledok predchádzajúcich volieb, b
 
 **6. Trend nepomáha predpovedať výsledok.** Skúšali sme predĺžiť trend z posledných 90, 180 či 365 dní až do volieb. V týchto dátach nepriniesol žiadnu lepšiu predpoveď než obyčajný aktuálny priemer, vo väčších vzdialenostiach ju skôr zhoršoval.
 
+**7. Správny víťaz nie je samozrejmosť.** Vo voľbách 2012 a 2016 viedol SMER-SD v prieskumoch celý čas, od dvoch rokov pred voľbami až po deň volieb, a nakoniec aj vyhral. Vo voľbách 2023 viedol ešte rok pred voľbami Hlas (okolo 20 %), SMER-SD sa na čelo dostal až približne pol roka pred voľbami, a nakoniec vyhral on. Vo voľbách 2020 viedol SMER-SD celý čas, no vyhralo OĽaNO, ktoré sa v prieskumoch držalo okolo 9 %, vo voľbách však získalo 25 % (na kandidátnej listine s ďalšími stranami). Rok pred voľbami teda prieskumy ukázali správneho víťaza v 2 zo 4 volieb, pol roka pred voľbami v 3 zo 4.
+
 ## Často kladené otázky
 
 ### Sú prieskumy presné?
 
 Priemer prieskumov sa týždeň pred voľbami líši od výsledku strany v priemere o 2,3 percentuálneho bodu. To stačí na to, aby sa zmenilo poradie strán, najmä pri malých stranách okolo 5 % hranice.
+
+### Dokážu prieskumy predpovedať víťaza volieb?
+
+Čiastočne. Rok pred voľbami viedla v prieskumoch strana, ktorá nakoniec vyhrala, v 2 zo 4 volieb (2012 a 2016), pol roka pred voľbami v 3 zo 4 (pribudli voľby 2023) a vo voľbách 2020 neviedla správna strana ani raz. Poradie prvých strán je teda spoľahlivejšie než presné percentá, ale ani to nie je záruka.
 
 ### Kedy sa prieskumom oplatí veriť?
 
@@ -66,6 +72,8 @@ Prieskum meria náladu v čase prieskumu, nie rozhodnutie vo volebnej miestnosti
 
 - **Priemer prieskumov**: pre každý deň vezmeme posledný zverejnený prieskum každej agentúry (najviac 60 dní starý) a spriemerujeme ich, pričom každá agentúra počíta rovnako. Pre daný deň používame len to, čo už bolo zverejnené, takže analýza nepozná budúcnosť.
 - **Na spôsobe spriemerovania takmer nezáleží**: vyskúšali sme aj priemer všetkých prieskumov za posledných 30 dní, priemer najprv v rámci agentúry a potom medzi agentúrami, a Kalmanov filter vážený veľkosťou vzorky. V spätnom teste na voľbách sa líšili len o 0,1 až 0,3 percentuálneho bodu, pričom samotné odchýlky od výsledku sú 3 až 6 bodov. Pri predpovedi nasledujúceho prieskumu bol rozdiel medzi metódami menší než 2 %. Preto používame najjednoduchší a najľahšie vysvetliteľný variant.
+- **Typická odchýlka veľkej strany**: pre veľké strany (výsledok aspoň 10 %, 9 prípadov z volieb 2012 – 2023) berieme relatívnu odchýlku od výsledku, v okne ±14 dní okolo daného dňa. „Polovica prípadov“ je jej medián, „8 z 10 prípadov“ je 80. percentil. Ide teda o orientačné pásmo pre stranu s výsledkom okolo 20 %, nie o 95 % interval. Pri takom malom počte prípadov by jedna odlišná strana v jednom roku posunula pásmo.
+- **Kto vedie**: vedie strana s najvyšším priemerom prieskumov v danom dni; porovnávame ju s víťazom volieb (najvyšší výsledok).
 - **Odchýlka**: absolútna vzdialenosť priemeru od výsledku strany v percentuálnych bodoch. Zahŕňa aj skutočnú zmenu nálady po dátume prieskumu, nielen chybu merania.
 - **Strany**: tie, ktoré vo voľbách získali aspoň 3 %, alebo ich priemer mesiac pred voľbami dosiahol aspoň 3 %. Nové strany nemajú rok pred voľbami ešte prieskum, preto sa zloženie strán v čase mení.
 - **Obmedzenia**: sú len štyri voľby a odchýlky strán v rámci jedných volieb spolu súvisia, preto netvrdíme štatistickú významnosť. Predpokladaný termín ďalších volieb (jeseň 2027) je odhad a v odpočte sa dá jednoducho zmeniť.

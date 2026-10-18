@@ -303,6 +303,120 @@ function PollsChart({ h, setH }: ChartProps) {
   );
 }
 
+type Race = {
+  winner: string; winnerResult: number; second: string; secondResult: number; color: string;
+  leader: (string | null)[]; lead: (number | null)[]; leaderAvg: (number | null)[]; winnerAvg: (number | null)[];
+};
+const RACES = data.races as Record<string, Race>;
+const GOOD = '#16a34a';
+const BAD = '#dc2626';
+
+function WinnerChart({ h, setH }: ChartProps) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const drag = useDrag(setH, svgRef);
+  const i = nearestIndex(h);
+  const ROW = 46;
+  const H = M.t + YEARS.length * ROW + 40;
+  const iw = W - M.l - M.r;
+  const px = (v: number) => W - M.r - (v / MAX_H) * iw;
+  const bottom = M.t + YEARS.length * ROW;
+  const xticks = [525, 450, 365, 270, 180, 90, 30, 0];
+
+  const segment = (k: number) => {
+    const lo = k === 0 ? 0 : (HORIZONS[k - 1] + HORIZONS[k]) / 2;
+    const hi = k === HORIZONS.length - 1 ? HORIZONS[k] : (HORIZONS[k] + HORIZONS[k + 1]) / 2;
+    return [Math.min(MAX_H, hi), Math.min(MAX_H, lo)] as const;
+  };
+
+  const rows = YEARS.map((y) => {
+    const r = RACES[y];
+    const l = r.leader[i];
+    return { y, r, l, ok: l != null && l === r.winner };
+  });
+  const withPolls = rows.filter((x) => x.l != null);
+  const right = withPolls.filter((x) => x.ok).length;
+
+  return (
+    <div>
+      <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className="w-full select-none" style={{ touchAction: 'pan-y' }} role="img"
+        aria-label="Viedla v prieskumoch strana, ktorá nakoniec vyhrala voľby?" {...drag}>
+        {YEARS.map((y, row) => {
+          const r = RACES[y];
+          const top = M.t + row * ROW;
+          return (
+            <g key={y}>
+              <text x={M.l} y={top + 11} fontSize="11" fill="#374151">
+                <tspan fontWeight="700">{y}</tspan>
+                <tspan>{`: vyhralo ${r.winner.replace(' (Hnutie Slovensko)', '')} (${fmt(r.winnerResult)} %)`}</tspan>
+              </text>
+              {HORIZONS.map((_, k) => {
+                const l = r.leader[k];
+                if (l == null || HORIZONS[k] > MAX_H) return null;
+                const [hi, lo] = segment(k);
+                return (
+                  <rect key={k} x={px(hi)} y={top + 17} width={Math.max(0.5, px(lo) - px(hi) + 1.4)} height={20} shapeRendering="crispEdges"
+                    fill={l === r.winner ? GOOD : BAD} opacity="0.85" />
+                );
+              })}
+            </g>
+          );
+        })}
+        <g fontSize="11" fill="#6b7280">
+          {xticks.map((t) => (
+            <g key={t}>
+              <line x1={px(t)} x2={px(t)} y1={bottom} y2={bottom + 4} stroke="#9ca3af" />
+              <text x={px(t)} y={bottom + 16} textAnchor="middle">{t === 0 ? 'voľby' : t}</text>
+            </g>
+          ))}
+          <text x={(M.l + W - M.r) / 2} y={bottom + 34} textAnchor="middle">počet dní pred voľbami</text>
+        </g>
+        <line x1={px(h)} x2={px(h)} y1={M.t} y2={bottom} stroke="#111827" strokeWidth="1.5" strokeDasharray="4 3" />
+        <rect x={M.l} y={M.t} width={iw} height={bottom - M.t} fill="transparent" style={{ cursor: 'ew-resize' }} />
+      </svg>
+      <div className="mt-1 flex flex-wrap gap-x-5 gap-y-1 text-xs text-neutral-600">
+        <span><span className="inline-block w-3 h-3 align-middle mr-1" style={{ backgroundColor: GOOD }} />v prieskumoch viedla strana, ktorá nakoniec vyhrala</span>
+        <span><span className="inline-block w-3 h-3 align-middle mr-1" style={{ backgroundColor: BAD }} />viedla iná strana</span>
+      </div>
+
+      <p className="mt-4 text-sm text-neutral-800" aria-live="polite">
+        {withPolls.length === 0
+          ? 'V tomto bode ešte nemáme prieskumy.'
+          : `${h === 0 ? 'V deň volieb' : `${h} dní pred voľbami`} viedla v prieskumoch správna strana v ${right} z ${withPolls.length} volieb.`}
+      </p>
+      <table className="mt-2 w-full text-sm">
+        <thead>
+          <tr className="text-left text-neutral-500 border-b border-neutral-200">
+            <th className="py-1 font-medium">Voľby</th>
+            <th className="py-1 font-medium">V prieskumoch vedie</th>
+            <th className="py-1 font-medium">Vyhrala</th>
+            <th className="py-1 font-medium text-right">Zhoda</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(({ y, r, l, ok }) => (
+            <tr key={y} className="border-b border-neutral-100">
+              <td className="py-1 tabular-nums">{y}</td>
+              <td className="py-1">
+                {l == null ? <span className="text-neutral-400">bez prieskumu</span> : (
+                  <>{l.replace(' (Hnutie Slovensko)', '')} <span className="tabular-nums text-neutral-500">({fmt(r.leaderAvg[i])} %, náskok {fmt(r.lead[i])} p. b.)</span></>
+                )}
+              </td>
+              <td className="py-1">{r.winner.replace(' (Hnutie Slovensko)', '')} <span className="tabular-nums text-neutral-500">({fmt(r.winnerResult)} %, o {fmt(r.winnerResult - r.secondResult)} p. b. pred {r.second})</span></td>
+              <td className="py-1 text-right font-semibold" style={{ color: l == null ? undefined : ok ? GOOD : BAD }}>
+                {l == null ? '–' : ok ? '✓ áno' : '✗ nie'}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="mt-2 text-xs text-neutral-500">
+        Vedie strana s najvyšším priemerom prieskumov v danom čase. Pri voľbách 2020 sa OĽaNO** v prieskumoch držalo okolo 9 %, vo voľbách však
+        získalo 25 % (kandidovalo na listine s ďalšími stranami, pozri poznámku pod ďalším grafom).
+      </p>
+    </div>
+  );
+}
+
 export default function Preferencie() {
   const [days, setDays] = useState<number | null>(null); // dnes -> dni do volieb; až po načítaní v prehliadači
   const [h, setH] = useState(365);
@@ -339,7 +453,10 @@ export default function Preferencie() {
 
   const i = nearestIndex(h);
   const mae = data.mae[i];
-  const rel = data.relMedian[i];
+  const rb50 = data.relBig50[i] ?? data.relMedian[i];
+  const rb80 = data.relBig80[i] ?? rb50;
+  const nBig = data.nBig[i];
+  const band = (rel: number) => `${fmt(Math.max(0, 20 - (20 * rel) / 100), 0)} a ${fmt(20 + (20 * rel) / 100, 0)}`;
   const base = data.baseline[i];
   const nUnits = data.n[i];
   const weeks = Math.round(h / 7);
@@ -366,15 +483,20 @@ export default function Preferencie() {
             <div className="text-xs text-neutral-600">priemerná odchýlka priemeru prieskumov od výsledku</div>
           </div>
           <div className="rounded-lg bg-neutral-50 p-4">
-            <div className="text-3xl font-extrabold tabular-nums">{fmt(rel, 0)} %</div>
-            <div className="text-xs text-neutral-600">typická odchýlka ako podiel z výsledku strany (medián)</div>
+            <div className="text-3xl font-extrabold tabular-nums">{fmt(rb50, 0)} %</div>
+            <div className="text-xs text-neutral-600">typická odchýlka veľkej strany ako podiel z jej výsledku (medián)</div>
           </div>
         </div>
-        <p className="mt-3 text-sm text-neutral-600">
-          Strana, ktorá nakoniec získala 20 %, bola v tomto bode typicky nameraná niekde medzi{' '}
-          {fmt(20 - (20 * (rel ?? 0)) / 100, 0)} a {fmt(20 + (20 * (rel ?? 0)) / 100, 0)} %. Pre porovnanie: keby sme ako
-          „predpoveď“ použili výsledok predchádzajúcich volieb, mýlili by sme sa v priemere o {fmt(base)} p. b.
-          (n = {nUnits} strán vo voľbách 2012, 2016, 2020 a 2023).
+        <p className="mt-3 text-sm text-neutral-700">
+          Strana, ktorá nakoniec získala 20 %, bola v tomto bode v polovici prípadov nameraná medzi{' '}
+          <strong>{band(rb50)} %</strong>. V 8 z 10 prípadov bola v rozmedzí <strong>{band(rb80)} %</strong>, v 2 z 10
+          ešte ďalej.
+        </p>
+        <p className="mt-2 text-xs text-neutral-500">
+          Ide o {nBig} prípadov veľkých strán (výsledok aspoň 10 %) z volieb 2012, 2016, 2020 a 2023, preto je to orientačný
+          údaj, nie záruka. Bez prieskumov, len podľa výsledku predchádzajúcich volieb, by sme sa mýlili v priemere o{' '}
+          {fmt(base)} p. b. Priemerná odchýlka {fmt(mae)} p. b. vyššie sa počíta zo všetkých {nUnits} strán vrátane malých, ktoré
+          majú aj malé odchýlky v bodoch, preto je nižšia než odchýlka veľkých strán.
         </p>
 
         <div className="mt-5 flex items-center gap-3">
@@ -395,6 +517,14 @@ export default function Preferencie() {
           skutočnému výsledku strán. Kliknutím alebo ťahaním v grafe posúvate čas.
         </p>
         <ErrorChart h={h} setH={move} />
+      </Card>
+
+      <Card>
+        <h3 className="text-lg font-bold text-neutral-900">Kto vyhráva? Viedla v prieskumoch strana, ktorá nakoniec vyhrala?</h3>
+        <p className="mt-1 mb-3 text-sm text-neutral-600">
+          Zelená znamená, že v danom čase viedla v prieskumoch strana, ktorá voľby nakoniec vyhrala. Čas posúvate rovnako ako vyššie.
+        </p>
+        <WinnerChart h={h} setH={move} />
       </Card>
 
       <Card>
