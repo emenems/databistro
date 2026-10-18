@@ -42,7 +42,7 @@ Ako „predpoveď“ bez prieskumov, teda výsledok predchádzajúcich volieb, b
 
 **3. Rok pred voľbami je lepší prieskum ako nič, ale nie veľmi.** Keby sme za „predpoveď“ vzali výsledok predchádzajúcich volieb, mýlili by sme sa o 5,5 p. b. Rok pred voľbami je priemer prieskumov lepší len o necelé 2 body.
 
-**4. Pozor na veľké a nové strany.** Rok pred voľbami 2023 sa Hlas meral na 19,8 % (výsledok 14,7 %), zatiaľ čo PS na 10,2 % (výsledok 18,0 %). Rok pred voľbami 2020 sa OĽaNO meralo na 9 % a získalo 25 % (výsledok je však koalícia viacerých strán, takže porovnanie nie je celkom rovnocenné).
+**4. Pozor na veľké a nové strany.** Rok pred voľbami 2023 sa Hlas meral na 19,8 % (výsledok 14,7 %), zatiaľ čo PS na 10,2 % (výsledok 18,0 %). Rok pred voľbami 2020 sa OĽaNO meralo na 9 % a získalo 25 % (výsledok je však kandidátna listina viacerých strán, takže porovnanie nie je celkom rovnocenné, pozri poznámky k stranám nižšie).
 
 **5. Odchýlky sú spoločné pre agentúry.** Najväčšie odchýlky nepochádzajú z jednej agentúry: celé spektrum agentúr sa mýlilo rovnakým smerom (napr. SMER-SD 2016 okolo 37 % v prieskumoch oproti výsledku 28 %). Priemer viacerých agentúr je preto len mierne lepší než jednotlivý prieskum, najmä ďaleko pred voľbami.
 
@@ -64,10 +64,20 @@ Prieskum meria náladu v čase prieskumu, nie rozhodnutie vo volebnej miestnosti
 
 ## Metodika
 
-- **Priemer prieskumov**: pre každý deň vezmeme posledný zverejnený prieskum každej agentúry (najviac 60 dní starý) a spriemerujeme ich; pre daný deň používame len to, čo už bolo zverejnené. Zložitejšie priemery (Kalmanov filter, vážené priemery) dali takmer rovnaké čísla (rozdiely rádovo 0,1 – 0,3 bodu).
+- **Priemer prieskumov**: pre každý deň vezmeme posledný zverejnený prieskum každej agentúry (najviac 60 dní starý) a spriemerujeme ich, pričom každá agentúra počíta rovnako. Pre daný deň používame len to, čo už bolo zverejnené, takže analýza nepozná budúcnosť.
+- **Na spôsobe spriemerovania takmer nezáleží**: vyskúšali sme aj priemer všetkých prieskumov za posledných 30 dní, priemer najprv v rámci agentúry a potom medzi agentúrami, a Kalmanov filter vážený veľkosťou vzorky. V spätnom teste na voľbách sa líšili len o 0,1 až 0,3 percentuálneho bodu, pričom samotné odchýlky od výsledku sú 3 až 6 bodov. Pri predpovedi nasledujúceho prieskumu bol rozdiel medzi metódami menší než 2 %. Preto používame najjednoduchší a najľahšie vysvetliteľný variant.
 - **Odchýlka**: absolútna vzdialenosť priemeru od výsledku strany v percentuálnych bodoch. Zahŕňa aj skutočnú zmenu nálady po dátume prieskumu, nielen chybu merania.
 - **Strany**: tie, ktoré vo voľbách získali aspoň 3 %, alebo ich priemer mesiac pred voľbami dosiahol aspoň 3 %. Nové strany nemajú rok pred voľbami ešte prieskum, preto sa zloženie strán v čase mení.
 - **Obmedzenia**: sú len štyri voľby a odchýlky strán v rámci jedných volieb spolu súvisia, preto netvrdíme štatistickú významnosť. Predpokladaný termín ďalších volieb (jeseň 2027) je odhad a v odpočte sa dá jednoducho zmeniť.
+
+## Poznámky k stranám
+
+Aby sa dali strany porovnávať naprieč voľbami, niektoré sme museli zlúčiť. Označené sú hviezdičkou aj v grafe vyššie.
+
+- \* **PS** zahŕňa aj SPOLU. V prieskumoch sa merali samostatne alebo ako koalícia PS–SPOLU, vo voľbách 2020 kandidovali spolu.
+- \*\* **OĽaNO (Hnutie Slovensko)**: vo voľbách 2016, 2020 a 2023 išlo o kandidátnu listinu spolu s ďalšími stranami (napr. NOVA, Kresťanská únia, Zmena zdola). V prieskumoch 2012 – 2015 sa NOVA merala samostatne a pripočítali sme ju k OĽaNO. V prieskumoch 2016 – 2022 sa OĽaNO merali bez koaličných partnerov, preto nie je porovnanie s výsledkom celkom rovnocenné (najmä pri voľbách 2020).
+- \*\*\* **MOST-HÍD** zahŕňa aj Modrých (v prieskumoch „Modrí, Most-Híd“).
+- Strany, ktoré zmenili názov alebo kandidovali pod inou značkou, sme spojili pod jedno meno.
 
 ## Zdroje
 

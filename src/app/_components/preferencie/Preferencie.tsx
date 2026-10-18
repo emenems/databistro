@@ -21,6 +21,16 @@ const YEARS = Object.keys(data.elections);
 type Unit = (typeof data.units)[number];
 const UNITS = data.units as Unit[];
 
+// Strany, pri ktorých sme zlúčili viaceré kandidátne listiny / strany (vysvetlenie v poznámkach pod grafom)
+const MARKERS: Record<string, string> = { PS: '*', 'OĽaNO (Hnutie Slovensko)': '**', 'MOST-HÍD': '***' };
+const FOOTNOTES: Record<string, string> = {
+  PS: 'vrátane SPOLU (v prieskumoch sa merali samostatne alebo ako koalícia PS–SPOLU; vo voľbách 2020 kandidovali spolu).',
+  'OĽaNO (Hnutie Slovensko)':
+    'vo voľbách 2016, 2020 a 2023 išlo o kandidátnu listinu s ďalšími stranami (napr. NOVA, Kresťanská únia, Zmena zdola). V prieskumoch 2012 – 2015 sa NOVA merala samostatne a pripočítali sme ju k OĽaNO, v prieskumoch 2016 – 2022 sa OĽaNO merali bez koaličných partnerov, takže porovnanie s výsledkom nie je celkom rovnocenné.',
+  'MOST-HÍD': 'vrátane Modrých (v prieskumoch „Modrí, Most-Híd“).',
+};
+const label = (party: string) => party + (MARKERS[party] ?? '');
+
 const fmt = (v: number | null | undefined, d = 1) =>
   v == null ? '–' : v.toLocaleString('sk-SK', { minimumFractionDigits: d, maximumFractionDigits: d });
 const signed = (v: number) => (v > 0 ? '+' : v < 0 ? '−' : '') + fmt(Math.abs(v));
@@ -224,7 +234,7 @@ function PollsChart({ h, setH }: ChartProps) {
               className={`px-2.5 py-1 rounded-full border text-xs font-medium ${on ? 'bg-white text-neutral-900' : 'bg-neutral-50 text-neutral-400'}`}
               style={{ borderColor: on ? u.color : '#e5e7eb', borderWidth: on ? 2 : 1 }}>
               <span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: u.color, opacity: on ? 1 : 0.4 }} />
-              {u.party}
+              {label(u.party)}
             </button>
           );
         })}
@@ -271,7 +281,7 @@ function PollsChart({ h, setH }: ChartProps) {
               const a = u.avg[i];
               return (
                 <tr key={u.party} className="border-b border-neutral-100">
-                  <td className="py-1"><span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: u.color }} />{u.party}</td>
+                  <td className="py-1"><span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: u.color }} />{label(u.party)}</td>
                   <td className="py-1 text-right tabular-nums">{a == null ? 'ešte bez prieskumu' : `${fmt(a)} %`}</td>
                   <td className="py-1 text-right tabular-nums">{fmt(u.result)} %</td>
                   <td className="py-1 text-right tabular-nums">{a == null ? '–' : `${signed(u.result - a)} p. b.`}</td>
@@ -280,6 +290,14 @@ function PollsChart({ h, setH }: ChartProps) {
             })}
           </tbody>
         </table>
+      )}
+      {units.some((u) => MARKERS[u.party]) && (
+        <ul className="mt-3 space-y-1 text-xs text-neutral-600">
+          {units.filter((u) => MARKERS[u.party]).map((u) => (
+            <li key={u.party}><sup>{MARKERS[u.party]}</sup> <strong>{u.party.replace(' (Hnutie Slovensko)', '')}</strong>: {FOOTNOTES[u.party]}</li>
+          ))}
+          <li>Strany, ktoré zmenili názov alebo kandidovali pod inou značkou, sme spojili pod jedno meno.</li>
+        </ul>
       )}
     </div>
   );
