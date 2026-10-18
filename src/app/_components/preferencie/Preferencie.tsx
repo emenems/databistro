@@ -487,6 +487,22 @@ export default function Preferencie() {
             <div className="text-xs text-neutral-600">typická odchýlka veľkej strany ako podiel z jej výsledku (medián)</div>
           </div>
         </div>
+        <details className="mt-3 text-sm text-neutral-700">
+          <summary className="cursor-pointer font-medium">Čo je percentuálny bod a čo znamená „% z výsledku strany“?</summary>
+          <div className="mt-2 space-y-2 text-neutral-600">
+            <p>
+              <strong>Percentuálny bod (p. b.)</strong> je rozdiel medzi dvoma percentami. Ak mala strana v prieskume 20 % a vo voľbách
+              získala 24 %, líši sa o 4 p. b. (24 − 20), nie o 4 %.
+            </p>
+            <p>
+              <strong>% z výsledku strany</strong> hovorí, aký veľký je ten rozdiel vzhľadom na veľkosť strany: 4 p. b. z 24 % je 17 %.
+              Strana, ktorej výsledok je 20 % a odchýlka 35 %, bola v prieskume nameraná asi o 7 p. b. inak (napr. 13 % namiesto 20 %).
+              <em> Medián</em> je prostredný prípad: polovica strán mala odchýlku menšiu, polovica väčšiu.
+            </p>
+            <p>Viac s príkladmi nájdete v texte pod grafmi.</p>
+          </div>
+        </details>
+
         <p className="mt-3 text-sm text-neutral-700">
           Strana, ktorá nakoniec získala 20 %, bola v tomto bode v polovici prípadov nameraná medzi{' '}
           <strong>{band(rb50)} %</strong>. V 8 z 10 prípadov bola v rozmedzí <strong>{band(rb80)} %</strong>, v 2 z 10

@@ -32,7 +32,36 @@ Priemerná odchýlka priemeru prieskumov od výsledku strany podľa toho, koľko
 
 Ako „predpoveď“ bez prieskumov, teda výsledok predchádzajúcich volieb, by sme sa mýlili v priemere o 5,4 p. b. v každom z týchto bodov.
 
-*p. b. = percentuálny bod. Odchýlka = vzdialenosť priemeru prieskumov od výsledku strany.*
+*p. b. = percentuálny bod. Odchýlka = vzdialenosť priemeru prieskumov od výsledku strany. Obe pojmy vysvetlíme nižšie na príkladoch.*
+
+### Čo je percentuálny bod (p. b.)?
+
+Percentuálny bod je jednoducho **rozdiel medzi dvoma percentami**. Ak strana v prieskume mala 20 % a vo voľbách získala 24 %, líši sa o **4 percentuálne body** (24 − 20), nie o „4 %“.
+
+Rozdiel je dôležitý, lebo „percento“ a „percentuálny bod“ vravia dve rôzne veci:
+
+- Podpora strany vzrástla z 20 % na 24 %. To je **+4 percentuálne body**. Ale zároveň to je nárast o **20 %** z pôvodných 20 % (4 z 20), preto sa v správach tieto dve veci ľahko pomýlia.
+- Skutočný príklad: rok pred voľbami 2023 sa Hlas v prieskumoch meral na 19,8 %, vo voľbách získal 14,7 %. Rozdiel je **5,1 percentuálneho bodu** (19,8 − 14,7). Ak to vyjadríme ako podiel z jeho výsledku, je to **35 %** (5,1 z 14,7).
+
+My používame percentuálne body všade, kde porovnávame dve čísla v percentách (prieskum a výsledok), a „% z výsledku strany“ tam, kde chceme povedať, či je odchýlka veľká vzhľadom na veľkosť strany.
+
+### Čo znamená „medián 33 % z výsledku strany“?
+
+Odchýlka o 2 body je pri strane s 5 % veľká, ale pri strane s 30 % malá. Preto odchýlku vyjadrujeme aj ako **podiel z výsledku strany**. Postup je jednoduchý:
+
+1. Pre každú stranu a voľby zoberieme odchýlku priemeru prieskumov od výsledku a vydelíme ju výsledkom strany. Napríklad prieskum 15,2 % a výsledok 22,9 % dáva odchýlku asi 7,8 p. b., čo je **34 %** z výsledku.
+2. Všetky takéto prípady zoradíme od najmenšej odchýlky po najväčšiu.
+3. **Medián je ten prostredný.** Polovica prípadov bola presnejšia, polovica menej presná.
+
+Rok pred voľbami vyšiel medián **33 %**. Znamená to, že odchýlka bola typicky asi tretina výsledku strany. Čo to znamená v praxi:
+
+- strana, ktorá nakoniec získa **6 %**, bola nameraná typicky medzi 4 a 8 % (odchýlka asi 2 body),
+- strana, ktorá získa **20 %**, medzi 13 a 27 % (odchýlka asi 6,6 bodu),
+- strana, ktorá získa **40 %**, medzi 27 a 53 % (odchýlka asi 13 bodov).
+
+Týždeň pred voľbami je medián **19 %**: strana s výsledkom 20 % bola typicky nameraná medzi 16 a 24 %.
+
+Medián popisuje prostredný prípad, nie najhorší. Niekedy je odchýlka oveľa väčšia, napríklad OĽaNO rok pred voľbami 2020 bolo namerané na 9 % a vo voľbách získalo 25 %, čo je odchýlka až 63 % z výsledku. V odpočte vyššie ukazujeme aj pásmo pre „8 z 10 prípadov“. Odpočet navyše rátá len veľké strany (výsledok aspoň 10 %), preto tam rok pred voľbami uvidíte 35 % a nie 33 %.
 
 ## Ako čítať prieskumy rok pred voľbami
 
