@@ -245,6 +245,77 @@ function WinnerChart({ h, setH }: ChartProps) {
   );
 }
 
+const OUTLOOK = data.outlook;
+
+function OutlookChart() {
+  const o = OUTLOOK;
+  const top = Math.max(...o.parties.map((p) => p.b80[1] as number), 20);
+  const max = Math.ceil((top + 1) / 5) * 5;
+  const pos = (v: number) => `${(Math.min(v, max) / max) * 100}%`;
+  const cov = o.backtest.filter((b) => b.cov50 != null);
+  const range = (k: 'cov50' | 'cov80') => {
+    const v = cov.map((b) => b[k] as number);
+    return `${Math.min(...v)} – ${Math.max(...v)} %`;
+  };
+  const asOf = o.asOf.split('-').reverse().map(Number).join('. ');
+  const f0 = (v: number | null) => fmt(v, 0);
+
+  return (
+    <div>
+      <p className="text-sm text-neutral-600">
+        Stav prieskumov k {asOf} (priemer najnovších prieskumov každej agentúry), {o.horizon} dní pred predpokladanými voľbami.
+        Pásma ukazujú, kde skončili strany s podobným prieskumom v rovnakom bode pred voľbami 2012, 2016, 2020 a 2023.
+        Nie je to predpoveď, ale rozsah, v ktorom sa história pohybovala.
+      </p>
+      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-neutral-600">
+        <span><span className="inline-block w-5 h-2.5 align-middle mr-1 bg-neutral-900" />polovica takýchto strán skončila v tomto pásme</span>
+        <span><span className="inline-block w-5 h-2.5 align-middle mr-1 bg-neutral-300" />8 z 10 strán skončilo v tomto pásme</span>
+        <span><span className="inline-block w-2.5 h-2.5 rounded-full align-middle mr-1 border-2 border-white bg-neutral-950 ring-1 ring-neutral-950" />dnešný priemer prieskumov</span>
+      </div>
+
+      <ul className="mt-4 space-y-3">
+        {o.parties.map((p) => (
+          <li key={p.party} className="grid grid-cols-1 sm:grid-cols-12 gap-x-3 gap-y-1 items-center">
+            <div className="sm:col-span-3 text-sm font-medium text-neutral-900">
+              <span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: p.color }} />
+              {p.party.replace(' (Hnutie Slovensko)', '')}
+            </div>
+            <div className="sm:col-span-6 relative h-6" role="img"
+              aria-label={`${p.party}: prieskum ${fmt(p.avg)} %, polovica prípadov ${f0(p.b50[0])} až ${f0(p.b50[1])} %, 8 z 10 prípadov ${f0(p.b80[0])} až ${f0(p.b80[1])} %`}>
+              <div className="absolute inset-x-0 top-2.5 h-1 bg-neutral-100" />
+              <div className="absolute top-1.5 h-3 bg-neutral-300" style={{ left: pos(p.b80[0] as number), width: `calc(${pos(p.b80[1] as number)} - ${pos(p.b80[0] as number)})` }} />
+              <div className="absolute top-1 h-4 bg-neutral-900" style={{ left: pos(p.b50[0] as number), width: `calc(${pos(p.b50[1] as number)} - ${pos(p.b50[0] as number)})` }} />
+              <div className="absolute top-0.5 w-3.5 h-3.5 -ml-[7px] rounded-full border-2 border-white" style={{ left: pos(p.avg), backgroundColor: p.color, boxShadow: '0 0 0 1px #111827' }} />
+              <div className="absolute inset-y-0 border-l border-dashed border-red-500" style={{ left: pos(5) }} title="5 % hranica" />
+            </div>
+            <div className="sm:col-span-3 text-xs text-neutral-700 tabular-nums">
+              <strong>{fmt(p.avg)} %</strong> v prieskumoch
+              <div className="text-neutral-500">{f0(p.b50[0])} – {f0(p.b50[1])} % (8 z 10: {f0(p.b80[0])} – {f0(p.b80[1])} %)</div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-1 grid sm:grid-cols-12 gap-x-3 text-[10px] text-neutral-400">
+        <div className="sm:col-start-4 sm:col-span-6 flex justify-between"><span>0 %</span><span className="text-red-500">5 % hranica (červená čiara)</span><span>{max} %</span></div>
+      </div>
+
+      {o.below.length > 0 && (
+        <p className="mt-3 text-xs text-neutral-600">
+          Pod 5 %: {o.below.map((b) => `${b.party} ${fmt(b.avg)} %`).join(', ')}. Pre ne pásmo nepočítame, lebo v minulosti máme málo prípadov strán s takým prieskumom.
+        </p>
+      )}
+      <p className="mt-3 text-sm text-neutral-700">
+        Typický posun: výsledok strán s prieskumom nad 5 % bol rok pred voľbami v strede (medián) na <strong>{f0((o.medianRatio ?? 1) * 100)} %</strong>{' '}
+        prieskumovej hodnoty, teda prieskumy boli v priemere trochu vyššie než výsledky. Pásma tento posun už zahŕňajú, preto nie sú symetrické okolo bodu.
+      </p>
+      <p className="mt-2 text-xs text-neutral-500">
+        Overenie na minulosti: pásma sme vždy počítali z troch volieb a testovali na štvrtých. Pásmo „polovica“ zachytilo skutočný výsledok v {range('cov50')} prípadov, pásmo „8 z 10“ v {range('cov80')} prípadov
+        (podľa vzdialenosti od volieb, približne {cov[0]?.n} prípadov na každú vzdialenosť). Vychádza to len zo štyroch volieb a z {o.cases} prípadov strán, nové strany a koalície môžu byť iné.
+      </p>
+    </div>
+  );
+}
+
 export default function Preferencie() {
   const [days, setDays] = useState<number | null>(null); // dnes -> dni do volieb; až po načítaní v prehliadači
   const [h, setH] = useState(365);
@@ -377,6 +448,12 @@ export default function Preferencie() {
           Vyberte voľby a strany. Zvislá čiara je rovnaký čas ako v odpočte vyššie.
         </p>
         <PollsChart h={h} setH={move} />
+      </Card>
+      <Card>
+        <h3 className="text-lg font-bold text-neutral-900">Výhľad na voľby {NEXT_ELECTION.year}: čo by mohlo vyjsť, ak sa prieskumy mýlia ako v minulosti</h3>
+        <div className="mt-2">
+          <OutlookChart />
+        </div>
       </Card>
       <p className="text-xs text-neutral-500">Zdroj: SME.sk, sk.wikipedia.org (CC BY-SA 4.0), de.wikipedia.org (CC BY-SA 4.0). Výpočty: data bistro.</p>
     </div>

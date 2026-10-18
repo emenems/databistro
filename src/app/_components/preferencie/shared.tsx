@@ -4,8 +4,9 @@ import { useRef, useState } from 'react';
 import data from './data.json';
 
 // Predpokladaný termín riadnych volieb (4-ročné obdobie od ustanovujúcej schôdze 25. 10. 2023).
-// Presný dátum ešte nie je vyhlásený - po vyhlásení ho stačí prepísať.
-export const NEXT_ELECTION = { year: 2027, month: 9, day: 25 };
+// Presný dátum ešte nie je vyhlásený - po vyhlásení ho treba prepísať v generate_data.py a dáta vygenerovať znova.
+const [electionYear, electionMonth, electionDay] = data.nextElection.split('-').map(Number);
+export const NEXT_ELECTION = { year: electionYear, month: electionMonth, day: electionDay };
 
 export const MAX_H = 525; // dlhšie sú k dispozícii prieskumy len pred voľbami 2016 a 2020
 export const HORIZONS: number[] = data.horizons;

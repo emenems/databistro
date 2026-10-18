@@ -20,7 +20,11 @@ repo = Path(sys.argv[1] if len(sys.argv) > 1 else "../databistro-preferencie").r
 sys.path.insert(0, str(repo / "scripts"))
 
 import error_vs_time as ev  # noqa: E402
+from preferencie.averaging import PartyPolls, to_day  # noqa: E402
 from preferencie.paths import PROCESSED_DIR  # noqa: E402
+
+# Estimated date of the next regular election (not announced yet) - keep in sync with the post text.
+NEXT_ELECTION = "2027-09-25"
 
 OUT = Path(__file__).with_name("data.json")
 
@@ -96,7 +100,67 @@ for y in sorted({u["year"] for u in units}):
         "winnerAvg": win["avg"],
     }
 
+# ---- Outlook for the next election -------------------------------------------------------------
+# Given a party's poll average A at some distance from the election, where did the result R end up?
+# Empirical quantiles of R / A over earlier elections (parties polling >= 5 % at that time, so the party
+# is selected by what was known then, not by how it finished). No symmetry or distribution assumed.
+OUTLOOK_MIN = 5.0
+QS = (0.10, 0.25, 0.75, 0.90)
+cases = avg[avg["average"] >= OUTLOOK_MIN].assign(ratio=lambda d: d["result"] / d["average"])
+
+
+def ratio_quantiles(df, h, window=14):
+    w = df[(df["horizon"] - h).abs() <= window]
+    if w.groupby(["election_year", "party"]).ngroups < 5:
+        return None
+    return [float(np.quantile(w["ratio"], q)) for q in QS]
+
+
+# Leave-one-election-out backtest: quantiles from three elections, coverage measured on the fourth.
+backtest = []
+for h in (364, 182, 91, 28, 7):
+    hit50 = hit80 = total = 0
+    for y in sorted(cases["election_year"].unique()):
+        q = ratio_quantiles(cases[cases["election_year"] != y], h)
+        test = cases[(cases["election_year"] == y) & (cases["horizon"] == h)]
+        if q is None or test.empty:
+            continue
+        total += len(test)
+        hit50 += int(((test["ratio"] >= q[1]) & (test["ratio"] <= q[2])).sum())
+        hit80 += int(((test["ratio"] >= q[0]) & (test["ratio"] <= q[3])).sum())
+    backtest.append({"horizon": h, "n": total, "cov50": r(hit50 / total * 100, 0) if total else None,
+                     "cov80": r(hit80 / total * 100, 0) if total else None})
+
+# Current poll averages as of the latest poll in the data.
+latest = polls["date"].max()
+t_now = to_day(latest)
+t_elec = to_day(NEXT_ELECTION)
+horizon_now = t_elec - t_now
+hq = min(hs, key=lambda x: abs(x - horizon_now))
+qnow = ratio_quantiles(cases, hq)
+recent = prefs[prefs["date"] >= latest - pd.Timedelta(days=120)]
+outlook_parties, below = [], []
+for p in sorted(recent["party_canonical"].unique()):
+    a = PartyPolls(prefs, polls, p).carry_forward(t_now)
+    if np.isnan(a) or a < 3.0:
+        continue
+    if r(a, 1) >= OUTLOOK_MIN and qnow is not None:
+        outlook_parties.append({"party": p, "color": colors.get(p, "#888888"), "avg": r(a, 1),
+                                "b80": [r(a * qnow[0], 1), r(a * qnow[3], 1)],
+                                "b50": [r(a * qnow[1], 1), r(a * qnow[2], 1)]})
+    else:
+        below.append({"party": p, "avg": r(a, 1)})
+outlook_parties.sort(key=lambda x: -x["avg"])
+below.sort(key=lambda x: -x["avg"])
+wnow = cases[(cases["horizon"] - hq).abs() <= 14]
+outlook = {"asOf": str(latest)[:10], "horizon": int(horizon_now), "cases": int(cases.groupby(["election_year", "party"]).ngroups),
+           "quantiles": [r(v, 3) for v in qnow] if qnow else None,
+           "medianRatio": r(float(np.median(wnow["ratio"])), 2),
+           "parties": outlook_parties, "below": below, "backtest": backtest}
+
 data = {
+    "nextElection": NEXT_ELECTION,
+    "outlook": outlook,
     "horizons": hs,
     "elections": elections,
     "agencies": agencies,
