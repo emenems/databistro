@@ -7,6 +7,8 @@ import { dataRegistered as krimiDataRegistered } from "./krimianalytika/krimidat
 import { stats as evStats } from "./elektromobilita/cardata";
 import { euroStatData as giniEurostat } from "./ginicalc/utils";
 import { revenueSeries } from "./trashboard/data";
+import preferencieData from "./preferencie/data.json";
+import worldCupDefaults from "./worldcup2026/defaultAggregated.json";
 
 type Props = {
   slug: string;
@@ -19,10 +21,12 @@ type Props = {
  */
 export function PostSpecimen({ slug, codeName }: Props) {
   const key = codeName || slug;
+  const chart = renderRealDataChart(key);
+  if (!chart) return null; // unknown post: show nothing rather than another post's data
 
   return (
     <div className="bg-[#F8FAFC] group-hover:bg-[#F1F5F9] border border-neutral-200 transition-colors p-5 w-full">
-      {renderRealDataChart(key)}
+      {chart}
     </div>
   );
 }
@@ -716,9 +720,84 @@ function renderRealDataChart(key: string) {
       );
     }
 
+    case "Preferencie":
+    case "preferencie": {
+      // Real data from src/app/_components/preferencie/data.json (poll average vs. election result)
+      const rows = [365, 180, 90, 30, 7].map((d) => ({
+        days: d,
+        mae: preferencieData.mae[preferencieData.horizons.indexOf(d)] as number,
+      }));
+      const maxMae = 4.5;
+      return (
+        <div>
+          <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500 mb-3 pb-2 border-b border-neutral-200">
+            <span className="font-semibold text-neutral-800 uppercase">
+              Odchýlka prieskumov od výsledku volieb
+            </span>
+            <span>p. b.</span>
+          </div>
+          <div className="space-y-2.5 font-mono text-xs tabular-nums">
+            {rows.map((r) => (
+              <div key={r.days} className="grid grid-cols-12 items-center gap-2">
+                <span className="col-span-5 font-sans text-xs truncate text-neutral-700">
+                  {r.days} dní pred voľbami
+                </span>
+                <div className="col-span-4 bg-neutral-200/70 h-4 overflow-hidden">
+                  <div
+                    className={r.days === 365 ? "bg-[#1D4ED8] h-full" : "bg-[#93B4F8] h-full"}
+                    style={{ width: `${(r.mae / maxMae) * 100}%` }}
+                  />
+                </div>
+                <span className="col-span-3 text-right font-bold text-neutral-900">
+                  {r.mae.toFixed(1).replace(".", ",")} p. b.
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    case "WorldCup2026Sim":
+    case "fifa-world-cup-2026": {
+      // Real default simulation from src/app/_components/worldcup2026/defaultAggregated.json
+      const names: Record<string, string> = { UEFA: "UEFA", CONMEBOL: "CONMEBOL", CAF: "CAF", AFC: "AFC", CONCACAF: "CONCACAF", OFC: "OFC" };
+      const qf = worldCupDefaults.avgCountsByStage.Quarterfinal as Record<string, number>;
+      const rows = Object.keys(names)
+        .map((k) => ({ name: names[k], avg: qf[k] ?? 0, primary: k === "UEFA" }))
+        .sort((a, b) => b.avg - a.avg);
+      return (
+        <div>
+          <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500 mb-3 pb-2 border-b border-neutral-200">
+            <span className="font-semibold text-neutral-800 uppercase">
+              Tímy vo štvrťfinále MS 2026 (priemer)
+            </span>
+            <span>z 8 tímov</span>
+          </div>
+          <div className="space-y-2.5 font-mono text-xs tabular-nums">
+            {rows.map((r) => (
+              <div key={r.name} className="grid grid-cols-12 items-center gap-2">
+                <span className={`col-span-5 font-sans text-xs truncate ${r.primary ? "font-bold text-neutral-950" : "text-neutral-700"}`}>
+                  {r.name}
+                </span>
+                <div className="col-span-4 bg-neutral-200/70 h-4 overflow-hidden">
+                  <div
+                    className={r.primary ? "bg-[#1D4ED8] h-full" : "bg-[#93B4F8] h-full"}
+                    style={{ width: `${(r.avg / 3) * 100}%` }}
+                  />
+                </div>
+                <span className="col-span-3 text-right font-bold text-neutral-900">
+                  {r.avg.toFixed(1).replace(".", ",")}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     case "TelcoSKCharts":
-    case "telcosk":
-    default: {
+    case "telcosk": {
       // Real 2025 operator profit & revenue from src/app/_components/telcosk/areachart.tsx
       const operators = [
         { name: "Slovak Telekom", profitMil: 124.3, primary: true },
