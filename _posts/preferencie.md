@@ -1,6 +1,7 @@
 ---
 title: "Prieskumy verejnej mienky vs. skutočné výsledky volieb: čo nám hovorí história o presnosti prieskumov"
 titleKey: "Prieskumy vs. výsledky volieb"
+shortTitle: "Prieskumy vs. výsledky volieb: čo hovorí história"
 code:
   source: ../../_components/preferencie/page
   name: Preferencie

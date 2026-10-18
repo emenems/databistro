@@ -4,6 +4,8 @@ export type Post = {
   slug: string;
   title: string;
   titleKey: string;
+  /** Shorter title for the home page (hero and cards); `title` stays the long, SEO-oriented one. */
+  shortTitle?: string;
   seoTitle?: string;
   description?: string;
   date: string;

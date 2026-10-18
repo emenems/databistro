@@ -3,6 +3,7 @@ import Link from "next/link";
 import DateFormatter from "./date-formatter";
 import { HeroSimulatorPreview } from "./hero-simulator-preview";
 import { PostSpecimen } from "./post-specimen";
+import { HeroPrieskumyPreview } from "./preferencie/HeroPreview";
 
 type Props = {
   title: string;
@@ -67,6 +68,8 @@ export function HeroPost({
       <div className="lg:col-span-7 w-full">
         {isWorldCup ? (
           <HeroSimulatorPreview />
+        ) : codeName === "Preferencie" ? (
+          <HeroPrieskumyPreview />
         ) : (
           <Link href={`/posts/${slug}`} className="block group">
             <PostSpecimen slug={slug} codeName={codeName} />

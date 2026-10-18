@@ -15,7 +15,7 @@ export function MoreStories({ posts }: Props) {
         {posts.map((post) => (
           <PostPreview
             key={post.slug}
-            title={post.title}
+            title={post.shortTitle ?? post.title}
             coverImage={post.coverImage}
             date={post.date}
             author={post.author}
