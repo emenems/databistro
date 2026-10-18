@@ -281,9 +281,9 @@ export default function Preferencie() {
 
   const i = nearestIndex(h);
   const mae = data.mae[i];
-  const rb50 = data.relBig50[i] ?? data.relMedian[i];
-  const rb80 = data.relBig80[i] ?? rb50;
-  const nBig = data.nBig[i];
+  const rb50 = data.relParl50[i] ?? data.relMedian[i];
+  const rb80 = data.relParl80[i] ?? rb50;
+  const nParl = data.nParl[i];
   const band = (rel: number) => `${fmt(Math.max(0, 20 - (20 * rel) / 100), 0)} a ${fmt(20 + (20 * rel) / 100, 0)}`;
   const base = data.baseline[i];
   const nUnits = data.n[i];
@@ -312,7 +312,7 @@ export default function Preferencie() {
           </div>
           <div className="rounded-lg bg-neutral-50 p-4">
             <div className="text-3xl font-extrabold tabular-nums">{fmt(rb50, 0)} %</div>
-            <div className="text-xs text-neutral-600">typická odchýlka veľkej strany ako podiel z jej výsledku (medián)</div>
+            <div className="text-xs text-neutral-600">typická odchýlka strany nad 5 % ako podiel z jej výsledku (medián)</div>
           </div>
         </div>
         <details className="mt-3 text-sm text-neutral-700">
@@ -337,10 +337,10 @@ export default function Preferencie() {
           ešte ďalej.
         </p>
         <p className="mt-2 text-xs text-neutral-500">
-          Ide o {nBig} prípadov veľkých strán (výsledok aspoň 10 %) z volieb 2012, 2016, 2020 a 2023, preto je to orientačný
+          Ide o {nParl} prípadov strán, ktoré prekročili 5 % hranicu (výsledok aspoň 5 %), z volieb 2012, 2016, 2020 a 2023, preto je to orientačný
           údaj, nie záruka. Bez prieskumov, len podľa výsledku predchádzajúcich volieb, by sme sa mýlili v priemere o{' '}
           {fmt(base)} p. b. Priemerná odchýlka {fmt(mae)} p. b. vyššie sa počíta zo všetkých {nUnits} strán vrátane malých, ktoré
-          majú aj malé odchýlky v bodoch, preto je nižšia než odchýlka veľkých strán.
+          majú aj malé odchýlky v bodoch, preto je nižšia než odchýlka väčších strán.
         </p>
 
         <div className="mt-5 flex items-center gap-3">

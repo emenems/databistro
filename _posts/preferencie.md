@@ -96,13 +96,13 @@ Rok pred voľbami vyšiel medián **33 %**. Znamená to, že odchýlka bola typi
 
 Týždeň pred voľbami je medián **19 %**: strana s výsledkom 20 % bola typicky nameraná medzi 16 a 24 %.
 
-Medián popisuje prostredný prípad, nie najhorší. Niekedy je odchýlka oveľa väčšia, napríklad OĽaNO rok pred voľbami 2020 bolo namerané na 9 % a vo voľbách získalo 25 %, čo je odchýlka až 63 % z výsledku. V odpočte vyššie ukazujeme aj pásmo pre „8 z 10 prípadov“. Odpočet navyše rátá len veľké strany (výsledok aspoň 10 %), preto tam rok pred voľbami uvidíte 35 % a nie 33 %.
+Medián popisuje prostredný prípad, nie najhorší. Niekedy je odchýlka oveľa väčšia, napríklad OĽaNO rok pred voľbami 2020 bolo namerané na 9 % a vo voľbách získalo 25 %, čo je odchýlka až 63 % z výsledku. V odpočte vyššie ukazujeme aj pásmo pre „8 z 10 prípadov“. Odpočet navyše rátá len strany, ktoré prekročili 5 % hranicu (výsledok aspoň 5 %), preto sa číslo mierne líši: rok pred voľbami tam uvidíte 32 % namiesto 33 %.
 
 ## Metodika
 
 - **Priemer prieskumov**: pre každý deň vezmeme posledný zverejnený prieskum každej agentúry (najviac 60 dní starý) a spriemerujeme ich, pričom každá agentúra počíta rovnako. Pre daný deň používame len to, čo už bolo zverejnené, takže analýza nepozná budúcnosť.
 - **Na spôsobe spriemerovania takmer nezáleží**: vyskúšali sme aj priemer všetkých prieskumov za posledných 30 dní, priemer najprv v rámci agentúry a potom medzi agentúrami, a Kalmanov filter vážený veľkosťou vzorky. V spätnom teste na voľbách sa líšili len o 0,1 až 0,3 percentuálneho bodu, pričom samotné odchýlky od výsledku sú 3 až 6 bodov. Pri predpovedi nasledujúceho prieskumu bol rozdiel medzi metódami menší než 2 %. Preto používame najjednoduchší a najľahšie vysvetliteľný variant.
-- **Typická odchýlka veľkej strany**: pre veľké strany (výsledok aspoň 10 %, 9 prípadov z volieb 2012 – 2023) berieme relatívnu odchýlku od výsledku, v okne ±14 dní okolo daného dňa. „Polovica prípadov“ je jej medián, „8 z 10 prípadov“ je 80. percentil. Ide teda o orientačné pásmo pre stranu s výsledkom okolo 20 %, nie o 95 % interval. Pri takom malom počte prípadov by jedna odlišná strana v jednom roku posunula pásmo.
+- **Typická odchýlka strany nad 5 %**: pre strany, ktoré prekročili 5 % hranicu (výsledok aspoň 5 %, približne 25 – 28 prípadov z volieb 2012 – 2023) berieme relatívnu odchýlku od výsledku, v okne ±14 dní okolo daného dňa. „Polovica prípadov“ je jej medián, „8 z 10 prípadov“ je 80. percentil. Ide teda o orientačné pásmo pre stranu s výsledkom okolo 20 %, nie o 95 % interval. Aj pri takomto počte prípadov by jedna odlišná strana v jednom roku posunula pásmo.
 - **Kto vedie**: vedie strana s najvyšším priemerom prieskumov v danom dni; porovnávame ju s víťazom volieb (najvyšší výsledok).
 - **Odchýlka**: absolútna vzdialenosť priemeru od výsledku strany v percentuálnych bodoch. Zahŕňa aj skutočnú zmenu nálady po dátume prieskumu, nielen chybu merania.
 - **Strany**: tie, ktoré vo voľbách získali aspoň 3 %, alebo ich priemer mesiac pred voľbami dosiahol aspoň 3 %. Nové strany nemajú rok pred voľbami ešte prieskum, preto sa zloženie strán v čase mení.

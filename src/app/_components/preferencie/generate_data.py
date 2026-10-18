@@ -62,10 +62,10 @@ for (y, p), g in avg.groupby(["election_year", "party"]):
         "polls": [[int(t.horizon), r(t.poll, 1), agencies.index(t.agency)] for t in pl.itertuples()],
     })
 
-# "A 20 % party": relative deviation of parties that finished with >= 10 %, pooled over +-14 days around each
+# "A 20 % party": relative deviation of parties that finished with >= 5 % (the parliament threshold), pooled over +-14 days around each
 # horizon (3 weekly points) so the percentiles are not driven by a single day. Few units, so it is noisy.
-BIG = 10.0
-big = avg[avg["result"] >= BIG]
+PARLIAMENT = 5.0
+big = avg[avg["result"] >= PARLIAMENT]
 rel_big50, rel_big80, n_big = [], [], []
 for h in hs:
     w = big[(big["horizon"] - h).abs() <= 14]
@@ -104,7 +104,7 @@ data = {
     "maeByElection": {int(y): series(g, pooled=False) for y, g in avg.groupby("election_year")},
     "relMedian": [r(v * 100 if v is not None else v, 1) for v in series(avg, "rel_error", "median")],
     "baseline": series(avg, "baseline_abs_error"),
-    "relBig50": rel_big50, "relBig80": rel_big80, "nBig": n_big,
+    "relParl50": rel_big50, "relParl80": rel_big80, "nParl": n_big,
     "races": races,
     "n": [int(v) for v in avg.groupby("horizon").size().reindex(hs).fillna(0)],
     "units": sorted(units, key=lambda u: (u["year"], -u["result"])),

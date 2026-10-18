@@ -36,7 +36,7 @@ export function HeroPrieskumyPreview() {
   };
   const i = nearestIndex(h);
   const mae = data.mae[i];
-  const rb = data.relBig50[i] ?? data.relMedian[i];
+  const rb = data.relParl50[i] ?? data.relMedian[i];
   const lo = Math.max(0, 20 - (20 * rb) / 100);
   const hi = 20 + (20 * rb) / 100;
   const today = days != null && days >= 0 && days <= MAX_H ? days : null;
