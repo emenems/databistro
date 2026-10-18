@@ -24,6 +24,7 @@ import AlcoTax from "../../_components/alcotax/page";
 import Ustava from "../../_components/ustava/page";
 import Dochodkovo from "../../_components/dochodkovo/page";
 import WorldCup2026Sim from "../../_components/worldcup2026/page";
+import Preferencie from "../../_components/preferencie/page";
 
 
 export default async function Post({ params }: Params) {
@@ -81,6 +82,7 @@ export default async function Post({ params }: Params) {
         {post.code.name === "Ustava" && <Ustava />}
         {post.code.name === "Dochodkovo" && <Dochodkovo />}
         {post.code.name === "WorldCup2026Sim" && <WorldCup2026Sim />}
+        {post.code.name === "Preferencie" && <Preferencie />}
         <div className="mt-32">
           <PostBody content={content} />
         </div>
