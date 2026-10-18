@@ -450,7 +450,7 @@ export default function Preferencie() {
         <PollsChart h={h} setH={move} />
       </Card>
       <Card>
-        <h3 className="text-lg font-bold text-neutral-900">Výhľad na voľby {NEXT_ELECTION.year}: čo by mohlo vyjsť, ak sa prieskumy mýlia ako v minulosti</h3>
+        <h3 className="text-lg font-bold text-neutral-900">Výhľad na voľby {NEXT_ELECTION.year}: ako by to mohlo dopadnúť, ak sa prieskumy mýlia ako v minulosti</h3>
         <div className="mt-2">
           <OutlookChart />
         </div>
